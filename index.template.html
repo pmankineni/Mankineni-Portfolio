@@ -1,0 +1,658 @@
+<title>Eighteen Years of SAP</title>
+<style>
+/* ============================================================
+   Mankineni Portfolio - client walkthrough
+   SAP-first. Built to be presented, not read.
+   ============================================================ */
+
+:root{
+  --ground:#f4f6fa;
+  --surface:#ffffff;
+  --surface-2:#eef2f9;
+  --ink:#121a2e;
+  --ink-2:#5b6885;
+  --ink-3:#8b97b0;
+  --brand:#2c5bd6;
+  --brand-deep:#1b3a94;
+  --brand-wash:#e7eeff;
+  --signal:#0e8c7f;
+  --signal-wash:#e0f4f1;
+  --line:#dde3ef;
+  --line-soft:#e9edf5;
+  --shadow:0 1px 2px rgba(18,26,46,.04), 0 14px 38px -18px rgba(18,26,46,.20);
+
+  --sans:'Segoe UI Variable Text','Segoe UI',system-ui,-apple-system,Roboto,Helvetica,Arial,sans-serif;
+  --display:'Segoe UI Variable Display','Segoe UI',system-ui,-apple-system,Roboto,Helvetica,Arial,sans-serif;
+  --mono:ui-monospace,'Cascadia Mono','Cascadia Code',Consolas,'SF Mono',Menlo,monospace;
+
+  --rail-w:212px;
+  --measure:64ch;
+}
+
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --ground:#0b1020;
+    --surface:#141c31;
+    --surface-2:#1a2340;
+    --ink:#e9edf8;
+    --ink-2:#98a5c0;
+    --ink-3:#6d7b98;
+    --brand:#7d9dff;
+    --brand-deep:#a8bfff;
+    --brand-wash:#1c2749;
+    --signal:#3fc7b4;
+    --signal-wash:#12302e;
+    --line:#26314e;
+    --line-soft:#1e2841;
+    --shadow:0 1px 2px rgba(0,0,0,.30), 0 16px 40px -20px rgba(0,0,0,.65);
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#0b1020;
+  --surface:#141c31;
+  --surface-2:#1a2340;
+  --ink:#e9edf8;
+  --ink-2:#98a5c0;
+  --ink-3:#6d7b98;
+  --brand:#7d9dff;
+  --brand-deep:#a8bfff;
+  --brand-wash:#1c2749;
+  --signal:#3fc7b4;
+  --signal-wash:#12302e;
+  --line:#26314e;
+  --line-soft:#1e2841;
+  --shadow:0 1px 2px rgba(0,0,0,.30), 0 16px 40px -20px rgba(0,0,0,.65);
+}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+body{
+  font-family:var(--sans);
+  background:var(--ground);
+  color:var(--ink);
+  line-height:1.62;
+  font-size:17px;
+  -webkit-font-smoothing:antialiased;
+  scroll-behavior:smooth;
+}
+img{max-width:100%;display:block}
+
+/* ---------- shared type ---------- */
+.eyebrow{
+  font-family:var(--mono);
+  font-size:.70rem;
+  letter-spacing:.15em;
+  text-transform:uppercase;
+  color:var(--brand);
+  font-weight:600;
+}
+.eyebrow.is-signal{color:var(--signal)}
+
+h1,h2,h3{font-family:var(--display);text-wrap:balance;letter-spacing:-.022em;line-height:1.1}
+h1{font-size:clamp(2.25rem,5vw,3.5rem);font-weight:700}
+h2{font-size:clamp(1.65rem,3.4vw,2.45rem);font-weight:700}
+h3{font-size:1.12rem;font-weight:650;letter-spacing:-.01em;line-height:1.3}
+
+.lead{font-size:clamp(1.05rem,1.6vw,1.22rem);color:var(--ink-2);max-width:var(--measure)}
+.lead strong{color:var(--ink);font-weight:640}
+p{max-width:var(--measure)}
+
+/* ---------- layout shell ---------- */
+.shell{display:grid;grid-template-columns:var(--rail-w) minmax(0,1fr)}
+
+/* ---------- left rail ---------- */
+.rail{
+  position:sticky;top:0;height:100vh;height:100svh;
+  border-right:1px solid var(--line);
+  background:var(--surface);
+  padding:34px 0 26px;
+  display:flex;flex-direction:column;
+  overflow-y:auto;
+}
+.rail-brand{padding:0 22px 22px;border-bottom:1px solid var(--line-soft);margin-bottom:18px}
+.rail-name{font-family:var(--display);font-weight:700;font-size:1.02rem;letter-spacing:-.015em;line-height:1.25}
+.rail-role{font-family:var(--mono);font-size:.66rem;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-3);margin-top:5px;line-height:1.5}
+
+.rail-nav{display:flex;flex-direction:column;gap:1px;padding:0 12px;flex:1}
+.rail-link{
+  display:grid;grid-template-columns:34px 1fr;align-items:baseline;gap:6px;
+  padding:9px 10px;border-radius:8px;
+  color:var(--ink-2);text-decoration:none;
+  border-left:2px solid transparent;
+  transition:background .16s ease,color .16s ease;
+}
+.rail-link:hover{background:var(--surface-2);color:var(--ink)}
+.rail-link:focus-visible{outline:2px solid var(--brand);outline-offset:1px}
+.rail-yr{font-family:var(--mono);font-size:.64rem;color:var(--ink-3);letter-spacing:.02em;font-variant-numeric:tabular-nums}
+.rail-lbl{font-size:.855rem;font-weight:520;line-height:1.35}
+.rail-link.is-on{background:var(--brand-wash);color:var(--ink);border-left-color:var(--brand)}
+.rail-link.is-on .rail-lbl{font-weight:640}
+.rail-link.is-on .rail-yr{color:var(--brand)}
+
+.rail-foot{padding:16px 22px 0;border-top:1px solid var(--line-soft);margin-top:18px}
+.rail-hint{font-family:var(--mono);font-size:.62rem;letter-spacing:.06em;color:var(--ink-3);line-height:1.7}
+kbd{
+  font-family:var(--mono);font-size:.92em;
+  background:var(--surface-2);border:1px solid var(--line);
+  border-radius:4px;padding:1px 4px;color:var(--ink-2);
+}
+
+/* ---------- sections ---------- */
+.flow{scroll-snap-type:y proximity}
+.beat{
+  scroll-snap-align:start;
+  min-height:100vh;min-height:100svh;
+  display:flex;flex-direction:column;justify-content:center;
+  padding:84px clamp(28px,5.5vw,88px);
+  border-bottom:1px solid var(--line-soft);
+}
+.beat-inner{width:100%;max-width:1000px;margin:0 auto}
+.beat.is-tint{background:var(--surface)}
+
+/* ---------- hero ---------- */
+.hero-grid{display:grid;grid-template-columns:minmax(0,1fr) 190px;gap:clamp(28px,5vw,64px);align-items:center}
+.hero h1{margin:14px 0 20px}
+.hero .lead{max-width:56ch}
+.portrait{
+  width:190px;height:190px;border-radius:50%;
+  object-fit:cover;
+  border:1px solid var(--line);
+  box-shadow:var(--shadow);
+}
+.hero-facts{
+  display:flex;flex-wrap:wrap;gap:0;
+  margin-top:34px;border-top:1px solid var(--line);
+}
+.fact{padding:18px 30px 4px 0;margin-right:30px;border-right:1px solid var(--line-soft)}
+.fact:last-child{border-right:0;margin-right:0}
+.fact-n{font-family:var(--mono);font-size:1.62rem;font-weight:600;color:var(--brand);letter-spacing:-.02em;font-variant-numeric:tabular-nums;line-height:1}
+.fact-l{font-size:.83rem;color:var(--ink-2);margin-top:7px;max-width:22ch;line-height:1.45}
+
+/* ---------- generations ---------- */
+.gens{display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin-top:38px;border-top:2px solid var(--line)}
+.gen{padding:24px 26px 24px 0;border-right:1px solid var(--line-soft);position:relative}
+.gen:last-child{border-right:0}
+.gen::before{
+  content:"";position:absolute;top:-2px;left:0;height:2px;width:100%;
+  background:var(--line);
+}
+.gen.is-now::before{background:var(--signal)}
+.gen-n{font-family:var(--mono);font-size:.68rem;letter-spacing:.13em;color:var(--ink-3);font-variant-numeric:tabular-nums}
+.gen.is-now .gen-n{color:var(--signal)}
+.gen h3{margin:9px 0 8px}
+.gen p{font-size:.925rem;color:var(--ink-2);max-width:34ch}
+.gen-who{
+  font-family:var(--mono);font-size:.68rem;letter-spacing:.05em;
+  color:var(--ink-3);margin-top:14px;line-height:1.75;text-transform:uppercase;
+}
+.gen-pad{padding-left:26px}
+
+.pull{
+  margin-top:40px;padding:22px 26px;
+  background:var(--brand-wash);
+  border-left:3px solid var(--brand);
+  border-radius:0 10px 10px 0;
+}
+.pull p{font-family:var(--display);font-size:clamp(1.05rem,1.9vw,1.32rem);font-weight:620;color:var(--ink);letter-spacing:-.015em;line-height:1.42;max-width:52ch}
+
+/* ---------- case studies ---------- */
+.case-head{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:12px}
+.tag{
+  font-family:var(--mono);font-size:.63rem;letter-spacing:.12em;text-transform:uppercase;
+  padding:4px 9px;border-radius:999px;font-weight:600;
+  background:var(--surface-2);color:var(--ink-2);border:1px solid var(--line);
+}
+.tag.is-now{background:var(--signal-wash);color:var(--signal);border-color:transparent}
+.case h2{margin-bottom:16px}
+.case>.lead{margin-bottom:34px}
+
+.blocks{display:grid;grid-template-columns:repeat(auto-fit,minmax(258px,1fr));gap:1px;background:var(--line-soft);border:1px solid var(--line-soft);border-radius:12px;overflow:hidden}
+.block{background:var(--surface);padding:22px 24px}
+.block-h{
+  font-family:var(--mono);font-size:.66rem;letter-spacing:.13em;text-transform:uppercase;
+  color:var(--ink-3);margin-bottom:11px;font-weight:600;
+}
+.block p{font-size:.94rem;color:var(--ink-2);max-width:40ch}
+.block strong{color:var(--ink);font-weight:620}
+.block.is-key{background:var(--surface-2)}
+.block.is-key .block-h{color:var(--brand)}
+
+/* ---------- war story: a real thing that broke, and what you did ----------
+   Drop one of these into any .case, after .blocks. Three beats, because a
+   resolution genuinely is a sequence: symptom -> cause -> fix. Kept
+   cue-sized on purpose - Pavan narrates it, the screen only holds his place. */
+.story{
+  margin-top:26px;
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-left:3px solid var(--signal);
+  border-radius:0 12px 12px 0;
+  padding:22px 26px;
+}
+.story-h{
+  font-family:var(--mono);font-size:.66rem;letter-spacing:.13em;text-transform:uppercase;
+  color:var(--signal);font-weight:600;margin-bottom:16px;
+}
+.story-beats{display:grid;grid-template-columns:repeat(3,1fr);gap:0;list-style:none}
+.story-beats li{position:relative;padding-right:26px}
+.story-beats li+li{padding-left:26px;border-left:1px solid var(--line-soft)}
+.story-beats li:last-child{padding-right:0}
+.story-n{
+  font-family:var(--mono);font-size:.63rem;letter-spacing:.12em;color:var(--ink-3);
+  font-variant-numeric:tabular-nums;display:block;margin-bottom:7px;
+}
+.story-t{font-family:var(--display);font-size:1rem;font-weight:640;letter-spacing:-.01em;line-height:1.3;margin-bottom:6px}
+.story-beats p{font-size:.89rem;color:var(--ink-2);max-width:32ch}
+@media (max-width:900px){
+  .story-beats{grid-template-columns:1fr;gap:18px}
+  .story-beats li,.story-beats li+li{padding:0;border-left:0}
+}
+
+.stack{list-style:none;display:flex;flex-wrap:wrap;gap:7px;margin-top:26px}
+.stack li{
+  font-family:var(--mono);font-size:.7rem;letter-spacing:.04em;
+  padding:5px 10px;border:1px solid var(--line);border-radius:6px;
+  color:var(--ink-2);background:var(--surface);
+}
+
+/* ---------- ai closer ---------- */
+.ai-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px;margin-top:32px}
+.ai-card{
+  background:var(--surface);border:1px solid var(--line);border-radius:12px;
+  padding:22px 24px;box-shadow:var(--shadow);
+}
+.ai-card h3{margin-bottom:9px}
+.ai-card p{font-size:.91rem;color:var(--ink-2);max-width:38ch}
+.ai-meta{font-family:var(--mono);font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;color:var(--signal);margin-bottom:10px;font-weight:600}
+
+.shots{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;margin-top:26px}
+figure{margin:0}
+.shot img{
+  width:100%;border:1px solid var(--line);border-radius:10px;
+  background:var(--surface);box-shadow:var(--shadow);
+}
+figcaption{
+  font-family:var(--mono);font-size:.65rem;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--ink-3);margin-top:10px;line-height:1.6;
+}
+
+.close{margin-top:42px;padding-top:26px;border-top:1px solid var(--line)}
+.close p{font-family:var(--display);font-size:clamp(1.1rem,2vw,1.4rem);font-weight:620;letter-spacing:-.015em;max-width:46ch}
+.close-contact{font-family:var(--mono);font-size:.73rem;letter-spacing:.06em;color:var(--ink-2);margin-top:16px;line-height:2}
+.close-contact a{color:var(--brand);text-decoration:none;border-bottom:1px solid transparent}
+.close-contact a:hover{border-bottom-color:var(--brand)}
+.close-contact a:focus-visible{outline:2px solid var(--brand);outline-offset:2px}
+
+/* ---------- motion ---------- */
+.rise{opacity:0;transform:translateY(14px);transition:opacity .6s ease,transform .6s ease}
+.rise.seen{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){
+  body{scroll-behavior:auto}
+  .flow{scroll-snap-type:none}
+  .rise{opacity:1;transform:none;transition:none}
+}
+
+/* ---------- responsive ---------- */
+@media (max-width:900px){
+  .shell{grid-template-columns:1fr}
+  .rail{position:static;height:auto;border-right:0;border-bottom:1px solid var(--line);padding:20px 0 14px}
+  .rail-nav{flex-direction:row;overflow-x:auto;gap:4px;padding:0 16px}
+  .rail-link{grid-template-columns:1fr;white-space:nowrap;border-left:0;border-bottom:2px solid transparent}
+  .rail-link.is-on{border-left:0;border-bottom-color:var(--brand)}
+  .rail-foot,.rail-brand{padding-left:16px;padding-right:16px}
+  .rail-foot{display:none}
+  .beat{min-height:auto;padding:60px 22px}
+  .flow{scroll-snap-type:none}
+  .hero-grid{grid-template-columns:1fr;gap:26px}
+  .portrait{width:132px;height:132px}
+  .gens{grid-template-columns:1fr}
+  .gen{border-right:0;border-bottom:1px solid var(--line-soft);padding:22px 0}
+  .gen-pad{padding-left:0}
+  .gen::before{display:none}
+}
+
+@media print{
+  .rail{display:none}
+  .shell{grid-template-columns:1fr}
+  .beat{min-height:auto;padding:26px 0;page-break-inside:avoid;border-bottom:1px solid #ccc}
+  .rise{opacity:1;transform:none}
+  body{background:#fff;font-size:12px}
+}
+</style>
+
+<div class="shell">
+
+  <!-- ==================== RAIL ==================== -->
+  <aside class="rail">
+    <div class="rail-brand">
+      <div class="rail-name">Pavan Mankineni</div>
+      <div class="rail-role">SAP BI / HANA<br />Solution Architect</div>
+    </div>
+
+    <nav class="rail-nav" id="rail" aria-label="Sections">
+      <a class="rail-link" href="#intro"><span class="rail-yr">&mdash;</span><span class="rail-lbl">Who I am</span></a>
+      <a class="rail-link" href="#arc"><span class="rail-yr">2007&ndash;26</span><span class="rail-lbl">Three generations</span></a>
+      <a class="rail-link" href="#basler"><span class="rail-yr">2025&ndash;</span><span class="rail-lbl">Basler</span></a>
+      <a class="rail-link" href="#mankiewicz"><span class="rail-yr">2024&ndash;</span><span class="rail-lbl">Mankiewicz</span></a>
+      <a class="rail-link" href="#fresenius"><span class="rail-yr">2017&ndash;22</span><span class="rail-lbl">Fresenius</span></a>
+      <a class="rail-link" href="#ai"><span class="rail-yr">Now</span><span class="rail-lbl">Migration tooling</span></a>
+    </nav>
+
+    <div class="rail-foot">
+      <div class="rail-hint"><kbd>&darr;</kbd> <kbd>&uarr;</kbd> to step<br />through sections</div>
+    </div>
+  </aside>
+
+  <!-- ==================== FLOW ==================== -->
+  <main class="flow">
+
+    <!-- ---------- 1. WHO I AM ---------- -->
+    <section class="beat hero is-tint" id="intro">
+      <div class="beat-inner">
+        <div class="hero-grid">
+          <div>
+            <p class="eyebrow rise">Bremen, Germany &middot; 18+ years in SAP</p>
+            <h1 class="rise">Eighteen years inside SAP data platforms.</h1>
+            <p class="lead rise">
+              I architect, build and migrate SAP reporting landscapes &mdash; <strong>BW</strong>,
+              <strong>BW/4HANA on HANA</strong>, and now <strong>Datasphere and Business Data
+              Cloud</strong>. Hands on the model, not just the slide deck.
+            </p>
+          </div>
+          <div class="rise">
+            <img class="portrait" src="{{IMG_PM}}" width="190" height="190"
+                 alt="Pavan Mankineni" />
+          </div>
+        </div>
+
+        <div class="hero-facts rise">
+          <div class="fact">
+            <div class="fact-n">18+</div>
+            <div class="fact-l">years, SAP data &amp; analytics only</div>
+          </div>
+          <div class="fact">
+            <div class="fact-n">9</div>
+            <div class="fact-l">enterprise clients, incl. Bosch, Bayer, Fresenius, Bundeswehr</div>
+          </div>
+          <div class="fact">
+            <div class="fact-n">3</div>
+            <div class="fact-l">SAP platform generations delivered on</div>
+          </div>
+          <div class="fact">
+            <div class="fact-n">2/2</div>
+            <div class="fact-l">certified: SAP Datasphere &amp; SAP Business Data Cloud</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ---------- 2. THREE GENERATIONS ---------- -->
+    <section class="beat" id="arc">
+      <div class="beat-inner">
+        <p class="eyebrow rise">The through-line</p>
+        <h2 class="rise">Three platform generations. I&rsquo;ve delivered on all three.</h2>
+        <p class="lead rise">
+          SAP has moved its data platform twice in my career. I didn&rsquo;t read about either
+          move &mdash; I carried landscapes across them.
+        </p>
+
+        <div class="gens rise">
+          <div class="gen">
+            <div class="gen-n">01 &nbsp;2007&ndash;2014</div>
+            <h3>SAP BW 7.x, classic</h3>
+            <p>Business Content extension, process chains, LSA layering, performance tuning,
+               BO / WEBI front-ends.</p>
+            <div class="gen-who">Bayer &middot; Robert Bosch</div>
+          </div>
+          <div class="gen gen-pad">
+            <div class="gen-n">02 &nbsp;2015&ndash;2024</div>
+            <h3>BW/4HANA on HANA</h3>
+            <p>LSA++ redesign, AMDP and SQLScript pushdown, SDI extraction, OData for Fiori,
+               SAC and Analysis for Office.</p>
+            <div class="gen-who">Fresenius &middot; Bundeswehr / BWI &middot; Mankiewicz &middot; KSB &middot; Magna</div>
+          </div>
+          <div class="gen gen-pad is-now">
+            <div class="gen-n">03 &nbsp;2025&ndash;now</div>
+            <h3>Datasphere &amp; Business&nbsp;Data&nbsp;Cloud</h3>
+            <p>Replication and transformation flows, fact and analytic models, rebuilding BW
+               logic in Datasphere.</p>
+            <div class="gen-who">Basler &middot; certified on both</div>
+          </div>
+        </div>
+
+        <div class="pull rise">
+          <p>The BW&nbsp;&rarr;&nbsp;Datasphere move isn&rsquo;t a new topic for me. It&rsquo;s the
+             third time I&rsquo;ve carried a landscape onto a new SAP platform generation.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ---------- 3. BASLER ---------- -->
+    <section class="beat case is-tint" id="basler">
+      <div class="beat-inner">
+        <div class="case-head rise">
+          <span class="tag is-now">Current engagement</span>
+          <span class="tag">2025 &ndash; now</span>
+          <span class="tag">Basler AG</span>
+        </div>
+        <h2 class="rise">Rebuilding a BW landscape in SAP Datasphere.</h2>
+        <p class="lead rise">
+          Exactly the move you&rsquo;re evaluating &mdash; and I&rsquo;m in the middle of it right now.
+        </p>
+
+        <div class="blocks rise">
+          <div class="block">
+            <div class="block-h">The situation</div>
+            <p>Reporting runs on SAP BW. Years of modelling have accumulated business logic
+               inside transformations &mdash; not in a document, in the code.</p>
+          </div>
+          <div class="block">
+            <div class="block-h">What I build</div>
+            <p><strong>Replication flows</strong> off the source systems.
+               <strong>Data and transformation flows</strong> to re-express the BW logic.
+               <strong>Fact and analytic models</strong> as the new consumption layer.</p>
+          </div>
+          <div class="block is-key">
+            <div class="block-h">Where it actually gets hard</div>
+            <p>A BW transformation is not a view. Start, end and field routines carry rules with
+               no direct Datasphere equivalent. Deciding what becomes a flow, what becomes SQL,
+               and what has to be <strong>redesigned</strong> is the real work. The
+               object-to-object mapping is the easy half.</p>
+          </div>
+        </div>
+
+        <ul class="stack rise">
+          <li>SAP Datasphere</li><li>Replication flows</li><li>Transformation flows</li>
+          <li>Analytic models</li><li>SAP BW</li><li>SAP HANA</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ---------- 4. MANKIEWICZ ---------- -->
+    <section class="beat case" id="mankiewicz">
+      <div class="beat-inner">
+        <div class="case-head rise">
+          <span class="tag is-now">Current engagement</span>
+          <span class="tag">2024 &ndash; now</span>
+          <span class="tag">Mankiewicz</span>
+        </div>
+        <h2 class="rise">BW-on-HANA &mdash; from data model to the number in the workbook.</h2>
+        <p class="lead rise">
+          I don&rsquo;t hand off at the model boundary. Same pair of hands from extraction
+          through to what the business actually opens on Monday morning.
+        </p>
+
+        <div class="blocks rise">
+          <div class="block">
+            <div class="block-h">The situation</div>
+            <p>Complex data models and flows on BW-on-HANA, feeding business reporting that
+               has to reconcile.</p>
+          </div>
+          <div class="block">
+            <div class="block-h">What I build</div>
+            <p>The models and flows, <strong>AMDP and ABAP enrichment</strong> where standard
+               transformations run out of road, then <strong>Analysis for Office</strong>
+               workbooks and <strong>SAC</strong> dashboards on top.</p>
+          </div>
+          <div class="block is-key">
+            <div class="block-h">Where it actually gets hard</div>
+            <p>Pushdown discipline. AMDP earns its extra complexity only where it replaces
+               row-by-row ABAP with set-based SQL on HANA. Used everywhere, it just moves the
+               maintenance problem &mdash; so knowing <strong>when not to</strong> matters as
+               much as knowing how.</p>
+          </div>
+        </div>
+
+        <ul class="stack rise">
+          <li>BW-on-HANA</li><li>AMDP</li><li>ABAP-OO</li><li>SQLScript</li>
+          <li>Analysis for Office</li><li>SAP Analytics Cloud</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ---------- 5. FRESENIUS ---------- -->
+    <section class="beat case is-tint" id="fresenius">
+      <div class="beat-inner">
+        <div class="case-head rise">
+          <span class="tag">Flagship transformation</span>
+          <span class="tag">2017 &ndash; 2022</span>
+          <span class="tag">Fresenius AG</span>
+        </div>
+        <h2 class="rise">Replacing a 25-year-old reporting solution. Globally.</h2>
+        <p class="lead rise">
+          Global Sales Reporting (GSIS) &mdash; five years on one platform, from architecture
+          through to rollout.
+        </p>
+
+        <div class="blocks rise">
+          <div class="block">
+            <div class="block-h">The situation</div>
+            <p>Global sales reporting ran on an ERP-based solution that had been in service for
+               <strong>25 years</strong>. Every workaround in it was load-bearing.</p>
+          </div>
+          <div class="block">
+            <div class="block-h">What I built</div>
+            <p>A global <strong>BW/4HANA + SAC</strong> reporting platform on an
+               <strong>LSA++</strong> architecture, and the migration off the legacy solution.</p>
+          </div>
+          <div class="block is-key">
+            <div class="block-h">Where it actually gets hard</div>
+            <p>A global rollout means one model absorbing regional variation <strong>without
+               forking</strong> &mdash; the moment each region gets its own branch, you own a
+               maintenance problem forever. Disciplined LSA++ layering is what makes that
+               survivable at scale.</p>
+          </div>
+        </div>
+
+        <ul class="stack rise">
+          <li>BW/4HANA</li><li>LSA++</li><li>SAP Analytics Cloud</li>
+          <li>Global rollout</li><li>Legacy migration</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ---------- 6. AI CLOSER ---------- -->
+    <section class="beat" id="ai">
+      <div class="beat-inner">
+        <p class="eyebrow is-signal rise">And one more thing</p>
+        <h2 class="rise">I&rsquo;ve been building the tooling to make these migrations faster.</h2>
+        <p class="lead rise">
+          Not a side project &mdash; it came out of doing this work by hand. Everything below is
+          running on <strong>SAP BTP</strong> today.
+        </p>
+
+        <div class="ai-grid rise">
+          <div class="ai-card">
+            <div class="ai-meta">Migration Agent</div>
+            <h3>BW &rarr; Datasphere, planned</h3>
+            <p>Analyses a BW landscape and generates migration strategies, manifests and
+               step-by-step playbooks.</p>
+          </div>
+          <div class="ai-card">
+            <div class="ai-meta">Lineage Agent</div>
+            <h3>Know what breaks first</h3>
+            <p>A cross-system knowledge graph with field-level lineage and impact analysis
+               across BW, S/4HANA, SAC and Datasphere.</p>
+          </div>
+          <div class="ai-card">
+            <div class="ai-meta">MCP fleet &middot; 360+ tools</div>
+            <h3>SAP, callable by AI</h3>
+            <p>Six servers exposing BW, S/4HANA, SAC, Datasphere and ABAP as tools any AI
+               assistant can safely call.</p>
+          </div>
+        </div>
+
+        <div class="shots rise">
+          <figure class="shot">
+            <img src="{{IMG_PLAYBOOK}}" width="1000" height="788" loading="lazy"
+                 alt="Migration Agent generating a step-by-step BW to Datasphere migration playbook." />
+            <figcaption>Migration Agent &mdash; generated playbook</figcaption>
+          </figure>
+          <figure class="shot">
+            <img src="{{IMG_LINEAGE}}" width="1525" height="482" loading="lazy"
+                 alt="Cross-system lineage graph tracing a field across BW, S/4HANA, SAC and Datasphere." />
+            <figcaption>Lineage Agent &mdash; cross-system field lineage</figcaption>
+          </figure>
+        </div>
+
+        <div class="close rise">
+          <p>Eighteen years of doing the migration. One year of building the tools that
+             speed it up.</p>
+          <div class="close-contact">
+            <a href="mailto:mailpavanm@gmail.com">mailpavanm@gmail.com</a><br />
+            <a href="https://www.linkedin.com/in/pavan-mankineni-74340880/" target="_blank" rel="noopener">linkedin.com/in/pavan-mankineni</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<script>
+(function(){
+  var beats = Array.prototype.slice.call(document.querySelectorAll('.beat'));
+  var links = Array.prototype.slice.call(document.querySelectorAll('.rail-link'));
+
+  /* --- rail highlight follows the section in view --- */
+  var spy = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(!e.isIntersecting) return;
+      var i = beats.indexOf(e.target);
+      links.forEach(function(l, n){ l.classList.toggle('is-on', n === i); });
+    });
+  }, { rootMargin: '-45% 0px -45% 0px' });
+  beats.forEach(function(b){ spy.observe(b); });
+
+  /* --- reveal on first view --- */
+  var reveal = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){ e.target.classList.add('seen'); reveal.unobserve(e.target); }
+    });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.rise').forEach(function(el){ reveal.observe(el); });
+
+  /* --- arrow keys step section to section (presenter control) --- */
+  function current(){
+    var mid = window.innerHeight / 2, best = 0, bestD = Infinity;
+    beats.forEach(function(b, i){
+      var r = b.getBoundingClientRect();
+      var d = Math.abs(r.top + r.height / 2 - mid);
+      if(d < bestD){ bestD = d; best = i; }
+    });
+    return best;
+  }
+  document.addEventListener('keydown', function(e){
+    if(e.metaKey || e.ctrlKey || e.altKey) return;
+    var t = e.target.tagName;
+    if(t === 'INPUT' || t === 'TEXTAREA') return;
+    var step = 0;
+    if(e.key === 'ArrowDown' || e.key === 'PageDown' || e.key === ' ') step = 1;
+    else if(e.key === 'ArrowUp' || e.key === 'PageUp') step = -1;
+    else return;
+    e.preventDefault();
+    var next = Math.min(beats.length - 1, Math.max(0, current() + step));
+    beats[next].scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+})();
+</script>
