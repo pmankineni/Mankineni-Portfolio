@@ -1,658 +1,1080 @@
-<title>Eighteen Years of SAP</title>
+<title>The Brevet Book</title>
 <style>
 /* ============================================================
-   Mankineni Portfolio - client walkthrough
-   SAP-first. Built to be presented, not read.
+   THE BREVET BOOK - Pavan Mankineni
+   A randonneur roadbook. Eighteen years read as one long ride:
+   seven controls, four flights, two blank stretches.
    ============================================================ */
 
+@font-face{
+  font-family:'Inter';src:url({{FONT_INTER}}) format('woff2');
+  font-weight:400 800;font-style:normal;font-display:block;
+}
+@font-face{
+  font-family:'Caveat';src:url({{FONT_CAVEAT}}) format('woff2');
+  font-weight:400 700;font-style:normal;font-display:block;
+}
+
 :root{
-  --ground:#f4f6fa;
-  --surface:#ffffff;
-  --surface-2:#eef2f9;
-  --ink:#121a2e;
-  --ink-2:#5b6885;
-  --ink-3:#8b97b0;
-  --brand:#2c5bd6;
-  --brand-deep:#1b3a94;
-  --brand-wash:#e7eeff;
-  --signal:#0e8c7f;
-  --signal-wash:#e0f4f1;
-  --line:#dde3ef;
-  --line-soft:#e9edf5;
-  --shadow:0 1px 2px rgba(18,26,46,.04), 0 14px 38px -18px rgba(18,26,46,.20);
+  --paper:#faf6ec;
+  --paper-slip:#fffdf6;
+  --paper-aged:#f2ead8;
+  --grid:rgba(22,32,58,.055);
+  --grid-major:rgba(22,32,58,.085);
+  --margin-rule:#c4614a;
+  --ink:#16203a;
+  --ink-body:#3a4356;
+  --pencil:#5e5849;
+  --pencil-light:#7a6f53;
+  --blue:#2c5bd6;
+  --blue-deep:#1c40a8;
+  --blue-wash:#e9f0ff;
+  --stamp:#b4442f;
+  --tape:rgba(199,180,130,.66);
+  --tape-edge:rgba(239,230,206,.9);
+  --line:rgba(22,32,58,.12);
 
-  --sans:'Segoe UI Variable Text','Segoe UI',system-ui,-apple-system,Roboto,Helvetica,Arial,sans-serif;
-  --display:'Segoe UI Variable Display','Segoe UI',system-ui,-apple-system,Roboto,Helvetica,Arial,sans-serif;
-  --mono:ui-monospace,'Cascadia Mono','Cascadia Code',Consolas,'SF Mono',Menlo,monospace;
+  --stamp-opacity:.55;
+  --stamp-blend:multiply;
+  --slip-shadow:0 1px 0 rgba(22,32,58,.06), 0 10px 22px -14px rgba(22,32,58,.42);
 
-  --rail-w:212px;
-  --measure:64ch;
+  --sans:'Inter','Segoe UI',system-ui,-apple-system,sans-serif;
+  --hand:'Caveat','Segoe Script',cursive;
+
+  --rail:132px;
+  --rule-x:158px;
+  --strip-pad:198px;
+  --gutter:296px;
+  --draw:0;
 }
 
 @media (prefers-color-scheme:dark){
   :root:not([data-theme="light"]){
-    --ground:#0b1020;
-    --surface:#141c31;
-    --surface-2:#1a2340;
-    --ink:#e9edf8;
-    --ink-2:#98a5c0;
-    --ink-3:#6d7b98;
-    --brand:#7d9dff;
-    --brand-deep:#a8bfff;
-    --brand-wash:#1c2749;
-    --signal:#3fc7b4;
-    --signal-wash:#12302e;
-    --line:#26314e;
-    --line-soft:#1e2841;
-    --shadow:0 1px 2px rgba(0,0,0,.30), 0 16px 40px -20px rgba(0,0,0,.65);
+    --paper:#191713;
+    --paper-slip:#211e19;
+    --paper-aged:#26221b;
+    --grid:rgba(250,246,236,.05);
+    --grid-major:rgba(250,246,236,.08);
+    --margin-rule:#8e4536;
+    --ink:#f2ede1;
+    --ink-body:#cfc8ba;
+    --pencil:#9a9284;
+    --pencil-light:#8b8375;
+    --blue:#7fa5ff;
+    --blue-deep:#a8c2ff;
+    --blue-wash:rgba(127,165,255,.14);
+    --stamp:#e2735a;
+    --tape:rgba(120,108,80,.42);
+    --tape-edge:rgba(150,136,102,.55);
+    --line:rgba(242,237,225,.14);
+    --stamp-blend:screen;
+    --slip-shadow:0 1px 0 rgba(0,0,0,.3), 0 12px 26px -14px rgba(0,0,0,.75);
   }
 }
 :root[data-theme="dark"]{
-  --ground:#0b1020;
-  --surface:#141c31;
-  --surface-2:#1a2340;
-  --ink:#e9edf8;
-  --ink-2:#98a5c0;
-  --ink-3:#6d7b98;
-  --brand:#7d9dff;
-  --brand-deep:#a8bfff;
-  --brand-wash:#1c2749;
-  --signal:#3fc7b4;
-  --signal-wash:#12302e;
-  --line:#26314e;
-  --line-soft:#1e2841;
-  --shadow:0 1px 2px rgba(0,0,0,.30), 0 16px 40px -20px rgba(0,0,0,.65);
+  --paper:#191713;
+  --paper-slip:#211e19;
+  --paper-aged:#26221b;
+  --grid:rgba(250,246,236,.05);
+  --grid-major:rgba(250,246,236,.08);
+  --margin-rule:#8e4536;
+  --ink:#f2ede1;
+  --ink-body:#cfc8ba;
+  --pencil:#9a9284;
+  --pencil-light:#8b8375;
+  --blue:#7fa5ff;
+  --blue-deep:#a8c2ff;
+  --blue-wash:rgba(127,165,255,.14);
+  --stamp:#e2735a;
+  --tape:rgba(120,108,80,.42);
+  --tape-edge:rgba(150,136,102,.55);
+  --line:rgba(242,237,225,.14);
+  --stamp-blend:screen;
+  --slip-shadow:0 1px 0 rgba(0,0,0,.3), 0 12px 26px -14px rgba(0,0,0,.75);
 }
 
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 
 body{
   font-family:var(--sans);
-  background:var(--ground);
-  color:var(--ink);
-  line-height:1.62;
-  font-size:17px;
+  font-size:18px;
+  line-height:1.5;
+  color:var(--ink-body);
+  background-color:var(--paper);
+  background-image:
+    repeating-linear-gradient(to right,var(--grid) 0 1px,transparent 1px 24px),
+    repeating-linear-gradient(to bottom,var(--grid) 0 1px,transparent 1px 24px),
+    repeating-linear-gradient(to right,var(--grid-major) 0 1px,transparent 1px 120px),
+    repeating-linear-gradient(to bottom,var(--grid-major) 0 1px,transparent 1px 120px);
   -webkit-font-smoothing:antialiased;
-  scroll-behavior:smooth;
-}
-img{max-width:100%;display:block}
-
-/* ---------- shared type ---------- */
-.eyebrow{
-  font-family:var(--mono);
-  font-size:.70rem;
-  letter-spacing:.15em;
-  text-transform:uppercase;
-  color:var(--brand);
-  font-weight:600;
-}
-.eyebrow.is-signal{color:var(--signal)}
-
-h1,h2,h3{font-family:var(--display);text-wrap:balance;letter-spacing:-.022em;line-height:1.1}
-h1{font-size:clamp(2.25rem,5vw,3.5rem);font-weight:700}
-h2{font-size:clamp(1.65rem,3.4vw,2.45rem);font-weight:700}
-h3{font-size:1.12rem;font-weight:650;letter-spacing:-.01em;line-height:1.3}
-
-.lead{font-size:clamp(1.05rem,1.6vw,1.22rem);color:var(--ink-2);max-width:var(--measure)}
-.lead strong{color:var(--ink);font-weight:640}
-p{max-width:var(--measure)}
-
-/* ---------- layout shell ---------- */
-.shell{display:grid;grid-template-columns:var(--rail-w) minmax(0,1fr)}
-
-/* ---------- left rail ---------- */
-.rail{
-  position:sticky;top:0;height:100vh;height:100svh;
-  border-right:1px solid var(--line);
-  background:var(--surface);
-  padding:34px 0 26px;
-  display:flex;flex-direction:column;
-  overflow-y:auto;
-}
-.rail-brand{padding:0 22px 22px;border-bottom:1px solid var(--line-soft);margin-bottom:18px}
-.rail-name{font-family:var(--display);font-weight:700;font-size:1.02rem;letter-spacing:-.015em;line-height:1.25}
-.rail-role{font-family:var(--mono);font-size:.66rem;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-3);margin-top:5px;line-height:1.5}
-
-.rail-nav{display:flex;flex-direction:column;gap:1px;padding:0 12px;flex:1}
-.rail-link{
-  display:grid;grid-template-columns:34px 1fr;align-items:baseline;gap:6px;
-  padding:9px 10px;border-radius:8px;
-  color:var(--ink-2);text-decoration:none;
-  border-left:2px solid transparent;
-  transition:background .16s ease,color .16s ease;
-}
-.rail-link:hover{background:var(--surface-2);color:var(--ink)}
-.rail-link:focus-visible{outline:2px solid var(--brand);outline-offset:1px}
-.rail-yr{font-family:var(--mono);font-size:.64rem;color:var(--ink-3);letter-spacing:.02em;font-variant-numeric:tabular-nums}
-.rail-lbl{font-size:.855rem;font-weight:520;line-height:1.35}
-.rail-link.is-on{background:var(--brand-wash);color:var(--ink);border-left-color:var(--brand)}
-.rail-link.is-on .rail-lbl{font-weight:640}
-.rail-link.is-on .rail-yr{color:var(--brand)}
-
-.rail-foot{padding:16px 22px 0;border-top:1px solid var(--line-soft);margin-top:18px}
-.rail-hint{font-family:var(--mono);font-size:.62rem;letter-spacing:.06em;color:var(--ink-3);line-height:1.7}
-kbd{
-  font-family:var(--mono);font-size:.92em;
-  background:var(--surface-2);border:1px solid var(--line);
-  border-radius:4px;padding:1px 4px;color:var(--ink-2);
+  overflow-x:hidden;
 }
 
-/* ---------- sections ---------- */
-.flow{scroll-snap-type:y proximity}
-.beat{
-  scroll-snap-align:start;
-  min-height:100vh;min-height:100svh;
-  display:flex;flex-direction:column;justify-content:center;
-  padding:84px clamp(28px,5.5vw,88px);
-  border-bottom:1px solid var(--line-soft);
+/* ---------- cover ---------- */
+.cover{
+  position:relative;background:var(--paper-aged);
+  border-bottom:1px solid var(--line);
+  padding:clamp(56px,9vh,104px) clamp(24px,5vw,80px) clamp(52px,8vh,92px) var(--strip-pad);
+  overflow:hidden;
 }
-.beat-inner{width:100%;max-width:1000px;margin:0 auto}
-.beat.is-tint{background:var(--surface)}
+.rule-v{
+  position:absolute;top:0;bottom:0;left:var(--rule-x);width:1.5px;
+  background:var(--margin-rule);opacity:.5;
+}
+.cover-inner{max-width:900px;position:relative;z-index:2}
+.cover-stamp{
+  position:absolute;right:clamp(16px,6vw,110px);top:50%;
+  transform:translateY(-50%) rotate(-9deg);
+  width:190px;height:190px;opacity:var(--stamp-opacity);
+  mix-blend-mode:var(--stamp-blend);pointer-events:none;z-index:1;
+}
+.cover h1{
+  font-size:clamp(2.6rem,5.4vw,4.2rem);font-weight:800;letter-spacing:-.03em;
+  line-height:1.02;color:var(--ink);text-wrap:balance;
+}
+.cover-role{
+  margin-top:14px;font-size:11px;font-weight:500;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--pencil-light);
+}
+.cover-sub{
+  font-family:var(--hand);font-weight:700;color:var(--blue);
+  font-size:clamp(1.8rem,3vw,2.6rem);line-height:1.15;margin-top:24px;
+  transform:rotate(-1.2deg);transform-origin:left center;
+}
+.cover-hook{font-size:19px;color:var(--ink-body);max-width:54ch;margin-top:24px}
+.cover-note{margin-top:30px;font-size:13px;color:var(--pencil-light);font-style:italic}
 
-/* ---------- hero ---------- */
-.hero-grid{display:grid;grid-template-columns:minmax(0,1fr) 190px;gap:clamp(28px,5vw,64px);align-items:center}
-.hero h1{margin:14px 0 20px}
-.hero .lead{max-width:56ch}
-.portrait{
-  width:190px;height:190px;border-radius:50%;
-  object-fit:cover;
-  border:1px solid var(--line);
-  box-shadow:var(--shadow);
-}
-.hero-facts{
-  display:flex;flex-wrap:wrap;gap:0;
-  margin-top:34px;border-top:1px solid var(--line);
-}
-.fact{padding:18px 30px 4px 0;margin-right:30px;border-right:1px solid var(--line-soft)}
-.fact:last-child{border-right:0;margin-right:0}
-.fact-n{font-family:var(--mono);font-size:1.62rem;font-weight:600;color:var(--brand);letter-spacing:-.02em;font-variant-numeric:tabular-nums;line-height:1}
-.fact-l{font-size:.83rem;color:var(--ink-2);margin-top:7px;max-width:22ch;line-height:1.45}
+/* ---------- the page ---------- */
+.page{position:relative}
+svg.flights{position:absolute;top:0;left:0;z-index:0;pointer-events:none}
+svg.route{position:absolute;top:0;left:0;z-index:2;pointer-events:none}
 
-/* ---------- generations ---------- */
-.gens{display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin-top:38px;border-top:2px solid var(--line)}
-.gen{padding:24px 26px 24px 0;border-right:1px solid var(--line-soft);position:relative}
-.gen:last-child{border-right:0}
-.gen::before{
-  content:"";position:absolute;top:-2px;left:0;height:2px;width:100%;
-  background:var(--line);
+.route .kerb{fill:none;stroke:var(--blue);stroke-width:2.3;stroke-linecap:round;stroke-linejoin:round}
+.route .kerb-2{stroke-width:1.4;opacity:.45}
+.route .centre{fill:none;stroke:var(--blue);stroke-width:1.7;stroke-linecap:round;opacity:.6}
+.route .gapkerb{fill:none;stroke:var(--blue);stroke-width:1.4;stroke-linecap:round;opacity:.42}
+.route .ctl-ring{fill:var(--paper);stroke:var(--blue);stroke-width:2.4}
+.route .ctl-dot{fill:var(--blue)}
+.route .leader{fill:none;stroke:var(--blue);stroke-width:1.3;opacity:.38;stroke-dasharray:3 4}
+/* paint-order knocks a paper-coloured halo out of the road behind the figure,
+   the way a distance label works on a real map */
+.route .km,.route .km-d{
+  stroke:var(--paper);stroke-width:4;paint-order:stroke fill;
+  stroke-linejoin:round;font-variant-numeric:tabular-nums;
 }
-.gen.is-now::before{background:var(--signal)}
-.gen-n{font-family:var(--mono);font-size:.68rem;letter-spacing:.13em;color:var(--ink-3);font-variant-numeric:tabular-nums}
-.gen.is-now .gen-n{color:var(--signal)}
-.gen h3{margin:9px 0 8px}
-.gen p{font-size:.925rem;color:var(--ink-2);max-width:34ch}
-.gen-who{
-  font-family:var(--mono);font-size:.68rem;letter-spacing:.05em;
-  color:var(--ink-3);margin-top:14px;line-height:1.75;text-transform:uppercase;
-}
-.gen-pad{padding-left:26px}
+.route .km{font-family:var(--sans);font-size:13px;font-weight:700;letter-spacing:.06em;
+  fill:var(--pencil-light)}
+.route .km-d{font-family:var(--sans);font-size:11px;font-weight:500;fill:var(--pencil-light)}
+.route .brace{fill:none;stroke:var(--blue);stroke-width:1.5;opacity:.45}
+.route .brace-t{font-family:var(--hand);font-size:22px;font-weight:600;fill:var(--blue);opacity:.9}
 
-.pull{
-  margin-top:40px;padding:22px 26px;
-  background:var(--brand-wash);
-  border-left:3px solid var(--brand);
-  border-radius:0 10px 10px 0;
-}
-.pull p{font-family:var(--display);font-size:clamp(1.05rem,1.9vw,1.32rem);font-weight:620;color:var(--ink);letter-spacing:-.015em;line-height:1.42;max-width:52ch}
+.flights .fl-trail{fill:none;stroke:var(--blue);stroke-width:2;opacity:.72;
+  stroke-dasharray:7 8;stroke-linecap:round}
+.flights .plane{fill:var(--blue);opacity:.95}
 
-/* ---------- case studies ---------- */
-.case-head{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:12px}
-.tag{
-  font-family:var(--mono);font-size:.63rem;letter-spacing:.12em;text-transform:uppercase;
-  padding:4px 9px;border-radius:999px;font-weight:600;
-  background:var(--surface-2);color:var(--ink-2);border:1px solid var(--line);
-}
-.tag.is-now{background:var(--signal-wash);color:var(--signal);border-color:transparent}
-.case h2{margin-bottom:16px}
-.case>.lead{margin-bottom:34px}
+/* ---------- controls ---------- */
+.strip{position:relative;z-index:3;padding:0 clamp(24px,4vw,64px) 0 var(--strip-pad)}
+.control,.gap{position:relative;padding:54px 0}
+.anchor{position:absolute;left:0;top:92px;width:0;height:0}
+.control-grid{display:grid;grid-template-columns:minmax(0,1fr) var(--gutter);
+  gap:44px;align-items:start;max-width:1140px}
 
-.blocks{display:grid;grid-template-columns:repeat(auto-fit,minmax(258px,1fr));gap:1px;background:var(--line-soft);border:1px solid var(--line-soft);border-radius:12px;overflow:hidden}
-.block{background:var(--surface);padding:22px 24px}
-.block-h{
-  font-family:var(--mono);font-size:.66rem;letter-spacing:.13em;text-transform:uppercase;
-  color:var(--ink-3);margin-bottom:11px;font-weight:600;
+.slip{
+  position:relative;background:var(--paper-slip);
+  border:1px solid var(--line);border-radius:0;
+  padding:30px 34px 46px;box-shadow:var(--slip-shadow);
+  transform:rotate(var(--tilt,0deg));
 }
-.block p{font-size:.94rem;color:var(--ink-2);max-width:40ch}
-.block strong{color:var(--ink);font-weight:620}
-.block.is-key{background:var(--surface-2)}
-.block.is-key .block-h{color:var(--brand)}
+.tape{
+  position:absolute;width:78px;height:26px;pointer-events:none;
+  background:linear-gradient(to bottom,
+    rgba(255,255,255,.16) 0 3px, var(--tape) 3px calc(100% - 3px), rgba(0,0,0,.05) calc(100% - 3px));
+  background-color:var(--tape);
+  border-top:1px solid var(--tape-edge);
+  border-bottom:1px solid rgba(0,0,0,.05);
+}
+.tape-a{top:-13px;left:-24px;transform:rotate(-42deg);box-shadow:0 1px 3px rgba(22,32,58,.13)}
+.tape-b{bottom:-13px;right:-22px;transform:rotate(-38deg);box-shadow:0 1px 3px rgba(22,32,58,.13)}
 
-/* ---------- war story: a real thing that broke, and what you did ----------
-   Drop one of these into any .case, after .blocks. Three beats, because a
-   resolution genuinely is a sequence: symptom -> cause -> fix. Kept
-   cue-sized on purpose - Pavan narrates it, the screen only holds his place. */
-.story{
-  margin-top:26px;
-  background:var(--surface);
-  border:1px solid var(--line);
-  border-left:3px solid var(--signal);
-  border-radius:0 12px 12px 0;
-  padding:22px 26px;
-}
-.story-h{
-  font-family:var(--mono);font-size:.66rem;letter-spacing:.13em;text-transform:uppercase;
-  color:var(--signal);font-weight:600;margin-bottom:16px;
-}
-.story-beats{display:grid;grid-template-columns:repeat(3,1fr);gap:0;list-style:none}
-.story-beats li{position:relative;padding-right:26px}
-.story-beats li+li{padding-left:26px;border-left:1px solid var(--line-soft)}
-.story-beats li:last-child{padding-right:0}
-.story-n{
-  font-family:var(--mono);font-size:.63rem;letter-spacing:.12em;color:var(--ink-3);
-  font-variant-numeric:tabular-nums;display:block;margin-bottom:7px;
-}
-.story-t{font-family:var(--display);font-size:1rem;font-weight:640;letter-spacing:-.01em;line-height:1.3;margin-bottom:6px}
-.story-beats p{font-size:.89rem;color:var(--ink-2);max-width:32ch}
-@media (max-width:900px){
-  .story-beats{grid-template-columns:1fr;gap:18px}
-  .story-beats li,.story-beats li+li{padding:0;border-left:0}
-}
+.slip-year{font-size:15px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--blue);font-variant-numeric:tabular-nums}
+.slip-role{font-size:30px;font-weight:700;letter-spacing:-.02em;line-height:1.12;
+  color:var(--ink);margin-top:8px;text-wrap:balance}
+.slip-sub{margin-top:7px;font-size:11px;font-weight:500;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--pencil-light)}
+.slip-doing{margin-top:16px;font-size:17px;line-height:1.5;color:var(--ink-body);max-width:52ch}
 
-.stack{list-style:none;display:flex;flex-wrap:wrap;gap:7px;margin-top:26px}
-.stack li{
-  font-family:var(--mono);font-size:.7rem;letter-spacing:.04em;
-  padding:5px 10px;border:1px solid var(--line);border-radius:6px;
-  color:var(--ink-2);background:var(--surface);
-}
+.instr{margin-top:22px;border-top:1px dotted var(--line)}
+.instr-row{display:grid;grid-template-columns:30px 1fr;gap:14px;align-items:start;
+  padding:11px 0;border-bottom:1px dotted var(--line)}
+.instr-row svg{width:26px;height:26px;fill:none;stroke:var(--blue);stroke-width:1.9;
+  stroke-linecap:round;stroke-linejoin:round;opacity:.78}
+.instr-row span{font-size:17px;line-height:1.45;color:var(--ink-body)}
 
-/* ---------- ai closer ---------- */
-.ai-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px;margin-top:32px}
-.ai-card{
-  background:var(--surface);border:1px solid var(--line);border-radius:12px;
-  padding:22px 24px;box-shadow:var(--shadow);
-}
-.ai-card h3{margin-bottom:9px}
-.ai-card p{font-size:.91rem;color:var(--ink-2);max-width:38ch}
-.ai-meta{font-family:var(--mono);font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;color:var(--signal);margin-bottom:10px;font-weight:600}
+.slip-aside{margin-top:20px;font-family:var(--hand);font-size:24px;font-weight:600;
+  color:var(--pencil);line-height:1.2;transform:rotate(-.8deg);transform-origin:left center}
 
-.shots{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;margin-top:26px}
-figure{margin:0}
-.shot img{
-  width:100%;border:1px solid var(--line);border-radius:10px;
-  background:var(--surface);box-shadow:var(--shadow);
+.stamp{
+  position:absolute;right:-34px;bottom:-30px;width:132px;height:132px;
+  mix-blend-mode:var(--stamp-blend);transform:rotate(-12deg);
+  pointer-events:none;z-index:0;opacity:0;
 }
-figcaption{
-  font-family:var(--mono);font-size:.65rem;letter-spacing:.06em;text-transform:uppercase;
-  color:var(--ink-3);margin-top:10px;line-height:1.6;
-}
+.stamp text{font-family:var(--sans);font-weight:700;font-size:9px;letter-spacing:.1em}
+/* Slip content sits above the stamp, so the stamp reads as printed UNDER the
+   text the way a real control stamp does. .tape is excluded - it needs to keep
+   its own position:absolute. */
+.slip > :not(.stamp):not(.tape){position:relative;z-index:1}
 
-.close{margin-top:42px;padding-top:26px;border-top:1px solid var(--line)}
-.close p{font-family:var(--display);font-size:clamp(1.1rem,2vw,1.4rem);font-weight:620;letter-spacing:-.015em;max-width:46ch}
-.close-contact{font-family:var(--mono);font-size:.73rem;letter-spacing:.06em;color:var(--ink-2);margin-top:16px;line-height:2}
-.close-contact a{color:var(--brand);text-decoration:none;border-bottom:1px solid transparent}
-.close-contact a:hover{border-bottom-color:var(--brand)}
-.close-contact a:focus-visible{outline:2px solid var(--brand);outline-offset:2px}
+/* ---------- margin learnings ---------- */
+.margin{padding-top:6px}
+.margin-h{font-size:11px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--pencil-light);margin-bottom:14px}
+.learn{display:flex;align-items:flex-start;gap:9px;margin-bottom:13px;
+  font-family:var(--hand);font-size:26px;font-weight:600;line-height:1.15;
+  transform:rotate(-1.5deg);transform-origin:left center}
+.learn svg{flex:none;width:15px;height:15px;margin-top:7px;fill:none;
+  stroke-width:1.8;stroke-linecap:round}
+.learn-job{color:var(--blue)}
+.learn-job svg{stroke:var(--blue)}
+.learn-own{color:var(--pencil)}
+.learn-own svg{stroke:var(--pencil)}
+.learn-own .learn-t{border:1.4px solid var(--pencil);padding:0 8px 2px}
+.margin-foot{margin-top:18px;padding-top:12px;border-top:1px dotted var(--line);
+  font-family:var(--hand);font-size:21px;color:var(--pencil);line-height:1.2}
 
-/* ---------- motion ---------- */
-.rise{opacity:0;transform:translateY(14px);transition:opacity .6s ease,transform .6s ease}
-.rise.seen{opacity:1;transform:none}
+/* ---------- gap stretches ---------- */
+.gap{padding:40px 0}
+.gap-year{font-size:11px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--pencil-light);font-variant-numeric:tabular-nums}
+.gap-line{font-family:var(--hand);font-size:26px;font-weight:600;color:var(--pencil);
+  margin-top:6px;transform:rotate(-.9deg);transform-origin:left center}
+
+/* ---------- boarding pass stubs ----------
+   These live in normal flow inside the margin column, so a stub can never
+   land on top of a learning. The flight arc is drawn TO wherever layout
+   put the stub, rather than the stub being placed at the arc. */
+.stub{position:relative;z-index:4;max-width:236px;margin-top:18px;
+  transform:rotate(-2deg);transform-origin:left center;pointer-events:none}
+.learn + .stub{margin-top:24px;padding-top:18px;border-top:1px dotted var(--line)}
+.stub-card{position:relative;background:var(--paper-slip);border:1.4px solid var(--line);
+  box-shadow:var(--slip-shadow);padding:11px 14px;display:flex;align-items:center}
+.stub-card::before,.stub-card::after{content:"";position:absolute;left:62%;
+  width:12px;height:6px;background:var(--paper);border:1.4px solid var(--line)}
+.stub-card::before{top:-1px;border-top:0;border-radius:0 0 12px 12px}
+.stub-card::after{bottom:-1px;border-bottom:0;border-radius:12px 12px 0 0}
+.stub-perf{position:absolute;top:5px;bottom:5px;left:62%;border-left:1.4px dashed var(--line)}
+.stub-code{font-size:13px;font-weight:700;letter-spacing:.14em;color:var(--ink);white-space:nowrap}
+.stub-yr{font-size:13px;font-weight:800;color:var(--blue);margin-left:auto;
+  font-variant-numeric:tabular-nums;padding-left:12px}
+.stub-line{font-family:var(--hand);font-size:23px;font-weight:600;color:var(--blue);
+  margin-top:7px;line-height:1.1;transform:rotate(1.4deg);transform-origin:left center}
+
+/* ---------- closing ---------- */
+.closing{position:relative;background:var(--paper-aged);border-top:1px solid var(--line);
+  padding:clamp(56px,9vh,96px) clamp(24px,5vw,80px) clamp(72px,11vh,120px) var(--strip-pad)}
+.closing-place{font-size:11px;font-weight:500;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--pencil-light)}
+.closing-line{font-family:var(--hand);font-size:clamp(2rem,4vw,3.1rem);font-weight:700;
+  color:var(--blue);line-height:1.1;margin-top:12px;max-width:20ch;
+  transform:rotate(-1deg);transform-origin:left center}
+.closing-note{margin-top:26px;font-size:14px;color:var(--pencil-light);
+  font-style:italic;max-width:44ch}
+.closing-contact{margin-top:34px;display:flex;flex-wrap:wrap;gap:10px 26px;font-size:15px}
+.closing-contact a{color:var(--blue);text-decoration:none;border-bottom:1px solid transparent}
+.closing-contact a:hover{border-bottom-color:var(--blue)}
+.closing-contact a:focus-visible{outline:2px solid var(--blue);outline-offset:3px}
+
+/* ---------- kit card ---------- */
+.kit{position:fixed;right:26px;bottom:26px;width:240px;z-index:20;
+  background:var(--paper-slip);border:1px solid var(--line);box-shadow:var(--slip-shadow);
+  padding:16px 16px 14px;max-height:54vh;display:flex;flex-direction:column}
+.kit-clip{position:absolute;top:-18px;left:14px;width:28px;height:46px;
+  fill:none;stroke:var(--blue);stroke-width:2.2;opacity:.7}
+.kit-h{display:flex;align-items:baseline;justify-content:space-between;
+  border-bottom:1px solid var(--line);padding-bottom:9px;margin-bottom:11px}
+.kit-t{font-size:11px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--pencil-light)}
+.kit-n{font-size:22px;font-weight:800;color:var(--blue);
+  font-variant-numeric:tabular-nums;line-height:1}
+.kit-list{list-style:none;overflow:hidden;flex:1;min-height:0}
+.kit-list li{font-family:var(--hand);font-size:19px;font-weight:600;line-height:1.28;
+  color:var(--blue);opacity:0;clip-path:inset(0 100% 0 0)}
+.kit-list li.own{color:var(--pencil)}
+.kit-list li.in{opacity:.5;clip-path:inset(0);
+  transition:clip-path .38s ease,opacity .38s ease}
+.kit-list li.in.newest{opacity:1}
+.kit-odo{margin-top:10px;padding-top:9px;border-top:1px dotted var(--line);
+  font-size:12px;font-weight:700;letter-spacing:.06em;color:var(--pencil-light);
+  font-variant-numeric:tabular-nums;display:flex;justify-content:space-between}
+.kit-foot{font-family:var(--hand);font-size:16px;color:var(--pencil);margin-top:8px;line-height:1.15}
+
+/* ---------- theme toggle ---------- */
+.lamp{position:fixed;top:20px;right:24px;z-index:30;width:42px;height:42px;
+  background:var(--paper-slip);border:1px solid var(--line);cursor:pointer;
+  display:grid;place-items:center;box-shadow:var(--slip-shadow)}
+.lamp svg{width:22px;height:22px;fill:none;stroke:var(--blue);stroke-width:1.9;
+  stroke-linecap:round;stroke-linejoin:round}
+.lamp:hover{border-color:var(--blue)}
+.lamp:focus-visible{outline:2px solid var(--blue);outline-offset:3px}
+
+/* ---------- ink-in ---------- */
+.inks{opacity:0;transform:translateY(10px)}
+.inks.is-inked{opacity:1;transform:none;
+  transition:opacity .42s cubic-bezier(.2,.7,.2,1),transform .42s cubic-bezier(.2,.7,.2,1)}
+.is-inked .stamp{opacity:var(--stamp-opacity);
+  transition:opacity .3s ease .18s,transform .3s cubic-bezier(.34,1.4,.64,1) .18s}
+
 @media (prefers-reduced-motion:reduce){
-  body{scroll-behavior:auto}
-  .flow{scroll-snap-type:none}
-  .rise{opacity:1;transform:none;transition:none}
+  .inks,.inks.is-inked{opacity:1;transform:none;transition:none}
+  .stamp,.is-inked .stamp{opacity:var(--stamp-opacity);transition:none}
+  .kit-list li{opacity:.55;clip-path:inset(0);transition:none}
+  .kit-list li.newest{opacity:1}
 }
 
 /* ---------- responsive ---------- */
-@media (max-width:900px){
-  .shell{grid-template-columns:1fr}
-  .rail{position:static;height:auto;border-right:0;border-bottom:1px solid var(--line);padding:20px 0 14px}
-  .rail-nav{flex-direction:row;overflow-x:auto;gap:4px;padding:0 16px}
-  .rail-link{grid-template-columns:1fr;white-space:nowrap;border-left:0;border-bottom:2px solid transparent}
-  .rail-link.is-on{border-left:0;border-bottom-color:var(--brand)}
-  .rail-foot,.rail-brand{padding-left:16px;padding-right:16px}
-  .rail-foot{display:none}
-  .beat{min-height:auto;padding:60px 22px}
-  .flow{scroll-snap-type:none}
-  .hero-grid{grid-template-columns:1fr;gap:26px}
-  .portrait{width:132px;height:132px}
-  .gens{grid-template-columns:1fr}
-  .gen{border-right:0;border-bottom:1px solid var(--line-soft);padding:22px 0}
-  .gen-pad{padding-left:0}
-  .gen::before{display:none}
+@media (max-width:1180px){
+  :root{--rail:78px;--rule-x:96px;--strip-pad:126px;--gutter:0px}
+  .control-grid{grid-template-columns:minmax(0,1fr);gap:0}
+  .margin{margin-top:18px;padding:20px 24px;background:var(--paper-slip);
+    border:1px dashed var(--line)}
+  .stub{max-width:330px}
+  .kit{display:none}
+}
+@media (max-width:760px){
+  body{font-size:17px}
+  :root{--rail:44px;--rule-x:58px;--strip-pad:76px}
+  .slip{padding:24px 22px 38px}
+  .slip-role{font-size:25px}
+  .stamp{width:104px;height:104px;right:-14px;bottom:-18px}
+  .lamp{top:12px;right:12px}
 }
 
 @media print{
-  .rail{display:none}
-  .shell{grid-template-columns:1fr}
-  .beat{min-height:auto;padding:26px 0;page-break-inside:avoid;border-bottom:1px solid #ccc}
-  .rise{opacity:1;transform:none}
-  body{background:#fff;font-size:12px}
+  body{background:#fff;font-size:11px}
+  .kit,.lamp,svg.flights,svg.route{display:none}
+  :root{--strip-pad:0px;--gutter:220px}
+  .control,.gap{page-break-inside:avoid;padding:16px 0}
+  .slip{transform:none;box-shadow:none}
+  .inks{opacity:1;transform:none}
 }
 </style>
 
-<div class="shell">
+<button class="lamp" id="lamp" type="button" aria-label="Switch light or dark">
+  <svg viewBox="0 0 24 24" aria-hidden="true">
+    <path d="M8 21h8M9.5 17.5C6.8 16.2 5 13.6 5 10.6 5 6.4 8.1 3 12 3s7 3.4 7 7.6c0 3-1.8 5.6-4.5 6.9z" />
+    <path d="M10 21v-3.5M14 21v-3.5" />
+  </svg>
+</button>
 
-  <!-- ==================== RAIL ==================== -->
-  <aside class="rail">
-    <div class="rail-brand">
-      <div class="rail-name">Pavan Mankineni</div>
-      <div class="rail-role">SAP BI / HANA<br />Solution Architect</div>
-    </div>
+<!-- ==================== COVER ==================== -->
+<header class="cover">
+  <div class="rule-v"></div>
+  <svg class="cover-stamp" viewBox="0 0 132 132" aria-hidden="true">
+    <defs>
+      <path id="arcCover" d="M 20 66 A 46 46 0 0 1 112 66" />
+      <path id="arcCoverB" d="M 24 66 A 42 42 0 0 0 108 66" />
+    </defs>
+    <circle cx="66" cy="66" r="54" fill="none" stroke="var(--stamp)" stroke-width="2.4" />
+    <circle cx="66" cy="66" r="45" fill="none" stroke="var(--stamp)" stroke-width="1.1" />
+    <text fill="var(--stamp)" font-size="8.5" letter-spacing="1.4" font-weight="700">
+      <textPath href="#arcCover" startOffset="50%" text-anchor="middle">BREVET DE RANDONNEUR</textPath>
+    </text>
+    <text fill="var(--stamp)" font-size="8.5" letter-spacing="2.2" font-weight="700">
+      <textPath href="#arcCoverB" startOffset="50%" text-anchor="middle">SAP &middot; BI &middot; HANA</textPath>
+    </text>
+    <text x="66" y="62" text-anchor="middle" fill="var(--stamp)"
+          font-size="21" font-weight="800" letter-spacing="1">2006</text>
+    <text x="66" y="79" text-anchor="middle" fill="var(--stamp)"
+          font-size="21" font-weight="800" letter-spacing="1">2026</text>
+    <path d="M40 68 H92" stroke="var(--stamp)" stroke-width="1.6" />
+  </svg>
 
-    <nav class="rail-nav" id="rail" aria-label="Sections">
-      <a class="rail-link" href="#intro"><span class="rail-yr">&mdash;</span><span class="rail-lbl">Who I am</span></a>
-      <a class="rail-link" href="#arc"><span class="rail-yr">2007&ndash;26</span><span class="rail-lbl">Three generations</span></a>
-      <a class="rail-link" href="#basler"><span class="rail-yr">2025&ndash;</span><span class="rail-lbl">Basler</span></a>
-      <a class="rail-link" href="#mankiewicz"><span class="rail-yr">2024&ndash;</span><span class="rail-lbl">Mankiewicz</span></a>
-      <a class="rail-link" href="#fresenius"><span class="rail-yr">2017&ndash;22</span><span class="rail-lbl">Fresenius</span></a>
-      <a class="rail-link" href="#ai"><span class="rail-yr">Now</span><span class="rail-lbl">Migration tooling</span></a>
-    </nav>
+  <div class="cover-inner">
+    <p class="cover-role" id="cvRole"></p>
+    <h1 id="cvTitle"></h1>
+    <p class="cover-sub" id="cvSub"></p>
+    <p class="cover-hook" id="cvHook"></p>
+    <p class="cover-note" id="cvNote"></p>
+  </div>
+</header>
 
-    <div class="rail-foot">
-      <div class="rail-hint"><kbd>&darr;</kbd> <kbd>&uarr;</kbd> to step<br />through sections</div>
-    </div>
-  </aside>
-
-  <!-- ==================== FLOW ==================== -->
-  <main class="flow">
-
-    <!-- ---------- 1. WHO I AM ---------- -->
-    <section class="beat hero is-tint" id="intro">
-      <div class="beat-inner">
-        <div class="hero-grid">
-          <div>
-            <p class="eyebrow rise">Bremen, Germany &middot; 18+ years in SAP</p>
-            <h1 class="rise">Eighteen years inside SAP data platforms.</h1>
-            <p class="lead rise">
-              I architect, build and migrate SAP reporting landscapes &mdash; <strong>BW</strong>,
-              <strong>BW/4HANA on HANA</strong>, and now <strong>Datasphere and Business Data
-              Cloud</strong>. Hands on the model, not just the slide deck.
-            </p>
-          </div>
-          <div class="rise">
-            <img class="portrait" src="{{IMG_PM}}" width="190" height="190"
-                 alt="Pavan Mankineni" />
-          </div>
-        </div>
-
-        <div class="hero-facts rise">
-          <div class="fact">
-            <div class="fact-n">18+</div>
-            <div class="fact-l">years, SAP data &amp; analytics only</div>
-          </div>
-          <div class="fact">
-            <div class="fact-n">9</div>
-            <div class="fact-l">enterprise clients, incl. Bosch, Bayer, Fresenius, Bundeswehr</div>
-          </div>
-          <div class="fact">
-            <div class="fact-n">3</div>
-            <div class="fact-l">SAP platform generations delivered on</div>
-          </div>
-          <div class="fact">
-            <div class="fact-n">2/2</div>
-            <div class="fact-l">certified: SAP Datasphere &amp; SAP Business Data Cloud</div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ---------- 2. THREE GENERATIONS ---------- -->
-    <section class="beat" id="arc">
-      <div class="beat-inner">
-        <p class="eyebrow rise">The through-line</p>
-        <h2 class="rise">Three platform generations. I&rsquo;ve delivered on all three.</h2>
-        <p class="lead rise">
-          SAP has moved its data platform twice in my career. I didn&rsquo;t read about either
-          move &mdash; I carried landscapes across them.
-        </p>
-
-        <div class="gens rise">
-          <div class="gen">
-            <div class="gen-n">01 &nbsp;2007&ndash;2014</div>
-            <h3>SAP BW 7.x, classic</h3>
-            <p>Business Content extension, process chains, LSA layering, performance tuning,
-               BO / WEBI front-ends.</p>
-            <div class="gen-who">Bayer &middot; Robert Bosch</div>
-          </div>
-          <div class="gen gen-pad">
-            <div class="gen-n">02 &nbsp;2015&ndash;2024</div>
-            <h3>BW/4HANA on HANA</h3>
-            <p>LSA++ redesign, AMDP and SQLScript pushdown, SDI extraction, OData for Fiori,
-               SAC and Analysis for Office.</p>
-            <div class="gen-who">Fresenius &middot; Bundeswehr / BWI &middot; Mankiewicz &middot; KSB &middot; Magna</div>
-          </div>
-          <div class="gen gen-pad is-now">
-            <div class="gen-n">03 &nbsp;2025&ndash;now</div>
-            <h3>Datasphere &amp; Business&nbsp;Data&nbsp;Cloud</h3>
-            <p>Replication and transformation flows, fact and analytic models, rebuilding BW
-               logic in Datasphere.</p>
-            <div class="gen-who">Basler &middot; certified on both</div>
-          </div>
-        </div>
-
-        <div class="pull rise">
-          <p>The BW&nbsp;&rarr;&nbsp;Datasphere move isn&rsquo;t a new topic for me. It&rsquo;s the
-             third time I&rsquo;ve carried a landscape onto a new SAP platform generation.</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- ---------- 3. BASLER ---------- -->
-    <section class="beat case is-tint" id="basler">
-      <div class="beat-inner">
-        <div class="case-head rise">
-          <span class="tag is-now">Current engagement</span>
-          <span class="tag">2025 &ndash; now</span>
-          <span class="tag">Basler AG</span>
-        </div>
-        <h2 class="rise">Rebuilding a BW landscape in SAP Datasphere.</h2>
-        <p class="lead rise">
-          Exactly the move you&rsquo;re evaluating &mdash; and I&rsquo;m in the middle of it right now.
-        </p>
-
-        <div class="blocks rise">
-          <div class="block">
-            <div class="block-h">The situation</div>
-            <p>Reporting runs on SAP BW. Years of modelling have accumulated business logic
-               inside transformations &mdash; not in a document, in the code.</p>
-          </div>
-          <div class="block">
-            <div class="block-h">What I build</div>
-            <p><strong>Replication flows</strong> off the source systems.
-               <strong>Data and transformation flows</strong> to re-express the BW logic.
-               <strong>Fact and analytic models</strong> as the new consumption layer.</p>
-          </div>
-          <div class="block is-key">
-            <div class="block-h">Where it actually gets hard</div>
-            <p>A BW transformation is not a view. Start, end and field routines carry rules with
-               no direct Datasphere equivalent. Deciding what becomes a flow, what becomes SQL,
-               and what has to be <strong>redesigned</strong> is the real work. The
-               object-to-object mapping is the easy half.</p>
-          </div>
-        </div>
-
-        <ul class="stack rise">
-          <li>SAP Datasphere</li><li>Replication flows</li><li>Transformation flows</li>
-          <li>Analytic models</li><li>SAP BW</li><li>SAP HANA</li>
-        </ul>
-      </div>
-    </section>
-
-    <!-- ---------- 4. MANKIEWICZ ---------- -->
-    <section class="beat case" id="mankiewicz">
-      <div class="beat-inner">
-        <div class="case-head rise">
-          <span class="tag is-now">Current engagement</span>
-          <span class="tag">2024 &ndash; now</span>
-          <span class="tag">Mankiewicz</span>
-        </div>
-        <h2 class="rise">BW-on-HANA &mdash; from data model to the number in the workbook.</h2>
-        <p class="lead rise">
-          I don&rsquo;t hand off at the model boundary. Same pair of hands from extraction
-          through to what the business actually opens on Monday morning.
-        </p>
-
-        <div class="blocks rise">
-          <div class="block">
-            <div class="block-h">The situation</div>
-            <p>Complex data models and flows on BW-on-HANA, feeding business reporting that
-               has to reconcile.</p>
-          </div>
-          <div class="block">
-            <div class="block-h">What I build</div>
-            <p>The models and flows, <strong>AMDP and ABAP enrichment</strong> where standard
-               transformations run out of road, then <strong>Analysis for Office</strong>
-               workbooks and <strong>SAC</strong> dashboards on top.</p>
-          </div>
-          <div class="block is-key">
-            <div class="block-h">Where it actually gets hard</div>
-            <p>Pushdown discipline. AMDP earns its extra complexity only where it replaces
-               row-by-row ABAP with set-based SQL on HANA. Used everywhere, it just moves the
-               maintenance problem &mdash; so knowing <strong>when not to</strong> matters as
-               much as knowing how.</p>
-          </div>
-        </div>
-
-        <ul class="stack rise">
-          <li>BW-on-HANA</li><li>AMDP</li><li>ABAP-OO</li><li>SQLScript</li>
-          <li>Analysis for Office</li><li>SAP Analytics Cloud</li>
-        </ul>
-      </div>
-    </section>
-
-    <!-- ---------- 5. FRESENIUS ---------- -->
-    <section class="beat case is-tint" id="fresenius">
-      <div class="beat-inner">
-        <div class="case-head rise">
-          <span class="tag">Flagship transformation</span>
-          <span class="tag">2017 &ndash; 2022</span>
-          <span class="tag">Fresenius AG</span>
-        </div>
-        <h2 class="rise">Replacing a 25-year-old reporting solution. Globally.</h2>
-        <p class="lead rise">
-          Global Sales Reporting (GSIS) &mdash; five years on one platform, from architecture
-          through to rollout.
-        </p>
-
-        <div class="blocks rise">
-          <div class="block">
-            <div class="block-h">The situation</div>
-            <p>Global sales reporting ran on an ERP-based solution that had been in service for
-               <strong>25 years</strong>. Every workaround in it was load-bearing.</p>
-          </div>
-          <div class="block">
-            <div class="block-h">What I built</div>
-            <p>A global <strong>BW/4HANA + SAC</strong> reporting platform on an
-               <strong>LSA++</strong> architecture, and the migration off the legacy solution.</p>
-          </div>
-          <div class="block is-key">
-            <div class="block-h">Where it actually gets hard</div>
-            <p>A global rollout means one model absorbing regional variation <strong>without
-               forking</strong> &mdash; the moment each region gets its own branch, you own a
-               maintenance problem forever. Disciplined LSA++ layering is what makes that
-               survivable at scale.</p>
-          </div>
-        </div>
-
-        <ul class="stack rise">
-          <li>BW/4HANA</li><li>LSA++</li><li>SAP Analytics Cloud</li>
-          <li>Global rollout</li><li>Legacy migration</li>
-        </ul>
-      </div>
-    </section>
-
-    <!-- ---------- 6. AI CLOSER ---------- -->
-    <section class="beat" id="ai">
-      <div class="beat-inner">
-        <p class="eyebrow is-signal rise">And one more thing</p>
-        <h2 class="rise">I&rsquo;ve been building the tooling to make these migrations faster.</h2>
-        <p class="lead rise">
-          Not a side project &mdash; it came out of doing this work by hand. Everything below is
-          running on <strong>SAP BTP</strong> today.
-        </p>
-
-        <div class="ai-grid rise">
-          <div class="ai-card">
-            <div class="ai-meta">Migration Agent</div>
-            <h3>BW &rarr; Datasphere, planned</h3>
-            <p>Analyses a BW landscape and generates migration strategies, manifests and
-               step-by-step playbooks.</p>
-          </div>
-          <div class="ai-card">
-            <div class="ai-meta">Lineage Agent</div>
-            <h3>Know what breaks first</h3>
-            <p>A cross-system knowledge graph with field-level lineage and impact analysis
-               across BW, S/4HANA, SAC and Datasphere.</p>
-          </div>
-          <div class="ai-card">
-            <div class="ai-meta">MCP fleet &middot; 360+ tools</div>
-            <h3>SAP, callable by AI</h3>
-            <p>Six servers exposing BW, S/4HANA, SAC, Datasphere and ABAP as tools any AI
-               assistant can safely call.</p>
-          </div>
-        </div>
-
-        <div class="shots rise">
-          <figure class="shot">
-            <img src="{{IMG_PLAYBOOK}}" width="1000" height="788" loading="lazy"
-                 alt="Migration Agent generating a step-by-step BW to Datasphere migration playbook." />
-            <figcaption>Migration Agent &mdash; generated playbook</figcaption>
-          </figure>
-          <figure class="shot">
-            <img src="{{IMG_LINEAGE}}" width="1525" height="482" loading="lazy"
-                 alt="Cross-system lineage graph tracing a field across BW, S/4HANA, SAC and Datasphere." />
-            <figcaption>Lineage Agent &mdash; cross-system field lineage</figcaption>
-          </figure>
-        </div>
-
-        <div class="close rise">
-          <p>Eighteen years of doing the migration. One year of building the tools that
-             speed it up.</p>
-          <div class="close-contact">
-            <a href="mailto:mailpavanm@gmail.com">mailpavanm@gmail.com</a><br />
-            <a href="https://www.linkedin.com/in/pavan-mankineni-74340880/" target="_blank" rel="noopener">linkedin.com/in/pavan-mankineni</a>
-          </div>
-        </div>
-      </div>
-    </section>
-
-  </main>
+<!-- ==================== THE RIDE ==================== -->
+<div class="page" id="page">
+  <div class="rule-v"></div>
+  <svg class="flights" id="flights" aria-hidden="true"></svg>
+  <svg class="route" id="route" role="img"
+       aria-label="A hand-drawn route running down the page. Each career stage is a control point on it; four arcs branching off it are international relocations."></svg>
+  <div class="strip" id="strip"></div>
 </div>
 
+<!-- ==================== CLOSING ==================== -->
+<footer class="closing">
+  <div class="rule-v"></div>
+  <p class="closing-place" id="clPlace"></p>
+  <p class="closing-line" id="clLine"></p>
+  <p class="closing-note" id="clNote"></p>
+  <div class="closing-contact">
+    <a href="mailto:mailpavanm@gmail.com">mailpavanm@gmail.com</a>
+    <a href="https://www.linkedin.com/in/pavan-mankineni-74340880/" target="_blank" rel="noopener">linkedin.com/in/pavan-mankineni</a>
+  </div>
+</footer>
+
+<!-- ==================== KIT CARD ==================== -->
+<aside class="kit" id="kit" aria-label="Skills picked up along the way">
+  <svg class="kit-clip" viewBox="0 0 28 46" aria-hidden="true">
+    <path d="M20 12v22a6 6 0 0 1-12 0V10a9 9 0 0 1 18 0v24" />
+  </svg>
+  <div class="kit-h">
+    <span class="kit-t" id="kitT">In the bag</span>
+    <span class="kit-n" id="kitN">0</span>
+  </div>
+  <ul class="kit-list" id="kitList"></ul>
+  <div class="kit-odo"><span>Distance</span><span id="odo">KM 0</span></div>
+  <p class="kit-foot" id="kitFoot"></p>
+</aside>
+
 <script>
-(function(){
-  var beats = Array.prototype.slice.call(document.querySelectorAll('.beat'));
-  var links = Array.prototype.slice.call(document.querySelectorAll('.rail-link'));
+(function () {
+'use strict';
 
-  /* --- rail highlight follows the section in view --- */
-  var spy = new IntersectionObserver(function(entries){
-    entries.forEach(function(e){
-      if(!e.isIntersecting) return;
-      var i = beats.indexOf(e.target);
-      links.forEach(function(l, n){ l.classList.toggle('is-on', n === i); });
-    });
-  }, { rootMargin: '-45% 0px -45% 0px' });
-  beats.forEach(function(b){ spy.observe(b); });
+/* ============================================================
+   1. THE CONTENT.  Everything Pavan might want to edit is here.
+   ------------------------------------------------------------
+   A learning is [name, selfTaught].  selfTaught:true renders in
+   PENCIL and boxed - "nobody asked me to learn this".  Flip the
+   flag and nothing else needs touching.
+   ============================================================ */
 
-  /* --- reveal on first view --- */
-  var reveal = new IntersectionObserver(function(entries){
-    entries.forEach(function(e){
-      if(e.isIntersecting){ e.target.classList.add('seen'); reveal.unobserve(e.target); }
-    });
-  }, { threshold: 0.08 });
-  document.querySelectorAll('.rise').forEach(function(el){ reveal.observe(el); });
+var COVER = {
+  role:  'SAP BI \u00b7 HANA \u00b7 Bremen',
+  title: 'Pavan Mankineni',
+  sub:   'seven stops, four flights, two blank stretches',
+  hook:  'I have been building reporting systems since 2006. This is the route.',
+  note:  'Read it top to bottom. Nothing is invented in between.'
+};
 
-  /* --- arrow keys step section to section (presenter control) --- */
-  function current(){
-    var mid = window.innerHeight / 2, best = 0, bestD = Infinity;
-    beats.forEach(function(b, i){
-      var r = b.getBoundingClientRect();
-      var d = Math.abs(r.top + r.height / 2 - mid);
-      if(d < bestD){ bestD = d; best = i; }
-    });
-    return best;
+var CONTROLS = [
+  { kind:'control', y0:2006, y1:2007, display:'2006 \u2014 2007',
+    role:'Junior on the support desk',
+    sub:'Junior Consultant \u00b7 India',
+    doing:'Answering tickets, watching the loads, learning what a BW system actually does.',
+    acts:['Tickets, start to finish', 'Monitoring the nightly loads', 'Support, whatever came in'],
+    learns:[['BW', false], ['Web applications', false]],
+    aside:null, stampTop:'FIRST CONTROL', stampYear:'2006' },
+
+  { kind:'gap', y0:2007, y1:2009, display:'2007 \u2014 2009',
+    line:'No entry in the book for these.' },
+
+  { kind:'control', y0:2009, y1:2013, display:'2009 \u2014 2013',
+    role:'Onsite, and building the reports',
+    sub:'BW Developer \u00b7 Associate Project Manager',
+    doing:'Onsite coordinator by day, BW developer the rest of the time.',
+    acts:['Onsite coordinator', 'BW development', 'Vendor service level reports', 'Vendor backlog reporting'],
+    learns:[['BO tools', false], ['Xcelsius', false]],
+    aside:'This one moved three times. See the arcs.',
+    stampTop:'IN \u00b7 DE \u00b7 SG', stampYear:'2009' },
+
+  { kind:'gap', y0:2013, y1:2014, display:'2013 \u2014 2014',
+    line:'Blank page. I am not going to fill it in.' },
+
+  { kind:'control', y0:2014, y1:2016, display:'2014 \u2014 2016',
+    role:'Bosch, then Royal Enfield',
+    sub:'BW Developer \u00b7 Inventory \u00b7 India',
+    doing:'Inventory reporting in BW, two clients back to back, HANA underneath.',
+    acts:['Inventory reporting in BW', 'Bosch first, then Royal Enfield'],
+    learns:[['HANA', false]],
+    aside:null, stampTop:'BOSCH \u00b7 ENFIELD', stampYear:'2014' },
+
+  { kind:'control', y0:2017, y1:2022, display:'2017 \u2014 2022',
+    role:'The 25-year-old application',
+    sub:'Fresenius \u00b7 Global Sales Reporting \u00b7 Germany',
+    doing:'Converting a 25-year-old ABAP sales application from ERP into BW.',
+    acts:['Global Sales Reporting', 'The old ABAP, read end to end',
+          'ERP to BW, field by field', 'Five years on one thing'],
+    learns:[['ABAP', false], ['SQL', false], ['HANA SQL', false], ['Graphical views', false]],
+    aside:'Twenty-five years of someone else\u2019s logic, read line by line.',
+    stampTop:'FRESENIUS', stampYear:'2017' },
+
+  { kind:'control', y0:2022, y1:2024, display:'2022 \u2014 2024',
+    role:'My first public sector project',
+    sub:'Bundeswehr \u00b7 BW/4HANA \u00b7 Planning',
+    doing:'BW/4HANA and OData behind the dashboards, planning applications on top.',
+    acts:['BW/4HANA build', 'OData for the front ends', 'Dashboards', 'Planning applications'],
+    learns:[['Lumira', false], ['SDI', false]],
+    aside:null, stampTop:'BUNDESWEHR', stampYear:'2022' },
+
+  { kind:'control', y0:2024, y1:2026, display:'2024 \u2014 today', lane:0,
+    role:'Keeping a live system moving',
+    sub:'Mankiewicz \u00b7 BW on HANA \u00b7 SAC',
+    doing:'BW on HANA, SAC dashboards, COPA, and a steady queue of changes.',
+    acts:['BW on HANA', 'SAC dashboards', 'COPA', 'Change requests, week by week'],
+    learns:[['Snowflake', true], ['Databricks', true], ['Python', true]],
+    aside:'Snowflake and Python were never on the statement of work.',
+    stampTop:'MANKIEWICZ', stampYear:'2024' },
+
+  { kind:'control', y0:2025, y1:2026, display:'2025 \u2014 today', lane:1,
+    role:'Datasphere, and the new stack',
+    sub:'Basler \u00b7 Datasphere \u00b7 CDS',
+    doing:'Datasphere and CDS views, on the newest part of the stack.',
+    acts:['Datasphere', 'CDS views', 'Modelling on the newer stack'],
+    learns:[['BDC', true], ['MCP servers', true], ['AI tools', true]],
+    aside:'The MCP servers I wrote on evenings.',
+    stampTop:'BASLER', stampYear:'2025' }
+];
+
+var FLIGHTS = [
+  { year:2010, code:'IN \u2192 DE', line:'First time I moved for a project.', rise:118 },
+  { year:2012, code:'DE \u2192 SG', line:'Singapore next. Same work, different heat.', rise:162 },
+  { year:2013, code:'SG \u2192 IN', line:'Back to India for a quieter year.', rise:206 },
+  { year:2016, code:'IN \u2192 DE', line:'Back to Germany. This time it stuck.', rise:150 }
+];
+
+var CLOSING = {
+  place: 'Bremen',
+  line:  'Bremen. Two roads open, both still running.',
+  note:  'Six of the skills in the bag, nobody asked me to learn. The line just runs off the page \u2014 that is on purpose.'
+};
+
+var KIT = { header:'In the bag', foot:'blue came with the job. pencil did not.' };
+
+var KM_PER_YEAR = 100, KM_ZERO = 2006;
+
+/* ============================================================
+   2. SMALL DRAWING HELPERS
+   ============================================================ */
+
+var SVGNS = 'http://www.w3.org/2000/svg';
+var r1 = function (n) { return Math.round(n * 10) / 10; };
+var clamp = function (v, a, b) { return v < a ? a : v > b ? b : v; };
+
+/* deterministic value noise - same wobble every load, no Math.random */
+function mkNoise(seed) {
+  var r = new Float64Array(512), s = seed >>> 0, i;
+  for (i = 0; i < 512; i++) { s = (Math.imul(s, 1664525) + 1013904223) >>> 0; r[i] = s / 4294967296 * 2 - 1; }
+  return function (t) {
+    var k = Math.floor(t), f = t - k;
+    var a = r[((k % 512) + 512) % 512], b = r[(((k + 1) % 512) + 512) % 512];
+    return a + (b - a) * (f * f * (3 - 2 * f));
+  };
+}
+var N_DRIFT = mkNoise(20060417), N_SLOW = mkNoise(77112), N_FAST = mkNoise(4242);
+
+function el(tag, attrs, parent) {
+  var e = document.createElementNS(SVGNS, tag), k;
+  for (k in attrs) if (attrs[k] !== null && attrs[k] !== undefined) e.setAttribute(k, attrs[k]);
+  if (parent) parent.appendChild(e);
+  return e;
+}
+
+function polyPath(pts) {
+  if (!pts.length) return '';
+  var d = 'M' + r1(pts[0].x) + ' ' + r1(pts[0].y), i;
+  for (i = 1; i < pts.length; i++) d += 'L' + r1(pts[i].x) + ' ' + r1(pts[i].y);
+  return d;
+}
+
+/* dashes as real geometry, so a mask can reveal them one at a time */
+function dashPath(pts, dash, gap) {
+  var d = '', on = true, need = dash, started = false, i;
+  for (i = 1; i < pts.length; i++) {
+    var ax = pts[i - 1].x, ay = pts[i - 1].y;
+    var bx = pts[i].x, by = pts[i].y;
+    var rem = Math.hypot(bx - ax, by - ay);
+    while (rem > 1e-6) {
+      var take = Math.min(rem, need);
+      var t = take / rem;
+      var nx = ax + (bx - ax) * t, ny = ay + (by - ay) * t;
+      if (on) {
+        if (!started) { d += 'M' + r1(ax) + ' ' + r1(ay); started = true; }
+        d += 'L' + r1(nx) + ' ' + r1(ny);
+      }
+      ax = nx; ay = ny; rem -= take; need -= take;
+      if (need <= 1e-6) { on = !on; need = on ? dash : gap; if (!on) started = false; }
+    }
   }
-  document.addEventListener('keydown', function(e){
-    if(e.metaKey || e.ctrlKey || e.altKey) return;
-    var t = e.target.tagName;
-    if(t === 'INPUT' || t === 'TEXTAREA') return;
-    var step = 0;
-    if(e.key === 'ArrowDown' || e.key === 'PageDown' || e.key === ' ') step = 1;
-    else if(e.key === 'ArrowUp' || e.key === 'PageUp') step = -1;
-    else return;
-    e.preventDefault();
-    var next = Math.min(beats.length - 1, Math.max(0, current() + step));
-    beats[next].scrollIntoView({ behavior: 'smooth', block: 'start' });
+  return d;
+}
+
+var cubicAt = function (p, t) {
+  var m = 1 - t;
+  return { x: m*m*m*p[0].x + 3*m*m*t*p[1].x + 3*m*t*t*p[2].x + t*t*t*p[3].x,
+           y: m*m*m*p[0].y + 3*m*m*t*p[1].y + 3*m*t*t*p[2].y + t*t*t*p[3].y };
+};
+var cubicTan = function (p, t) {
+  var m = 1 - t;
+  return { x: 3*m*m*(p[1].x-p[0].x) + 6*m*t*(p[2].x-p[1].x) + 3*t*t*(p[3].x-p[2].x),
+           y: 3*m*m*(p[1].y-p[0].y) + 6*m*t*(p[2].y-p[1].y) + 3*t*t*(p[3].y-p[2].y) };
+};
+
+/* turn-by-turn pictograms, cycled deterministically down each slip */
+var PICTO = [
+  'M13 22V8M13 8l-5 5M13 8l5 5',
+  'M8 22v-7a5 5 0 0 1 5-5h5M18 10l-4-4M18 10l-4 4',
+  'M18 22v-7a5 5 0 0 0-5-5H8M8 10l4-4M8 10l4 4',
+  'M13 22v-5M13 6.5a4 4 0 1 0 0 8 4 4 0 0 0 0-8zM17 10.5h4'
+];
+
+/* ============================================================
+   3. RENDER THE CONTENT
+   ============================================================ */
+
+var TILT = [-0.5, 0.6, -0.35, 0.45, -0.6, 0.3, -0.4];
+var strip = document.getElementById('strip');
+var page  = document.getElementById('page');
+var routeSvg = document.getElementById('route');
+var flightSvg = document.getElementById('flights');
+
+document.getElementById('cvRole').textContent  = COVER.role;
+document.getElementById('cvTitle').textContent = COVER.title;
+document.getElementById('cvSub').textContent   = COVER.sub;
+document.getElementById('cvHook').textContent  = COVER.hook;
+document.getElementById('cvNote').textContent  = COVER.note;
+document.getElementById('clPlace').textContent = CLOSING.place;
+document.getElementById('clLine').textContent  = CLOSING.line;
+document.getElementById('clNote').textContent  = CLOSING.note;
+document.getElementById('kitT').textContent    = KIT.header;
+document.getElementById('kitFoot').textContent = KIT.foot;
+
+var esc = function (s) {
+  return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+};
+
+var html = '', ci = 0, flightHost = {};
+CONTROLS.forEach(function (c, i) {
+  if (c.kind === 'gap') {
+    html += '<section class="gap inks" data-y0="' + c.y0 + '" data-y1="' + c.y1 + '">' +
+              '<p class="gap-year">' + esc(c.display) + '</p>' +
+              '<p class="gap-line">' + esc(c.line) + '</p>' +
+            '</section>';
+    return;
+  }
+  var tilt = TILT[ci % TILT.length];
+  var instr = c.acts.map(function (a, k) {
+    return '<div class="instr-row">' +
+             '<svg viewBox="0 0 26 26" aria-hidden="true"><path d="' + PICTO[k % PICTO.length] + '"/></svg>' +
+             '<span>' + esc(a) + '</span></div>';
+  }).join('');
+
+  var learns = c.learns.map(function (L) {
+    var own = L[1];
+    return '<div class="learn ' + (own ? 'learn-own' : 'learn-job') + '">' +
+             '<svg viewBox="0 0 15 15" aria-hidden="true"><path d="M2 8l4 4 7-9"/></svg>' +
+             '<span class="learn-t">' + esc(L[0]) + '</span></div>';
+  }).join('');
+
+  /* relocations that happened during this stage ride along in its margin */
+  var mine = FLIGHTS.filter(function (f) {
+    return !flightHost[f.year] && f.year >= c.y0 && f.year <= c.y1;
   });
+  mine.forEach(function (f) { flightHost[f.year] = true; });
+  var stubsHtml = mine.map(function (f) {
+    return '<div class="stub inks" data-fyear="' + f.year + '">' +
+             '<div class="stub-card"><span class="stub-perf"></span>' +
+               '<span class="stub-code">' + esc(f.code) + '</span>' +
+               '<span class="stub-yr">' + f.year + '</span></div>' +
+             '<p class="stub-line">' + esc(f.line) + '</p>' +
+           '</div>';
+  }).join('');
+
+  html += '<section class="control" data-ctl data-idx="' + ci + '"' +
+            ' data-y0="' + c.y0 + '" data-y1="' + c.y1 + '"' +
+            (c.lane !== undefined ? ' data-lane="' + c.lane + '"' : '') + '>' +
+            '<span class="anchor"></span>' +
+            '<div class="control-grid">' +
+              '<div class="slip inks" style="--tilt:' + tilt + 'deg">' +
+                '<span class="tape tape-a"></span><span class="tape tape-b"></span>' +
+                '<p class="slip-year">' + esc(c.display) + '</p>' +
+                '<h2 class="slip-role">' + esc(c.role) + '</h2>' +
+                '<p class="slip-sub">' + esc(c.sub) + '</p>' +
+                '<p class="slip-doing">' + esc(c.doing) + '</p>' +
+                '<div class="instr">' + instr + '</div>' +
+                (c.aside ? '<p class="slip-aside">' + esc(c.aside) + '</p>' : '') +
+                '<svg class="stamp" viewBox="0 0 132 132" aria-hidden="true">' +
+                  '<defs><path id="arc' + ci + '" d="M 22 68 A 44 44 0 0 1 110 68"/></defs>' +
+                  '<circle cx="66" cy="66" r="52" fill="none" stroke="var(--stamp)" stroke-width="2.2"/>' +
+                  '<circle cx="66" cy="66" r="43" fill="none" stroke="var(--stamp)" stroke-width="1.1"/>' +
+                  '<text fill="var(--stamp)"><textPath href="#arc' + ci + '" startOffset="50%" text-anchor="middle">' +
+                    esc(c.stampTop) + '</textPath></text>' +
+                  '<text x="66" y="60" text-anchor="middle" fill="var(--stamp)" font-size="19" font-weight="800">' +
+                    esc(c.stampYear) + '</text>' +
+                  '<path d="M42 68 H90" stroke="var(--stamp)" stroke-width="1.4"/>' +
+                  '<text x="66" y="84" text-anchor="middle" fill="var(--stamp)" font-size="8">CONTROL</text>' +
+                '</svg>' +
+              '</div>' +
+              '<div class="margin inks">' +
+                '<p class="margin-h">What I picked up here</p>' + learns + stubsHtml +
+              '</div>' +
+            '</div>' +
+          '</section>';
+  ci++;
+});
+strip.innerHTML = html;
+
+/* ---- kit card fills as each control inks in ---- */
+var kitList = document.getElementById('kitList');
+var kitN = document.getElementById('kitN');
+var odo = document.getElementById('odo');
+var kitCount = 0;
+
+function addToKit(c) {
+  c.learns.forEach(function (L) {
+    var li = document.createElement('li');
+    li.textContent = L[0];
+    if (L[1]) li.className = 'own';
+    kitList.appendChild(li);
+    requestAnimationFrame(function () { li.classList.add('in'); });
+    kitCount++;
+  });
+  [].forEach.call(kitList.children, function (n) { n.classList.remove('newest'); });
+  if (kitList.lastElementChild) kitList.lastElementChild.classList.add('newest');
+  kitN.textContent = kitCount;
+  while (kitList.scrollHeight > kitList.clientHeight + 4 && kitList.children.length > 3) {
+    kitList.removeChild(kitList.firstElementChild);
+  }
+}
+
+/* ============================================================
+   4. THE ROUTE ENGINE
+   ============================================================ */
+
+var RAIL_CX = 62, HALF = 11, STEP = 7;
+var reduceMQ = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+function railCx() {
+  var v = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--rail'));
+  return (isNaN(v) ? 132 : v) * 0.47;
+}
+var CX = RAIL_CX;
+
+function roadXAt(y) { return CX + N_DRIFT(y / 430) * 6; }
+
+function kerbPts(y0, y1, off, na, nb) {
+  var out = [], y;
+  for (y = y0; y < y1; y += STEP) {
+    out.push({ x: roadXAt(y) + off + na(y / 95) * 1.2 + nb(y / 26) * 0.45, y: y });
+  }
+  out.push({ x: roadXAt(y1) + off + na(y1 / 95) * 1.2 + nb(y1 / 26) * 0.45, y: y1 });
+  return out;
+}
+function laneXAt(y, fy, target) {
+  var u = clamp((y - fy) / 150, 0, 1), s = u * u * (3 - 2 * u);
+  return roadXAt(y) + (target - 0) * s;
+}
+function lanePts(y0, y1, fy, target, off, na, nb) {
+  var out = [], y;
+  for (y = y0; y < y1; y += STEP) {
+    out.push({ x: laneXAt(y, fy, target) + off + na(y / 95) * 1.2 + nb(y / 26) * 0.45, y: y });
+  }
+  out.push({ x: laneXAt(y1, fy, target) + off + na(y1 / 95) * 1.2 + nb(y1 / 26) * 0.45, y: y1 });
+  return out;
+}
+
+var pageTop = 0, pageH = 1, pageW = 1, YEARMAP = [], FRONT = [], building = false;
+
+function measure() {
+  var pr = page.getBoundingClientRect();
+  pageTop = pr.top + window.scrollY;
+  pageW = pr.width; pageH = pr.height;
+
+  var blocks = [].map.call(strip.querySelectorAll('[data-y0]'), function (e) {
+    var r = e.getBoundingClientRect();
+    return { el: e, top: r.top + window.scrollY - pageTop, h: r.height,
+             y0: +e.dataset.y0, y1: +e.dataset.y1, gap: e.classList.contains('gap') };
+  });
+  var ctls = [].map.call(strip.querySelectorAll('[data-ctl]'), function (e) {
+    var a = e.querySelector('.anchor').getBoundingClientRect();
+    var g = e.querySelector('.control-grid').getBoundingClientRect();
+    var m = e.querySelector('.margin').getBoundingClientRect();
+    return { el: e, idx: +e.dataset.idx,
+             lane: e.dataset.lane === undefined ? null : +e.dataset.lane,
+             y: a.top + window.scrollY - pageTop,
+             colX: g.left - pr.left,
+             gutX: m.left - pr.left };
+  });
+  return { blocks: blocks, ctls: ctls };
+}
+
+function buildYearMap(blocks) {
+  YEARMAP = [];
+  blocks.forEach(function (b) {
+    YEARMAP.push({ year: b.y0, y: b.top }, { year: b.y1, y: b.top + b.h });
+  });
+  YEARMAP.sort(function (a, b) { return a.y - b.y; });
+}
+function yearToY(yr) {
+  if (!YEARMAP.length) return 0;
+  var i;
+  for (i = 0; i < YEARMAP.length - 1; i++) {
+    var a = YEARMAP[i], b = YEARMAP[i + 1];
+    if (yr >= a.year && yr <= b.year && b.year > a.year)
+      return a.y + (b.y - a.y) * (yr - a.year) / (b.year - a.year);
+  }
+  return YEARMAP[YEARMAP.length - 1].y;
+}
+function yToYear(y) {
+  if (!YEARMAP.length) return KM_ZERO;
+  if (y <= YEARMAP[0].y) return YEARMAP[0].year;
+  var i;
+  for (i = 0; i < YEARMAP.length - 1; i++) {
+    var a = YEARMAP[i], b = YEARMAP[i + 1];
+    if (y >= a.y && y <= b.y && b.y > a.y)
+      return a.year + (b.year - a.year) * (y - a.y) / (b.y - a.y);
+  }
+  return YEARMAP[YEARMAP.length - 1].year;
+}
+
+function build() {
+  building = true;
+  CX = railCx();
+  var m = measure();
+  buildYearMap(m.blocks);
+
+  while (routeSvg.firstChild) routeSvg.removeChild(routeSvg.firstChild);
+  while (flightSvg.firstChild) flightSvg.removeChild(flightSvg.firstChild);
+
+  routeSvg.setAttribute('width', pageW);
+  routeSvg.setAttribute('height', pageH);
+  routeSvg.setAttribute('viewBox', '0 0 ' + pageW + ' ' + pageH);
+  flightSvg.setAttribute('width', pageW);
+  flightSvg.setAttribute('height', pageH);
+  flightSvg.setAttribute('viewBox', '0 0 ' + pageW + ' ' + pageH);
+
+  /* ---- reveal mask: a band that follows the reading eye down the page ---- */
+  var defs = el('defs', {}, routeSvg);
+  var grad = el('linearGradient', { id: 'fadeG', x1: '0', y1: '0', x2: '0', y2: '1' }, defs);
+  el('stop', { offset: '0', 'stop-color': '#fff' }, grad);
+  el('stop', { offset: '1', 'stop-color': '#000' }, grad);
+  var mask = el('mask', { id: 'revealM', maskUnits: 'userSpaceOnUse',
+                          x: 0, y: 0, width: pageW, height: pageH }, defs);
+  var mSolid = el('rect', { x: 0, y: 0, width: pageW, height: 0, fill: '#fff' }, mask);
+  var mFade  = el('rect', { x: 0, y: 0, width: pageW, height: 54, fill: 'url(#fadeG)' }, mask);
+  var G = el('g', { mask: 'url(#revealM)' }, routeSvg);
+
+  var startY = m.ctls.length ? m.ctls[0].y - 66 : 0;
+  var endY = pageH - 24;
+  var laned = m.ctls.filter(function (c) { return c.lane !== null; });
+  var forkY = laned.length ? laned[0].y - 52 : endY;
+
+  var gaps = m.blocks.filter(function (b) { return b.gap; })
+                     .map(function (b) { return { a: b.top + 26, b: b.top + b.h - 26 }; });
+
+  /* ---- trunk, split around the blank stretches ---- */
+  var cuts = [startY];
+  gaps.forEach(function (g) {
+    if (g.a > startY && g.b < forkY) cuts.push(g.a, g.b);
+  });
+  cuts.push(forkY);
+  cuts.sort(function (a, b) { return a - b; });
+
+  for (var s = 0; s < cuts.length - 1; s++) {
+    var a = cuts[s], b = cuts[s + 1];
+    if (b - a < 2) continue;
+    var isGap = gaps.some(function (g) { return a >= g.a - 1 && b <= g.b + 1; });
+    if (isGap) {
+      el('path', { class: 'gapkerb', d: dashPath(kerbPts(a, b, -HALF, N_SLOW, N_FAST), 2, 9) }, G);
+      el('path', { class: 'gapkerb', d: dashPath(kerbPts(a, b,  HALF, N_SLOW, N_FAST), 2, 9) }, G);
+    } else {
+      el('path', { class: 'kerb', d: polyPath(kerbPts(a, b, -HALF, N_SLOW, N_FAST)) }, G);
+      el('path', { class: 'kerb', d: polyPath(kerbPts(a, b,  HALF, N_SLOW, N_FAST)) }, G);
+      el('path', { class: 'kerb kerb-2', d: polyPath(kerbPts(a, b, -HALF, N_FAST, N_SLOW)) }, G);
+      el('path', { class: 'kerb kerb-2', d: polyPath(kerbPts(a, b,  HALF, N_FAST, N_SLOW)) }, G);
+      el('path', { class: 'centre', d: dashPath(kerbPts(a, b, 0, N_SLOW, N_FAST), 13, 16) }, G);
+    }
+  }
+
+  /* ---- the fork: two roads, both still running ---- */
+  var LANE = [-27, 27];
+  if (laned.length) {
+    LANE.forEach(function (t, li) {
+      el('path', { class: 'kerb', d: polyPath(lanePts(forkY, endY, forkY, t, -HALF, N_SLOW, N_FAST)) }, G);
+      el('path', { class: 'kerb', d: polyPath(lanePts(forkY, endY, forkY, t,  HALF, N_SLOW, N_FAST)) }, G);
+      el('path', { class: 'centre', d: dashPath(lanePts(forkY, endY, forkY, t, 0, N_SLOW, N_FAST), 13, 16) }, G);
+    });
+    var by = forkY - 16;
+    el('path', { class: 'brace',
+      d: 'M' + r1(roadXAt(by) - 34) + ' ' + r1(by) + ' q34 -13 34 -13 q0 13 34 13' }, G);
+    el('text', { class: 'brace-t', x: r1(roadXAt(by) + 44), y: r1(by - 8) }, G)
+      .appendChild(document.createTextNode('both, at once'));
+  }
+
+  /* ---- control markers, distance figures and leader lines ---- */
+  FRONT = [];
+  m.ctls.forEach(function (c, i) {
+    var cx = c.lane !== null ? laneXAt(c.y, forkY, LANE[c.lane]) : roadXAt(c.y);
+    var g = el('g', {}, G);
+    el('path', { class: 'leader', d: 'M' + r1(cx + 14) + ' ' + r1(c.y) +
+                 ' Q' + r1((c.colX + cx) / 2) + ' ' + r1(c.y - 7) + ' ' + r1(c.colX - 10) + ' ' + r1(c.y) }, g);
+    el('circle', { class: 'ctl-ring', cx: r1(cx), cy: r1(c.y), r: 13 }, g);
+    el('circle', { class: 'ctl-dot', cx: r1(cx), cy: r1(c.y), r: 4.4 }, g);
+    var yr = +c.el.dataset.y0;
+    var km = (yr - KM_ZERO) * KM_PER_YEAR;
+    var tx = el('text', { class: 'km', x: r1(cx), y: r1(c.y - 26), 'text-anchor': 'middle' }, g);
+    tx.appendChild(document.createTextNode('KM ' + km.toLocaleString('en-GB')));
+    if (i > 0) {
+      var prev = (+m.ctls[i - 1].el.dataset.y0 - KM_ZERO) * KM_PER_YEAR;
+      var td = el('text', { class: 'km-d', x: r1(cx), y: r1(c.y + 33), 'text-anchor': 'middle' }, g);
+      td.appendChild(document.createTextNode('+' + (km - prev) + ' km'));
+    }
+  });
+
+  /* ---- the four flights ----
+     Each arc is drawn from the road to wherever layout put its stub, so the
+     drawing follows the text rather than the text dodging the drawing. */
+  var fdefs = el('defs', {}, flightSvg);
+  var pr2 = page.getBoundingClientRect();
+  FRONT = [];
+  FLIGHTS.forEach(function (f, i) {
+    var stub = page.querySelector('.stub[data-fyear="' + f.year + '"]');
+    if (!stub) return;
+    var sr = stub.getBoundingClientRect();
+    var card = stub.querySelector('.stub-card').getBoundingClientRect();
+
+    var dy = yearToY(f.year);
+    var dx = roadXAt(dy) + 14;
+    var ax = sr.left - pr2.left - 12;                  /* land just left of the stub */
+    var ay = card.top - pr2.top + card.height / 2;
+    if (ax - dx < 120) return;                          /* no room: skip rather than scribble */
+
+    var run = ax - dx;
+    var top = Math.min(dy, ay) - f.rise;                /* bow above both ends */
+    var P = [
+      { x: dx,               y: dy },
+      { x: dx + run * 0.24,  y: top + f.rise * 0.10 },
+      { x: dx + run * 0.70,  y: top + f.rise * 0.34 },
+      { x: ax,               y: ay }
+    ];
+    var pts = [], t;
+    for (t = 0; t <= 96; t++) pts.push(cubicAt(P, t / 96));
+
+    var mk = el('mask', { id: 'flM' + i, maskUnits: 'userSpaceOnUse',
+                          x: 0, y: 0, width: pageW, height: pageH }, fdefs);
+    var mr = el('rect', { x: r1(dx - 8), y: 0, width: 0, height: pageH, fill: '#fff' }, mk);
+    var fg = el('g', { mask: 'url(#flM' + i + ')' }, flightSvg);
+    el('path', { class: 'fl-trail', d: polyPath(pts) }, fg);
+
+    var tip = cubicAt(P, 0.55), tan = cubicTan(P, 0.55);
+    var ang = Math.atan2(tan.y, tan.x) * 180 / Math.PI;
+    el('path', { class: 'plane', d: 'M11 0 L-6 5 L-3 0.8 L-9 1.4 L-11 -0.4 L-3 -0.9 L-6 -5 Z',
+                 transform: 'translate(' + r1(tip.x) + ' ' + r1(tip.y) + ') rotate(' + r1(ang) + ')' }, fg);
+
+    FRONT.push({ mr: mr, dy: Math.min(dy, ay), ext: run + 30, rise: f.rise });
+  });
+
+  MASK = { solid: mSolid, fade: mFade };
+  lastFront = -1;
+  paint();
+  requestAnimationFrame(function () { building = false; });
+}
+
+/* ---- scroll: one write per frame, no easing, never fights the wheel ---- */
+var MASK = null, lastFront = -1, queued = false;
+
+function paint() {
+  queued = false;
+  if (!MASK) return;
+  var eye = window.scrollY + window.innerHeight * 0.62;
+  var front = clamp(eye - pageTop, 0, pageH);
+  if (Math.abs(front - lastFront) < 0.5) return;
+  lastFront = front;
+
+  MASK.solid.setAttribute('height', r1(front));
+  MASK.fade.setAttribute('y', r1(front));
+
+  FRONT.forEach(function (s) {
+    var p = clamp((front - s.dy) / (s.rise * 1.5), 0, 1);
+    s.mr.setAttribute('width', r1(p * (s.ext + 40)));
+  });
+
+  var yr = yToYear(front);
+  odo.textContent = 'KM ' + Math.round((yr - KM_ZERO) * KM_PER_YEAR).toLocaleString('en-GB');
+}
+function onScroll() { if (!queued) { queued = true; requestAnimationFrame(paint); } }
+
+function fullyDrawn() {
+  if (!MASK) return;
+  MASK.solid.setAttribute('height', pageH);
+  MASK.fade.setAttribute('y', pageH);
+  FRONT.forEach(function (s) { s.mr.setAttribute('width', s.ext + 40); });
+  odo.textContent = 'KM 2,000';
+}
+
+function attachScroll() {
+  window.removeEventListener('scroll', onScroll);
+  if (reduceMQ.matches) { fullyDrawn(); return; }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  lastFront = -1; paint();
+}
+
+/* ---- entries ink in once, and never un-ink ---- */
+var seen = new WeakSet();
+var io = new IntersectionObserver(function (entries) {
+  entries.forEach(function (e) {
+    if (!e.isIntersecting) return;
+    e.target.classList.add('is-inked');
+    io.unobserve(e.target);
+    var sec = e.target.closest('[data-ctl]');
+    if (sec && e.target.classList.contains('slip') && !seen.has(sec)) {
+      seen.add(sec);
+      var c = CONTROLS.filter(function (x) { return x.kind === 'control'; })[+sec.dataset.idx];
+      if (c) addToKit(c);
+    }
+  });
+}, { rootMargin: '0px 0px -32% 0px', threshold: 0.02 });
+
+/* Anything at or above the fold is inked immediately, with no animation.
+   IntersectionObserver only fires on elements that actually intersect, so a
+   reload at a scrolled position - or a jump to an anchor - would otherwise
+   leave everything above the viewport permanently invisible. That is a real
+   hazard mid-presentation, not a theoretical one. */
+function observeAll() {
+  document.querySelectorAll('.inks:not(.is-inked)').forEach(function (n) {
+    if (n.getBoundingClientRect().top < window.innerHeight) {
+      n.classList.add('is-inked');
+      var sec = n.closest('[data-ctl]');
+      if (sec && n.classList.contains('slip') && !seen.has(sec)) {
+        seen.add(sec);
+        var c = CONTROLS.filter(function (x) { return x.kind === 'control'; })[+sec.dataset.idx];
+        if (c) addToKit(c);
+      }
+    } else {
+      io.observe(n);
+    }
+  });
+}
+
+/* ---- rebuild triggers ---- */
+var bt = 0;
+function schedule() { clearTimeout(bt); bt = setTimeout(function () { build(); observeAll(); }, 70); }
+
+var ro = new ResizeObserver(function () { if (!building) schedule(); });
+strip.querySelectorAll('[data-y0]').forEach(function (n) { ro.observe(n); });
+ro.observe(page);
+window.addEventListener('resize', schedule);
+reduceMQ.addEventListener('change', attachScroll);
+
+/* ---- theme ---- */
+var lamp = document.getElementById('lamp');
+try {
+  var saved = localStorage.getItem('brevet-theme');
+  if (saved) document.documentElement.setAttribute('data-theme', saved);
+} catch (e) {}
+lamp.addEventListener('click', function () {
+  var cur = document.documentElement.getAttribute('data-theme');
+  if (!cur) {
+    cur = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  }
+  var next = cur === 'dark' ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', next);
+  try { localStorage.setItem('brevet-theme', next); } catch (e) {}
+});
+
+/* ---- go ---- */
+function start() { build(); observeAll(); attachScroll(); }
+if (document.fonts && document.fonts.ready) {
+  document.fonts.ready.then(start);
+  setTimeout(function () { if (!MASK) start(); }, 1800);
+} else {
+  window.addEventListener('load', start);
+}
 })();
 </script>
