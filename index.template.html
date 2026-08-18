@@ -1,4 +1,4 @@
-<title>The Brevet Book</title>
+<title>Pavan Mankineni Portfolio</title>
 <style>
 /* ============================================================
    THE BREVET BOOK - Pavan Mankineni
@@ -83,9 +83,10 @@ body{
 .firm{flex:none;display:grid;place-items:center;min-width:132px;padding:14px 18px;
   background:var(--paper-slip);border:1px solid var(--line);box-shadow:var(--slip-shadow);
   transform:rotate(1.2deg)}
-/* a real logo gets a white ground (the file has no alpha) and no tilt */
-.firm.has-logo{background:#fff;padding:11px 15px;transform:none}
-.firm img{display:block;width:auto;height:auto;max-width:172px;max-height:66px;object-fit:contain}
+/* the logo file carries its own alpha, so it sits straight on the paper -
+   no card, no border, no tilt */
+.firm.has-logo{background:transparent;border:0;box-shadow:none;padding:0;transform:none}
+.firm img{display:block;width:auto;height:auto;max-width:186px;max-height:74px;object-fit:contain}
 .firm-t{font-size:15px;font-weight:800;letter-spacing:-.01em;color:var(--ink);line-height:1.15;text-align:center}
 .firm-s{font-size:9.5px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;
   color:var(--pencil-light);margin-top:4px;text-align:center}
@@ -108,6 +109,16 @@ body{
   text-transform:uppercase;color:var(--blue);
 }
 
+
+/* The cover's claim. Everything above it is who and how much; this is the
+   line that says what it all amounts to. */
+.cover-thesis{
+  margin-top:clamp(18px,2.4vh,26px);max-width:34ch;
+  font-family:var(--hand);font-weight:700;color:var(--blue);
+  font-size:clamp(1.5rem,2.6vw,2.2rem);line-height:1.15;
+  transform:rotate(-1deg);transform-origin:left center;
+}
+
 /* ---------- the page ---------- */
 .page{position:relative;padding-bottom:40px}
 svg.flights{position:absolute;top:0;left:0;z-index:1;pointer-events:none}
@@ -119,15 +130,6 @@ svg.route{position:absolute;top:0;left:0;z-index:2;pointer-events:none}
 .route .ctl-ring{fill:var(--paper);stroke:var(--blue);stroke-width:2.4}
 .route .ctl-dot{fill:var(--blue)}
 .route .leader{fill:none;stroke:var(--blue);stroke-width:1.3;opacity:.38;stroke-dasharray:3 4}
-/* a paper-coloured halo knocked out of the road behind the figure,
-   the way a distance label works on a real map */
-.route .km,.route .km-d{
-  stroke:var(--paper);stroke-width:4.5;paint-order:stroke fill;
-  stroke-linejoin:round;font-variant-numeric:tabular-nums;text-anchor:middle;
-}
-.route .km{font-family:var(--sans);font-size:13px;font-weight:700;letter-spacing:.06em;
-  fill:var(--pencil-light)}
-.route .km-d{font-family:var(--sans);font-size:11px;font-weight:500;fill:var(--pencil-light)}
 .route .brace{fill:none;stroke:var(--blue);stroke-width:1.5;opacity:.45}
 .route .brace-t{font-family:var(--hand);font-size:23px;font-weight:600;fill:var(--blue);
   opacity:.95;text-anchor:middle}
@@ -288,9 +290,6 @@ svg.route{position:absolute;top:0;left:0;z-index:2;pointer-events:none}
 .kit-list li.own{color:var(--pencil)}
 .kit-list li.in{opacity:.82;clip-path:inset(0);transition:clip-path .38s ease,opacity .38s ease}
 .kit-list li.in.newest{opacity:1}
-.kit-odo{margin-top:10px;padding-top:9px;border-top:1px dotted var(--line);
-  font-size:12px;font-weight:700;letter-spacing:.06em;color:var(--pencil-light);
-  font-variant-numeric:tabular-nums;display:flex;justify-content:space-between}
 .kit-foot{font-family:var(--hand);font-size:16px;color:var(--pencil);margin-top:8px;line-height:1.15}
 
 /* ---------- ink-in ---------- */
@@ -360,6 +359,7 @@ svg.route{position:absolute;top:0;left:0;z-index:2;pointer-events:none}
       </div>
       <div class="firm" id="firmBox"></div>
     </div>
+    <p class="cover-thesis" id="cvThesis"></p>
     <div class="tiles" id="tiles"></div>
   </div>
 </header>
@@ -393,7 +393,6 @@ svg.route{position:absolute;top:0;left:0;z-index:2;pointer-events:none}
     <span class="kit-n" id="kitN">0</span>
   </div>
   <ul class="kit-list" id="kitList"></ul>
-  <div class="kit-odo"><span>Distance</span><span id="odo">KM 0</span></div>
   <p class="kit-foot" id="kitFoot"></p>
 </aside>
 
@@ -418,6 +417,7 @@ svg.route{position:absolute;top:0;left:0;z-index:2;pointer-events:none}
 var COVER = {
   role:  'SAP BI / HANA Solution Architect',
   title: 'Pavan Mankineni',
+  thesis: 'Seventeen things in the bag. Six of them, nobody asked me to learn.',
   firm:  'ARSA Infotech',
   firmRole: 'Solutions Architect',
   firmLogo: '{{IMG_ARSA}}'   /* inlined by build.mjs; null falls back to a text badge */
@@ -511,12 +511,10 @@ var FLIGHTS = [
 var CLOSING = {
   place: 'Bremen',
   line:  'Bremen. Two roads open, both still running.',
-  note:  'Six of the skills in the bag, nobody asked me to learn. The road just runs off the page \u2014 that is on purpose.'
+  note:  'The road just runs off the page \u2014 that is on purpose.'
 };
 
 var KIT = { header:'In the bag', foot:'blue came with the job. pencil did not.' };
-
-var KM_PER_YEAR = 100, KM_ZERO = 2006;
 
 /* ============================================================
    2. DRAWING HELPERS
@@ -636,6 +634,7 @@ var flightSvg = document.getElementById('flights');
 
 document.getElementById('cvRole').textContent  = COVER.role;
 document.getElementById('cvTitle').textContent = COVER.title;
+document.getElementById('cvThesis').textContent = COVER.thesis;
 var firmBox = document.getElementById('firmBox');
 if (COVER.firmLogo) firmBox.classList.add('has-logo');
 firmBox.innerHTML = COVER.firmLogo
@@ -729,7 +728,6 @@ strip.innerHTML = html;
 /* ---- kit card fills as each stop inks in ---- */
 var kitList = document.getElementById('kitList');
 var kitN = document.getElementById('kitN');
-var odo = document.getElementById('odo');
 var kitCount = 0;
 
 function addToKit(c) {
@@ -839,16 +837,6 @@ function yearToY(yr) {
   }
   return YEARMAP[YEARMAP.length - 1].y;
 }
-function yToYear(y) {
-  if (!YEARMAP.length) return KM_ZERO;
-  if (y <= YEARMAP[0].y) return YEARMAP[0].year;
-  for (var i = 0; i < YEARMAP.length - 1; i++) {
-    var a = YEARMAP[i], b = YEARMAP[i + 1];
-    if (y >= a.y && y <= b.y && b.y > a.y)
-      return a.year + (b.year - a.year) * (y - a.y) / (b.y - a.y);
-  }
-  return YEARMAP[YEARMAP.length - 1].year;
-}
 
 function build() {
   building = true;
@@ -914,7 +902,7 @@ function build() {
   }
 
   /* ---- control markers, distance figures, leader lines ---- */
-  m.ctls.forEach(function (c, i) {
+  m.ctls.forEach(function (c) {
     var cx = c.lane !== null ? laneXAt(c.y, forkY, LANEOFF[c.lane]) : roadXAt(c.y);
     var g = el('g', {}, G);
     var edge = cx + c.side * 14;
@@ -924,16 +912,6 @@ function build() {
     el('circle', { class: 'ctl-ring', cx: r1(cx), cy: r1(c.y), r: 13 }, g);
     el('circle', { class: 'ctl-dot', cx: r1(cx), cy: r1(c.y), r: 4.4 }, g);
 
-    var km = (+c.el.dataset.y0 - KM_ZERO) * KM_PER_YEAR;
-    el('text', { class: 'km', x: r1(cx), y: r1(c.y - 26) }, g)
-      .appendChild(document.createTextNode('KM ' + km.toLocaleString('en-GB')));
-    if (i > 0) {
-      var prev = (+m.ctls[i - 1].el.dataset.y0 - KM_ZERO) * KM_PER_YEAR;
-      if (km > prev) {
-        el('text', { class: 'km-d', x: r1(cx), y: r1(c.y + 33) }, g)
-          .appendChild(document.createTextNode('+' + (km - prev) + ' km'));
-      }
-    }
   });
 
   /* ---- the four flights: drawn TO wherever layout put each stub ---- */
@@ -1011,7 +989,6 @@ function paint() {
     s.mr.setAttribute('x', r1(s.dir < 0 ? s.dx - w : s.dx));
   });
 
-  odo.textContent = 'KM ' + Math.round((yToYear(front) - KM_ZERO) * KM_PER_YEAR).toLocaleString('en-GB');
 }
 function onScroll() { if (!queued) { queued = true; requestAnimationFrame(paint); } }
 
@@ -1023,7 +1000,6 @@ function fullyDrawn() {
     s.mr.setAttribute('width', s.span);
     s.mr.setAttribute('x', r1(s.dir < 0 ? s.dx - s.span : s.dx));
   });
-  odo.textContent = 'KM 2,000';
 }
 function attachScroll() {
   window.removeEventListener('scroll', onScroll);
