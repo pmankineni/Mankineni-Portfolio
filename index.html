@@ -461,8 +461,19 @@ var CONTROLS = [
     role:'Basler',
     sub:'Datasphere \u00b7 CDS',
     acts:['Datasphere', 'CDS views', 'Modelling on the newest part of the stack'],
-    learns:[['BDC', true], ['MCP servers', true], ['AI tools', true]],
-    aside:null }
+    learns:[['BDC', true]],
+    aside:null },
+
+  /* lanePos:0 puts this road down the middle of the fork. Without it the
+     index-parity side would hand it +1, the same lateral target as
+     Mankiewicz, and the two roads would draw on top of each other. */
+  { y0:2025, y1:2026, display:'2025 \u2014 today', lane:2, lanePos:0,
+    role:'ARSA Infotech',
+    sub:'ARSA Intelligence \u00b7 MCP servers \u00b7 AI agents',
+    acts:['MCP servers over the SAP estate', 'Agents for lineage and migration planning',
+          'Running on BTP', 'Internal, alongside the client work'],
+    learns:[['MCP servers', true], ['AI tools', true]],
+    aside:'Nobody scoped this one. That is rather the point.' }
 ];
 
 var FLIGHTS = [
@@ -648,7 +659,8 @@ CONTROLS.forEach(function (c, i) {
 
   html += '<section class="control side-' + side + '" data-ctl data-idx="' + i + '"' +
             ' data-y0="' + c.y0 + '" data-y1="' + c.y1 + '"' +
-            (c.lane !== undefined ? ' data-lane="' + c.lane + '"' : '') + '>' +
+            (c.lane !== undefined ? ' data-lane="' + c.lane + '"' : '') +
+            (c.lanePos !== undefined ? ' data-lane-pos="' + c.lanePos + '"' : '') + '>' +
             '<span class="anchor"></span>' +
             '<div class="half">' +
               '<div class="slip inks" style="--tilt:' + TILT[i % TILT.length] + 'deg">' +
@@ -755,6 +767,7 @@ function measure() {
     var left = e.classList.contains('side-l');
     return { el: e, idx: +e.dataset.idx,
              lane: e.dataset.lane === undefined ? null : +e.dataset.lane,
+             lanePos: e.dataset.lanePos === undefined ? null : +e.dataset.lanePos,
              side: left ? -1 : 1,
              y: a.top + window.scrollY - pageTop,
              ax: a.left - pr.left,
@@ -830,7 +843,10 @@ function build() {
 
   /* ---- the fork: two roads, one to each of the current stops ---- */
   var LANEOFF = {};
-  laned.forEach(function (c) { LANEOFF[c.lane] = c.side * AMP; });
+  laned.forEach(function (c) {
+    var pos = c.lanePos !== null ? c.lanePos : c.side;   /* side is only ever -1/+1 */
+    LANEOFF[c.lane] = pos * AMP;
+  });
   if (laned.length) {
     laned.forEach(function (c) {
       var t = LANEOFF[c.lane];
@@ -840,7 +856,7 @@ function build() {
     });
     var bx = roadXAt(forkY - 14);
     el('text', { class: 'brace-t', x: r1(bx), y: r1(forkY - 22) }, G)
-      .appendChild(document.createTextNode('both, at once'));
+      .appendChild(document.createTextNode('three, at once'));
   }
 
   /* ---- control markers, distance figures, leader lines ---- */
