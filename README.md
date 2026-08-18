@@ -43,7 +43,8 @@ Everything is data. In `index.template.html`, near the top of the `<script>`:
 
 - `CONTROLS` - the seven stops and two blank stretches, in order
 - `FLIGHTS`  - the four relocations
-- `COVER` / `CLOSING` / `KIT` - the framing copy
+- `TILES`  - the six header tiles
+- `COVER` / `CLOSING` / `KIT` - the framing copy, plus the ARSA logo slot (`firmLogo`)
 
 A learning is `['Name', selfTaught]`. `selfTaught: true` renders it in **pencil, boxed**, instead
 of blue - that is the "nobody asked me to learn this" device. Flip the boolean and the styling,
@@ -57,7 +58,7 @@ Edit the template, never `index.html` - the build overwrites it.
 
 ## Design
 
-Creamy squared paper (`#faf6ec`) with a rust margin rule, brand blue `#2c5bd6` for the road and
+Creamy squared paper (`#faf6ec`), brand blue `#2c5bd6` for the road and
 all handwriting, and a third ink - stamp red `#b4442f` - used for control stamps only. Caveat
 carries anything a person would actually scrawl in a margin; Inter carries everything factual.
 Single-theme by choice: the brief asked for creamy paper and blue ink, so the page keeps its own light world instead of inverting in a dark-mode viewer.
