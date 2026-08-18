@@ -63,17 +63,40 @@ body{
   -webkit-font-smoothing:antialiased;
   overflow-x:hidden;
 }
+/* overflow-x:hidden turns body into a scroll container, which silently kills
+   position:sticky on its children. clip does the same job without that, so the
+   identity bar can stick. hidden stays above as the fallback. */
+@supports (overflow-x:clip){ body{overflow-x:clip} }
 
 /* ---------- cover ---------- */
 .cover{
   position:relative;background:var(--paper-aged);
   border-bottom:1px solid var(--line);
-  padding:clamp(30px,5vh,52px) clamp(22px,3vw,44px) clamp(28px,4.5vh,46px);
+  padding:0 clamp(22px,3vw,44px) clamp(28px,4.5vh,46px);
   overflow:hidden;
 }
 .cover-inner{width:100%;position:relative;z-index:2}
-.cover-top{display:grid;grid-template-columns:auto minmax(0,1fr) auto;
-  gap:clamp(18px,2.5vw,40px);align-items:center;text-align:left;width:100%}
+/* The identity bar rides along the whole scroll. It shrinks once you are
+   past the top so it costs as little vertical room as possible while still
+   carrying the photo, the name and the firm. */
+.topbar{
+  position:sticky;top:0;z-index:40;background:var(--paper-aged);
+  transition:box-shadow .18s ease;
+}
+.topbar-inner{
+  display:grid;grid-template-columns:auto minmax(0,1fr) auto;
+  gap:clamp(18px,2.5vw,40px);align-items:center;text-align:left;width:100%;
+  padding:clamp(22px,3.4vh,38px) clamp(22px,3vw,44px);
+  transition:padding .2s ease;
+}
+.topbar.is-stuck{box-shadow:0 1px 0 var(--line), 0 10px 22px -18px rgba(22,32,58,.55)}
+.topbar.is-stuck .topbar-inner{padding-top:9px;padding-bottom:9px}
+.topbar.is-stuck .portrait{width:54px;height:54px;border-width:2px}
+.topbar.is-stuck h1{font-size:clamp(1.25rem,2vw,1.65rem)}
+.topbar.is-stuck .cover-role{font-size:10px;margin-bottom:1px}
+.topbar.is-stuck .firm img{max-width:118px;max-height:42px}
+.portrait,.topbar h1,.firm img{transition:width .2s ease,height .2s ease,
+  font-size .2s ease,max-width .2s ease,max-height .2s ease}
 .portrait{width:128px;height:128px;border-radius:50%;object-fit:cover;
   border:3px solid var(--paper-slip);box-shadow:var(--slip-shadow)}
 .firm{flex:none;display:grid;place-items:center;min-width:132px;padding:14px 18px;
@@ -267,6 +290,7 @@ svg.route{position:absolute;top:0;left:0;z-index:2;pointer-events:none}
   transition:opacity .42s cubic-bezier(.2,.7,.2,1),transform .42s cubic-bezier(.2,.7,.2,1)}
 
 @media (prefers-reduced-motion:reduce){
+  .topbar,.topbar-inner,.portrait,.topbar h1,.firm img{transition:none}
   .inks,.inks.is-inked{opacity:1;transform:none;transition:none}
   .kit-list li{opacity:.55;clip-path:inset(0);transition:none}
   .kit-list li.newest{opacity:1}
@@ -284,17 +308,19 @@ svg.route{position:absolute;top:0;left:0;z-index:2;pointer-events:none}
   .half{max-width:660px}
   .kit{display:none}
   .cover,.closing{text-align:left}
-  .cover-top{grid-template-columns:auto minmax(0,1fr);row-gap:16px}
-  .firm{grid-column:2;justify-self:start;margin-top:4px}
-  .portrait{width:96px;height:96px}
+  .portrait{width:84px;height:84px}
+  .topbar.is-stuck .portrait{width:48px;height:48px}
   .closing-line,.closing-note{margin-left:0;margin-right:0}
   .closing-contact{justify-content:flex-start}
 }
 @media (max-width:680px){
   body{font-size:17px}
   .tiles{grid-template-columns:repeat(2,1fr)}
-  .cover-top{grid-template-columns:1fr}
-  .firm{grid-column:1}
+  .topbar-inner{gap:12px;padding-left:16px;padding-right:16px}
+  .portrait{width:60px;height:60px}
+  .topbar.is-stuck .portrait{width:42px;height:42px}
+  .topbar .cover-role{display:none}
+  .firm img{max-width:96px;max-height:36px}
   .control{padding-left:64px}
   .anchor{left:30px}
   .slip{padding:22px 20px 24px}
@@ -304,24 +330,29 @@ svg.route{position:absolute;top:0;left:0;z-index:2;pointer-events:none}
 @media print{
   body{background:#fff;font-size:11px}
   .kit,svg.flights,svg.route{display:none}
+  .topbar{position:static;box-shadow:none}
   .control{display:block;padding:14px 0}
   .slip{transform:none;box-shadow:none;page-break-inside:avoid}
   .inks{opacity:1;transform:none}
 }
 </style>
 
+<!-- ============ STICKY IDENTITY BAR ============ -->
+<div class="topbar" id="topbar">
+  <div class="topbar-inner">
+    <img class="portrait" src="{{IMG_PM}}" width="128" height="128" alt="Pavan Mankineni" />
+    <div>
+      <p class="cover-role" id="cvRole"></p>
+      <h1 id="cvTitle"></h1>
+    </div>
+    <div class="firm" id="firmBox"></div>
+  </div>
+</div>
+
 <!-- ==================== COVER ==================== -->
 <header class="cover">
 
   <div class="cover-inner">
-    <div class="cover-top">
-      <img class="portrait" src="{{IMG_PM}}" width="128" height="128" alt="Pavan Mankineni" />
-      <div>
-        <p class="cover-role" id="cvRole"></p>
-        <h1 id="cvTitle"></h1>
-      </div>
-      <div class="firm" id="firmBox"></div>
-    </div>
     <p class="cover-thesis" id="cvThesis"></p>
     <div class="tiles" id="tiles"></div>
   </div>
@@ -988,6 +1019,21 @@ function observeAll() {
     else io.observe(n);
   });
 }
+
+/* ---- the identity bar goes compact once you are off the top ---- */
+(function () {
+  var bar = document.getElementById('topbar'), stuck = false;
+  /* Run straight off the scroll event rather than deferring to rAF: this is
+     one comparison, and it only writes a class when the state actually
+     flips - not once per scroll event. Deferring it meant the bar could
+     still be at full height a frame or two into the scroll. */
+  function settle() {
+    var s = window.scrollY > 40;
+    if (s !== stuck) { stuck = s; bar.classList.toggle('is-stuck', s); }
+  }
+  window.addEventListener('scroll', settle, { passive: true });
+  settle();
+}());
 
 /* ---- rebuild triggers ---- */
 var bt = 0;
