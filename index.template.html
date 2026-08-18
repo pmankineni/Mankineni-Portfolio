@@ -127,7 +127,10 @@ svg.route{position:absolute;top:0;left:0;z-index:2;pointer-events:none}
 .route .ctl-dot{fill:var(--blue)}
 .route .leader{fill:none;stroke:var(--blue);stroke-width:1.3;opacity:.38;stroke-dasharray:3 4}
 .route .brace{fill:none;stroke:var(--blue);stroke-width:1.5;opacity:.45}
+/* paint-order knocks a paper-coloured halo out of the road behind the words,
+   so the kerb does not run through them */
 .route .brace-t{font-family:var(--hand);font-size:23px;font-weight:600;fill:var(--blue);
+  stroke:var(--paper);stroke-width:5;paint-order:stroke fill;stroke-linejoin:round;
   opacity:.95;text-anchor:middle}
 
 .flights .fl-trail{fill:none;stroke:var(--blue);stroke-width:2;opacity:.72;
