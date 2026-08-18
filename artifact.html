@@ -42,6 +42,8 @@
   --sans:'Inter','Segoe UI',system-ui,-apple-system,sans-serif;
   --hand:'Caveat','Segoe Script',cursive;
 
+  --bar-tall:172px;    /* identity bar at rest */
+  --bar-short:88px;    /* identity bar once scrolled */
   --road:280px;        /* the centre lane the road winds inside */
   --half:540px;        /* max width of one stop */
 }
@@ -83,18 +85,31 @@ body{
    fixed point and the header flickered forever. Nothing here may change the
    bar's height on scroll. */
 .topbar{
-  position:sticky;top:0;z-index:40;background:var(--paper-aged);
-  box-shadow:0 1px 0 var(--line);
+  position:fixed;top:0;left:0;right:0;z-index:40;background:var(--paper-aged);
+  height:var(--bar-tall);overflow:hidden;
+  transition:height .22s ease, box-shadow .22s ease;
 }
+.topbar.is-stuck{height:var(--bar-short);box-shadow:0 1px 0 var(--line),
+  0 10px 24px -18px rgba(22,32,58,.5)}
+/* holds the space the fixed bar covers. Never changes, so the document
+   height is constant and scroll anchoring has nothing to fight. */
+.topbar-spacer{height:var(--bar-tall)}
 .topbar-inner{
   display:grid;grid-template-columns:auto minmax(0,1fr) auto;
   gap:clamp(16px,2.2vw,34px);align-items:center;text-align:left;width:100%;
-  padding:13px clamp(22px,3vw,44px);
+  height:100%;padding:0 clamp(22px,3vw,44px);
 }
-.topbar .portrait{width:66px;height:66px;border-width:2px}
-.topbar h1{font-size:clamp(1.35rem,2.1vw,1.85rem)}
-.topbar .cover-role{margin-bottom:2px;font-size:10px}
-.topbar .firm img{max-width:132px;max-height:48px}
+.topbar .portrait{width:108px;height:108px;border-width:3px}
+.topbar h1{font-size:clamp(1.9rem,3.2vw,2.7rem)}
+.topbar .cover-role{margin-bottom:5px;font-size:11px}
+.topbar .firm img{max-width:172px;max-height:66px}
+.topbar.is-stuck .portrait{width:54px;height:54px;border-width:2px}
+.topbar.is-stuck h1{font-size:clamp(1.25rem,2vw,1.7rem)}
+.topbar.is-stuck .cover-role{margin-bottom:1px;font-size:10px}
+.topbar.is-stuck .firm img{max-width:118px;max-height:44px}
+.topbar .portrait,.topbar h1,.topbar .firm img{
+  transition:width .22s ease,height .22s ease,font-size .22s ease,
+             max-width .22s ease,max-height .22s ease}
 .portrait{width:128px;height:128px;border-radius:50%;object-fit:cover;
   border:3px solid var(--paper-slip);box-shadow:var(--slip-shadow)}
 .firm{flex:none;display:grid;place-items:center;min-width:132px;padding:14px 18px;
@@ -288,6 +303,7 @@ svg.route{position:absolute;top:0;left:0;z-index:2;pointer-events:none}
   transition:opacity .42s cubic-bezier(.2,.7,.2,1),transform .42s cubic-bezier(.2,.7,.2,1)}
 
 @media (prefers-reduced-motion:reduce){
+  .topbar,.topbar .portrait,.topbar h1,.topbar .firm img{transition:none}
   .inks,.inks.is-inked{opacity:1;transform:none;transition:none}
   .kit-list li{opacity:.55;clip-path:inset(0);transition:none}
   .kit-list li.newest{opacity:1}
@@ -305,18 +321,23 @@ svg.route{position:absolute;top:0;left:0;z-index:2;pointer-events:none}
   .half{max-width:660px}
   .kit{display:none}
   .cover,.closing{text-align:left}
-  .topbar .portrait{width:58px;height:58px}
+  :root{--bar-tall:140px;--bar-short:80px}
+  .topbar .portrait{width:88px;height:88px}
+  .topbar.is-stuck .portrait{width:50px;height:50px}
   .closing-line,.closing-note{margin-left:0;margin-right:0}
   .closing-contact{justify-content:flex-start}
 }
 @media (max-width:680px){
   body{font-size:17px}
   .tiles{grid-template-columns:repeat(2,1fr)}
-  .topbar-inner{gap:12px;padding:10px 16px}
-  .topbar .portrait{width:46px;height:46px}
+  :root{--bar-tall:104px;--bar-short:66px}
+  .topbar-inner{gap:12px;padding:0 16px}
+  .topbar .portrait{width:64px;height:64px}
+  .topbar.is-stuck .portrait{width:42px;height:42px}
   .topbar .cover-role{display:none}
-  .topbar h1{font-size:1.25rem}
-  .topbar .firm img{max-width:96px;max-height:34px}
+  .topbar h1{font-size:1.5rem}
+  .topbar.is-stuck h1{font-size:1.2rem}
+  .topbar .firm img{max-width:104px;max-height:38px}
   .control{padding-left:64px}
   .anchor{left:30px}
   .slip{padding:22px 20px 24px}
@@ -326,7 +347,8 @@ svg.route{position:absolute;top:0;left:0;z-index:2;pointer-events:none}
 @media print{
   body{background:#fff;font-size:11px}
   .kit,svg.flights,svg.route{display:none}
-  .topbar{position:static;box-shadow:none}
+  .topbar{position:static;height:auto;box-shadow:none}
+  .topbar-spacer{display:none}
   .control{display:block;padding:14px 0}
   .slip{transform:none;box-shadow:none;page-break-inside:avoid}
   .inks{opacity:1;transform:none}
@@ -344,6 +366,7 @@ svg.route{position:absolute;top:0;left:0;z-index:2;pointer-events:none}
     <div class="firm" id="firmBox"></div>
   </div>
 </div>
+<div class="topbar-spacer"></div>
 
 <!-- ==================== COVER ==================== -->
 <header class="cover">
@@ -1015,6 +1038,20 @@ function observeAll() {
     else io.observe(n);
   });
 }
+
+/* ---- the identity bar goes compact once you are off the top ----
+   Safe to resize on scroll only because .topbar is position:fixed: it is out
+   of flow, so its height cannot change the document height, so there is no
+   scroll-anchoring feedback loop. Do not make this sticky again. */
+(function () {
+  var bar = document.getElementById('topbar'), stuck = false;
+  function settle() {
+    var s = window.scrollY > 60;
+    if (s !== stuck) { stuck = s; bar.classList.toggle('is-stuck', s); }
+  }
+  window.addEventListener('scroll', settle, { passive: true });
+  settle();
+}());
 
 /* ---- rebuild triggers ---- */
 var bt = 0;
