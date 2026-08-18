@@ -22,6 +22,38 @@ with no network on a locked-down laptop.
 
 Narration notes are in [docs/talk-track.md](docs/talk-track.md).
 
+## Publishing it to GitHub Pages
+
+`index.html` sits at the repo root and is completely self-contained - fonts and photo are
+embedded as data URIs, and there are no external requests at all. So Pages needs no build step,
+no framework and no config beyond pointing at the branch.
+
+```bash
+gh repo create mankineni-portfolio --public --source . --remote origin --push
+# then: Settings -> Pages -> Build and deployment -> Deploy from a branch -> main -> / (root)
+```
+
+Or against an existing empty repo:
+
+```bash
+git remote add origin git@github.com:<you>/<repo>.git
+git push -u origin main
+```
+
+It lands at `https://<you>.github.io/<repo>/`.
+
+**Notes**
+
+- `.nojekyll` is committed so Pages serves every file as-is rather than running Jekyll over it.
+- `docs/` contains **your** prep material - talk track, Q&A, the numbers to check. It is not
+  linked from the page, but a public repo makes it readable by anyone with the URL. If that
+  matters, either make the repo private (Pages still works on paid plans) or move `docs/` out
+  before pushing.
+- After the first deploy, add an `og:image` in `build.mjs` so link previews show a card rather
+  than bare text. It needs a public URL to point at, which is why it is not there yet.
+- Your other portfolio already occupies `mankineni.github.io/portfolio`. This is a separate
+  repo, so it gets its own path and neither touches the other.
+
 ## Files
 
 | File | What it is |
@@ -36,6 +68,7 @@ Narration notes are in [docs/talk-track.md](docs/talk-track.md).
 | `docs/check-before-monday.md` | **Read this first.** What is verified vs. what I inferred. |
 | `docs/logos.md` | How to swap the monogram badges for real logo files, and why they are not there by default |
 | `archive/` | The earlier case-study version, kept for reference |
+| `.nojekyll` | Tells GitHub Pages to serve files as-is |
 
 ## Editing content
 

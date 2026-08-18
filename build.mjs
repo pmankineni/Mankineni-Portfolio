@@ -45,13 +45,26 @@ if (left) throw new Error(`unreplaced tokens: ${[...new Set(left)].join(', ')}`)
 /* artifact.html - the publisher supplies doctype/head/body itself */
 writeFileSync(join(here, 'artifact.html'), html);
 
+/* Shown in search results and link previews once this is on GitHub Pages.
+   Add an og:image here when there is a public URL to host one at. */
+const DESC = 'Eighteen years in SAP data and analytics - BW, BW/4HANA and Datasphere - '
+           + 'told as one long ride: seven stops, four relocations, and everything picked up on the way.';
+
 /* index.html - a complete document for opening straight off disk */
 const doc = `<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta name="description" content="Pavan Mankineni - eighteen years in SAP data and analytics, told as a journey." />
+<meta name="description" content="${DESC}" />
+<meta name="author" content="Pavan Mankineni" />
+<meta name="theme-color" content="#faf6ec" />
+<meta property="og:type" content="profile" />
+<meta property="og:title" content="Pavan Mankineni - SAP BI / HANA Solution Architect" />
+<meta property="og:description" content="${DESC}" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content="Pavan Mankineni - SAP BI / HANA Solution Architect" />
+<meta name="twitter:description" content="${DESC}" />
 ${html}
 </html>`
   .replace('</style>\n', '</style>\n</head>\n<body>\n')
