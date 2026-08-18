@@ -45,10 +45,9 @@ It lands at `https://<you>.github.io/<repo>/`.
 **Notes**
 
 - `.nojekyll` is committed so Pages serves every file as-is rather than running Jekyll over it.
-- `docs/` contains **your** prep material - talk track, Q&A, the numbers to check. It is not
-  linked from the page, but a public repo makes it readable by anyone with the URL. If that
-  matters, either make the repo private (Pages still works on paid plans) or move `docs/` out
-  before pushing.
+- `docs/` is gitignored on purpose. It holds the talk track, the Q&A answers and the numbers
+  to verify - all of it useful to you and none of it something a client should be able to read.
+  It stays on your disk.
 - After the first deploy, add an `og:image` in `build.mjs` so link previews show a card rather
   than bare text. It needs a public URL to point at, which is why it is not there yet.
 - Your other portfolio already occupies `mankineni.github.io/portfolio`. This is a separate
@@ -63,10 +62,8 @@ It lands at `https://<you>.github.io/<repo>/`.
 | `build.mjs` | Inlines fonts + images as data URIs -> `index.html` + `artifact.html` |
 | `artifact.html` | Body-only build, for publishing as a Claude Artifact |
 | `fonts/` | Caveat + Inter, latin woff2 (SIL Open Font License) |
-| `docs/talk-track.md` | The 5-minute narration, timed per control |
-| `docs/qa-prep.md` | Anticipated client questions with answers |
-| `docs/check-before-monday.md` | **Read this first.** What is verified vs. what I inferred. |
-| `docs/logos.md` | How to swap the monogram badges for real logo files, and why they are not there by default |
+| `assets/` | Photo and ARSA logo, inlined into `index.html` at build time |
+| `docs/` | Presenter prep - talk track, Q&A, numbers to verify. **Local only, gitignored.** |
 | `archive/` | The earlier case-study version, kept for reference |
 | `.nojekyll` | Tells GitHub Pages to serve files as-is |
 

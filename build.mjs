@@ -22,6 +22,7 @@ const FONTS = {
 
 const IMAGES = {
   IMG_PM: 'PM.webp',
+  IMG_ARSA: 'arsa-logo.webp',
   IMG_PLAYBOOK: 'Migration-playbook.webp',
   IMG_LINEAGE: 'Cross-sys-Lineage.webp',
 };

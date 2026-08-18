@@ -83,7 +83,9 @@ body{
 .firm{flex:none;display:grid;place-items:center;min-width:132px;padding:14px 18px;
   background:var(--paper-slip);border:1px solid var(--line);box-shadow:var(--slip-shadow);
   transform:rotate(1.2deg)}
-.firm img{max-width:132px;max-height:56px;object-fit:contain}
+/* a real logo gets a white ground (the file has no alpha) and no tilt */
+.firm.has-logo{background:#fff;padding:11px 15px;transform:none}
+.firm img{display:block;width:auto;height:auto;max-width:172px;max-height:66px;object-fit:contain}
 .firm-t{font-size:15px;font-weight:800;letter-spacing:-.01em;color:var(--ink);line-height:1.15;text-align:center}
 .firm-s{font-size:9.5px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;
   color:var(--pencil-light);margin-top:4px;text-align:center}
@@ -418,7 +420,7 @@ var COVER = {
   title: 'Pavan Mankineni',
   firm:  'ARSA Infotech',
   firmRole: 'Solutions Architect',
-  firmLogo: null            /* drop a file path here and it replaces the text badge */
+  firmLogo: '{{IMG_ARSA}}'   /* inlined by build.mjs; null falls back to a text badge */
 };
 
 /* the six tiles under the name - what eighteen years adds up to */
@@ -634,8 +636,10 @@ var flightSvg = document.getElementById('flights');
 
 document.getElementById('cvRole').textContent  = COVER.role;
 document.getElementById('cvTitle').textContent = COVER.title;
-document.getElementById('firmBox').innerHTML = COVER.firmLogo
-  ? '<img width="132" height="56" src="' + COVER.firmLogo + '" alt="' + COVER.firm + '" />'
+var firmBox = document.getElementById('firmBox');
+if (COVER.firmLogo) firmBox.classList.add('has-logo');
+firmBox.innerHTML = COVER.firmLogo
+  ? '<img width="172" height="80" src="' + COVER.firmLogo + '" alt="' + COVER.firm + '" />'
   : '<span class="firm-t">' + COVER.firm + '</span>' +
     '<span class="firm-s">' + COVER.firmRole + '</span>';
 document.getElementById('tiles').innerHTML = TILES.map(function (t) {
