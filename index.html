@@ -268,10 +268,8 @@ svg.route{position:absolute;top:0;left:0;z-index:2;pointer-events:none}
 /* ---------- closing ---------- */
 .closing{position:relative;background:var(--paper-aged);border-top:1px solid var(--line);
   padding:clamp(44px,7vh,76px) clamp(24px,5vw,80px) clamp(52px,8vh,88px);text-align:center}
-.closing-place{font-size:11px;font-weight:500;letter-spacing:.14em;
-  text-transform:uppercase;color:var(--pencil-light)}
 .closing-line{font-family:var(--hand);font-size:clamp(2rem,4vw,3.1rem);font-weight:700;
-  color:var(--blue);line-height:1.1;margin:12px auto 0;max-width:22ch;transform:rotate(-1deg)}
+  color:var(--blue);line-height:1.1;margin:0 auto;max-width:24ch;transform:rotate(-1deg)}
 .closing-note{margin:24px auto 0;font-size:14px;color:var(--pencil-light);
   font-style:italic;max-width:54ch}
 .closing-contact{margin-top:32px;display:flex;flex-wrap:wrap;justify-content:center;
@@ -294,7 +292,7 @@ svg.route{position:absolute;top:0;left:0;z-index:2;pointer-events:none}
   font-variant-numeric:tabular-nums;line-height:1}
 .kit-list{list-style:none;overflow:hidden;flex:1;min-height:0}
 .kit-list li{font-family:var(--sans);font-size:13.5px;font-weight:700;line-height:1.3;
-  letter-spacing:-.005em;color:var(--ink);opacity:0;clip-path:inset(0 100% 0 0);
+  letter-spacing:-.005em;color:var(--blue);opacity:0;clip-path:inset(0 100% 0 0);
   display:flex;align-items:center;gap:8px;padding:3.5px 0}
 .kit-list li i{flex:none;display:grid;place-items:center;width:22px;height:22px;
   border-radius:6px;background:var(--tint)}
@@ -390,7 +388,6 @@ svg.route{position:absolute;top:0;left:0;z-index:2;pointer-events:none}
 
 <!-- ==================== CLOSING ==================== -->
 <footer class="closing">
-  <p class="closing-place" id="clPlace"></p>
   <p class="closing-line" id="clLine"></p>
   <p class="closing-note" id="clNote"></p>
   <div class="closing-contact">
@@ -525,8 +522,7 @@ var FLIGHTS = [
 ];
 
 var CLOSING = {
-  place: 'Bremen',
-  line:  'Bremen. Two roads open, both still running.',
+  line:  'The journey continues',
   note:  'The road just runs off the page \u2014 that is on purpose.'
 };
 
@@ -660,7 +656,6 @@ firmBox.innerHTML = COVER.firmLogo
 document.getElementById('tiles').innerHTML = TILES.map(function (t) {
   return '<div class="tile"><b>' + t.n + '</b><span>' + t.label + '</span></div>';
 }).join('');
-document.getElementById('clPlace').textContent = CLOSING.place;
 document.getElementById('clLine').textContent  = CLOSING.line;
 document.getElementById('clNote').textContent  = CLOSING.note;
 document.getElementById('kitT').textContent    = KIT.header;
