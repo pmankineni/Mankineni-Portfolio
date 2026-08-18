@@ -74,9 +74,9 @@ It lands at `https://<you>.github.io/<repo>/`.
 
 Everything is data. In `index.template.html`, near the top of the `<script>`:
 
-- `CONTROLS` - the seven stops and two blank stretches, in order
+- `CONTROLS` - the seven stops, in order
 - `FLIGHTS`  - the four relocations
-- `TILES`  - the six header tiles
+- `TILES`  - the five header tiles
 - `COVER` / `CLOSING` / `KIT` - the framing copy, plus the ARSA logo slot (`firmLogo`)
 
 A learning is `['Name', selfTaught]`. `selfTaught: true` renders it in **pencil, boxed**, instead
