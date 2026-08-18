@@ -816,12 +816,21 @@ function build() {
   var trunk = m.ctls.filter(function (c) { return c.lane === null; });
   var startY = m.ctls[0].y - 74;
   var endY = pageH - 18;
-  var forkY = laned.length ? laned[0].y - 96 : endY;
 
-  /* the knots that make the road wind */
+  /* Each lane leaves the trunk at its OWN stop rather than all of them
+     branching at the first one - otherwise a road that starts in 2025 is
+     already drawn back in 2024. The trunk therefore has to survive as far
+     as the last branch, with lanes peeling off it one at a time. */
+  var BRANCH = 96;
+  laned.forEach(function (c) { c.fy = c.y - BRANCH; });
+  var forkYs = laned.map(function (c) { return c.fy; });
+  var firstFork = laned.length ? Math.min.apply(null, forkYs) : endY;
+  var lastFork  = laned.length ? Math.max.apply(null, forkYs) : endY;
+
+  /* the knots that make the road wind - it stops winding once it starts splitting */
   KNOTS = [{ y: startY, off: 0 }];
   trunk.forEach(function (c) { KNOTS.push({ y: c.y, off: c.side * AMP }); });
-  KNOTS.push({ y: forkY, off: 0 });
+  KNOTS.push({ y: firstFork, off: 0 });
 
   /* ---- reveal mask: a band that follows the reading eye down the page ---- */
   var defs = el('defs', {}, routeSvg);
@@ -835,11 +844,11 @@ function build() {
   var G = el('g', { mask: 'url(#revealM)' }, routeSvg);
 
   /* ---- the trunk ---- */
-  el('path', { class: 'kerb', d: polyPath(kerbPts(startY, forkY, -HALF_W, N_SLOW, N_FAST)) }, G);
-  el('path', { class: 'kerb', d: polyPath(kerbPts(startY, forkY,  HALF_W, N_SLOW, N_FAST)) }, G);
-  el('path', { class: 'kerb kerb-2', d: polyPath(kerbPts(startY, forkY, -HALF_W, N_FAST, N_SLOW)) }, G);
-  el('path', { class: 'kerb kerb-2', d: polyPath(kerbPts(startY, forkY,  HALF_W, N_FAST, N_SLOW)) }, G);
-  el('path', { class: 'centre', d: dashPath(kerbPts(startY, forkY, 0, N_SLOW, N_FAST), 13, 16) }, G);
+  el('path', { class: 'kerb', d: polyPath(kerbPts(startY, lastFork, -HALF_W, N_SLOW, N_FAST)) }, G);
+  el('path', { class: 'kerb', d: polyPath(kerbPts(startY, lastFork,  HALF_W, N_SLOW, N_FAST)) }, G);
+  el('path', { class: 'kerb kerb-2', d: polyPath(kerbPts(startY, lastFork, -HALF_W, N_FAST, N_SLOW)) }, G);
+  el('path', { class: 'kerb kerb-2', d: polyPath(kerbPts(startY, lastFork,  HALF_W, N_FAST, N_SLOW)) }, G);
+  el('path', { class: 'centre', d: dashPath(kerbPts(startY, lastFork, 0, N_SLOW, N_FAST), 13, 16) }, G);
 
   /* ---- the fork: two roads, one to each of the current stops ---- */
   var LANEOFF = {};
@@ -850,18 +859,21 @@ function build() {
   if (laned.length) {
     laned.forEach(function (c) {
       var t = LANEOFF[c.lane];
-      el('path', { class: 'kerb', d: polyPath(lanePts(forkY, endY, forkY, t, -HALF_W, N_SLOW, N_FAST)) }, G);
-      el('path', { class: 'kerb', d: polyPath(lanePts(forkY, endY, forkY, t,  HALF_W, N_SLOW, N_FAST)) }, G);
-      el('path', { class: 'centre', d: dashPath(lanePts(forkY, endY, forkY, t, 0, N_SLOW, N_FAST), 13, 16) }, G);
+      el('path', { class: 'kerb', d: polyPath(lanePts(c.fy, endY, c.fy, t, -HALF_W, N_SLOW, N_FAST)) }, G);
+      el('path', { class: 'kerb', d: polyPath(lanePts(c.fy, endY, c.fy, t,  HALF_W, N_SLOW, N_FAST)) }, G);
+      el('path', { class: 'centre', d: dashPath(lanePts(c.fy, endY, c.fy, t, 0, N_SLOW, N_FAST), 13, 16) }, G);
     });
-    var bx = roadXAt(forkY - 14);
-    el('text', { class: 'brace-t', x: r1(bx), y: r1(forkY - 22) }, G)
+    /* anchored where the THIRD road appears, not the first split - at
+       firstFork only two roads exist and the label would be asserting three
+       over a two-road picture */
+    var bx = roadXAt(lastFork - 14);
+    el('text', { class: 'brace-t', x: r1(bx), y: r1(lastFork - 20) }, G)
       .appendChild(document.createTextNode('three, at once'));
   }
 
   /* ---- control markers, distance figures, leader lines ---- */
   m.ctls.forEach(function (c) {
-    var cx = c.lane !== null ? laneXAt(c.y, forkY, LANEOFF[c.lane]) : roadXAt(c.y);
+    var cx = c.lane !== null ? laneXAt(c.y, c.fy, LANEOFF[c.lane]) : roadXAt(c.y);
     var g = el('g', {}, G);
     var edge = cx + c.side * 14;
     var target = c.near - c.side * 9;
