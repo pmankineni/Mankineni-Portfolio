@@ -9,7 +9,14 @@
 /* ============================================================
    THE BREVET BOOK - Pavan Mankineni
    A randonneur roadbook. Eighteen years read as one long ride:
-   seven controls, four flights, two blank stretches.
+   the road runs down the middle and winds left and right to
+   visit each control, and every stop sits on the side the road
+   just leaned towards.
+
+   Deliberately single-theme. The brief asked for creamy paper
+   and blue ink, so every colour is painted explicitly and the
+   page keeps its own light world rather than inverting into
+   something that is not a notebook.
    ============================================================ */
 
 @font-face{
@@ -34,73 +41,24 @@
   --pencil-light:#7a6f53;
   --blue:#2c5bd6;
   --blue-deep:#1c40a8;
-  --blue-wash:#e9f0ff;
   --stamp:#b4442f;
   --tape:rgba(199,180,130,.66);
   --tape-edge:rgba(239,230,206,.9);
   --line:rgba(22,32,58,.12);
 
   --stamp-opacity:.55;
-  --stamp-blend:multiply;
   --slip-shadow:0 1px 0 rgba(22,32,58,.06), 0 10px 22px -14px rgba(22,32,58,.42);
 
   --sans:'Inter','Segoe UI',system-ui,-apple-system,sans-serif;
   --hand:'Caveat','Segoe Script',cursive;
 
-  --rail:132px;
-  --rule-x:158px;
-  --strip-pad:198px;
-  --gutter:296px;
-  --draw:0;
-}
-
-@media (prefers-color-scheme:dark){
-  :root:not([data-theme="light"]){
-    --paper:#191713;
-    --paper-slip:#211e19;
-    --paper-aged:#26221b;
-    --grid:rgba(250,246,236,.05);
-    --grid-major:rgba(250,246,236,.08);
-    --margin-rule:#8e4536;
-    --ink:#f2ede1;
-    --ink-body:#cfc8ba;
-    --pencil:#9a9284;
-    --pencil-light:#8b8375;
-    --blue:#7fa5ff;
-    --blue-deep:#a8c2ff;
-    --blue-wash:rgba(127,165,255,.14);
-    --stamp:#e2735a;
-    --tape:rgba(120,108,80,.42);
-    --tape-edge:rgba(150,136,102,.55);
-    --line:rgba(242,237,225,.14);
-    --stamp-blend:screen;
-    --slip-shadow:0 1px 0 rgba(0,0,0,.3), 0 12px 26px -14px rgba(0,0,0,.75);
-  }
-}
-:root[data-theme="dark"]{
-  --paper:#191713;
-  --paper-slip:#211e19;
-  --paper-aged:#26221b;
-  --grid:rgba(250,246,236,.05);
-  --grid-major:rgba(250,246,236,.08);
-  --margin-rule:#8e4536;
-  --ink:#f2ede1;
-  --ink-body:#cfc8ba;
-  --pencil:#9a9284;
-  --pencil-light:#8b8375;
-  --blue:#7fa5ff;
-  --blue-deep:#a8c2ff;
-  --blue-wash:rgba(127,165,255,.14);
-  --stamp:#e2735a;
-  --tape:rgba(120,108,80,.42);
-  --tape-edge:rgba(150,136,102,.55);
-  --line:rgba(242,237,225,.14);
-  --stamp-blend:screen;
-  --slip-shadow:0 1px 0 rgba(0,0,0,.3), 0 12px 26px -14px rgba(0,0,0,.75);
+  --road:280px;        /* the centre lane the road winds inside */
+  --half:540px;        /* max width of one stop */
 }
 
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 
+html{color-scheme:light}
 body{
   font-family:var(--sans);
   font-size:18px;
@@ -120,19 +78,15 @@ body{
 .cover{
   position:relative;background:var(--paper-aged);
   border-bottom:1px solid var(--line);
-  padding:clamp(56px,9vh,104px) clamp(24px,5vw,80px) clamp(52px,8vh,92px) var(--strip-pad);
-  overflow:hidden;
+  padding:clamp(56px,9vh,104px) clamp(24px,5vw,80px) clamp(52px,8vh,92px);
+  overflow:hidden;text-align:center;
 }
-.rule-v{
-  position:absolute;top:0;bottom:0;left:var(--rule-x);width:1.5px;
-  background:var(--margin-rule);opacity:.5;
-}
-.cover-inner{max-width:900px;position:relative;z-index:2}
+.cover-inner{max-width:820px;margin:0 auto;position:relative;z-index:2}
 .cover-stamp{
-  position:absolute;right:clamp(16px,6vw,110px);top:50%;
+  position:absolute;right:clamp(12px,5vw,90px);top:50%;
   transform:translateY(-50%) rotate(-9deg);
-  width:190px;height:190px;opacity:var(--stamp-opacity);
-  mix-blend-mode:var(--stamp-blend);pointer-events:none;z-index:1;
+  width:186px;height:186px;opacity:var(--stamp-opacity);
+  mix-blend-mode:multiply;pointer-events:none;z-index:1;
 }
 .cover h1{
   font-size:clamp(2.6rem,5.4vw,4.2rem);font-weight:800;letter-spacing:-.03em;
@@ -144,51 +98,55 @@ body{
 }
 .cover-sub{
   font-family:var(--hand);font-weight:700;color:var(--blue);
-  font-size:clamp(1.8rem,3vw,2.6rem);line-height:1.15;margin-top:24px;
-  transform:rotate(-1.2deg);transform-origin:left center;
+  font-size:clamp(1.8rem,3vw,2.6rem);line-height:1.15;margin-top:22px;
+  transform:rotate(-1.2deg);
 }
-.cover-hook{font-size:19px;color:var(--ink-body);max-width:54ch;margin-top:24px}
-.cover-note{margin-top:30px;font-size:13px;color:var(--pencil-light);font-style:italic}
+.cover-hook{font-size:19px;color:var(--ink-body);max-width:52ch;margin:22px auto 0}
+.cover-note{margin-top:28px;font-size:13px;color:var(--pencil-light);font-style:italic}
 
 /* ---------- the page ---------- */
-.page{position:relative}
-svg.flights{position:absolute;top:0;left:0;z-index:0;pointer-events:none}
+.page{position:relative;padding-bottom:40px}
+svg.flights{position:absolute;top:0;left:0;z-index:1;pointer-events:none}
 svg.route{position:absolute;top:0;left:0;z-index:2;pointer-events:none}
 
 .route .kerb{fill:none;stroke:var(--blue);stroke-width:2.3;stroke-linecap:round;stroke-linejoin:round}
 .route .kerb-2{stroke-width:1.4;opacity:.45}
 .route .centre{fill:none;stroke:var(--blue);stroke-width:1.7;stroke-linecap:round;opacity:.6}
-.route .gapkerb{fill:none;stroke:var(--blue);stroke-width:1.4;stroke-linecap:round;opacity:.42}
 .route .ctl-ring{fill:var(--paper);stroke:var(--blue);stroke-width:2.4}
 .route .ctl-dot{fill:var(--blue)}
 .route .leader{fill:none;stroke:var(--blue);stroke-width:1.3;opacity:.38;stroke-dasharray:3 4}
-/* paint-order knocks a paper-coloured halo out of the road behind the figure,
+/* a paper-coloured halo knocked out of the road behind the figure,
    the way a distance label works on a real map */
 .route .km,.route .km-d{
-  stroke:var(--paper);stroke-width:4;paint-order:stroke fill;
-  stroke-linejoin:round;font-variant-numeric:tabular-nums;
+  stroke:var(--paper);stroke-width:4.5;paint-order:stroke fill;
+  stroke-linejoin:round;font-variant-numeric:tabular-nums;text-anchor:middle;
 }
 .route .km{font-family:var(--sans);font-size:13px;font-weight:700;letter-spacing:.06em;
   fill:var(--pencil-light)}
 .route .km-d{font-family:var(--sans);font-size:11px;font-weight:500;fill:var(--pencil-light)}
 .route .brace{fill:none;stroke:var(--blue);stroke-width:1.5;opacity:.45}
-.route .brace-t{font-family:var(--hand);font-size:22px;font-weight:600;fill:var(--blue);opacity:.9}
+.route .brace-t{font-family:var(--hand);font-size:23px;font-weight:600;fill:var(--blue);
+  opacity:.95;text-anchor:middle}
 
 .flights .fl-trail{fill:none;stroke:var(--blue);stroke-width:2;opacity:.72;
   stroke-dasharray:7 8;stroke-linecap:round}
 .flights .plane{fill:var(--blue);opacity:.95}
 
-/* ---------- controls ---------- */
-.strip{position:relative;z-index:3;padding:0 clamp(24px,4vw,64px) 0 var(--strip-pad)}
-.control,.gap{position:relative;padding:54px 0}
-.anchor{position:absolute;left:0;top:92px;width:0;height:0}
-.control-grid{display:grid;grid-template-columns:minmax(0,1fr) var(--gutter);
-  gap:44px;align-items:start;max-width:1140px}
+/* ---------- stops, alternating around the road ---------- */
+.strip{position:relative;z-index:3;padding:0 clamp(16px,3vw,48px)}
+.control{
+  position:relative;padding:58px 0;
+  display:grid;grid-template-columns:minmax(0,1fr) var(--road) minmax(0,1fr);
+}
+.anchor{position:absolute;left:50%;top:104px;width:0;height:0}
+.half{max-width:var(--half);width:100%;grid-row:1}
+.side-l .half{grid-column:1;justify-self:end}
+.side-r .half{grid-column:3;justify-self:start}
 
 .slip{
   position:relative;background:var(--paper-slip);
   border:1px solid var(--line);border-radius:0;
-  padding:30px 34px 46px;box-shadow:var(--slip-shadow);
+  padding:28px 32px 44px;box-shadow:var(--slip-shadow);
   transform:rotate(var(--tilt,0deg));
 }
 .tape{
@@ -198,72 +156,75 @@ svg.route{position:absolute;top:0;left:0;z-index:2;pointer-events:none}
   background-color:var(--tape);
   border-top:1px solid var(--tape-edge);
   border-bottom:1px solid rgba(0,0,0,.05);
+  box-shadow:0 1px 3px rgba(22,32,58,.13);
 }
-.tape-a{top:-13px;left:-24px;transform:rotate(-42deg);box-shadow:0 1px 3px rgba(22,32,58,.13)}
-.tape-b{bottom:-13px;right:-22px;transform:rotate(-38deg);box-shadow:0 1px 3px rgba(22,32,58,.13)}
+.tape-a{top:-13px;left:-24px;transform:rotate(-42deg)}
+.tape-b{bottom:-13px;right:-22px;transform:rotate(-38deg)}
+
+/* the stamp prints UNDER the text and bleeds off the paper edge */
+.stamp{
+  position:absolute;right:-34px;bottom:-30px;width:130px;height:130px;
+  mix-blend-mode:multiply;transform:rotate(-12deg);
+  pointer-events:none;z-index:0;opacity:0;
+}
+.stamp text{font-family:var(--sans);font-weight:700;font-size:9px;letter-spacing:.1em}
+.slip > :not(.stamp):not(.tape){position:relative;z-index:1}
+
+/* ---------- company badge ---------- */
+.slip-head{display:flex;align-items:flex-start;gap:16px}
+.badge{position:relative;flex:none;width:56px;height:56px;display:grid;place-items:center;margin-top:2px}
+.badge svg{position:absolute;inset:0;width:100%;height:100%;fill:none;
+  stroke:var(--blue);stroke-width:2;stroke-linejoin:round;opacity:.85}
+.badge .badge-in{stroke-width:1;opacity:.45}
+.badge i{position:relative;font-style:normal;font-size:14px;font-weight:800;color:var(--blue)}
+.slip-logo{flex:none;width:56px;height:56px;object-fit:contain;margin-top:2px}
 
 .slip-year{font-size:15px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;
   color:var(--blue);font-variant-numeric:tabular-nums}
-.slip-role{font-size:30px;font-weight:700;letter-spacing:-.02em;line-height:1.12;
-  color:var(--ink);margin-top:8px;text-wrap:balance}
-.slip-sub{margin-top:7px;font-size:11px;font-weight:500;letter-spacing:.14em;
+.slip-role{font-size:29px;font-weight:700;letter-spacing:-.02em;line-height:1.12;
+  color:var(--ink);margin-top:6px;text-wrap:balance}
+.slip-sub{margin-top:7px;font-size:11px;font-weight:500;letter-spacing:.13em;
   text-transform:uppercase;color:var(--pencil-light)}
-.slip-doing{margin-top:16px;font-size:17px;line-height:1.5;color:var(--ink-body);max-width:52ch}
+.slip-doing{margin-top:16px;font-size:17px;line-height:1.5;color:var(--ink-body)}
 
-.instr{margin-top:22px;border-top:1px dotted var(--line)}
+.instr{margin-top:20px;border-top:1px dotted var(--line)}
 .instr-row{display:grid;grid-template-columns:30px 1fr;gap:14px;align-items:start;
-  padding:11px 0;border-bottom:1px dotted var(--line)}
+  padding:10px 0;border-bottom:1px dotted var(--line)}
 .instr-row svg{width:26px;height:26px;fill:none;stroke:var(--blue);stroke-width:1.9;
   stroke-linecap:round;stroke-linejoin:round;opacity:.78}
 .instr-row span{font-size:17px;line-height:1.45;color:var(--ink-body)}
 
-.slip-aside{margin-top:20px;font-family:var(--hand);font-size:24px;font-weight:600;
+.slip-aside{margin-top:18px;font-family:var(--hand);font-size:24px;font-weight:600;
   color:var(--pencil);line-height:1.2;transform:rotate(-.8deg);transform-origin:left center}
 
-.stamp{
-  position:absolute;right:-34px;bottom:-30px;width:132px;height:132px;
-  mix-blend-mode:var(--stamp-blend);transform:rotate(-12deg);
-  pointer-events:none;z-index:0;opacity:0;
-}
-.stamp text{font-family:var(--sans);font-weight:700;font-size:9px;letter-spacing:.1em}
-/* Slip content sits above the stamp, so the stamp reads as printed UNDER the
-   text the way a real control stamp does. .tape is excluded - it needs to keep
-   its own position:absolute. */
-.slip > :not(.stamp):not(.tape){position:relative;z-index:1}
-
-/* ---------- margin learnings ---------- */
-.margin{padding-top:6px}
+/* ---------- learnings, in the margin under each stop ---------- */
+.margin{padding:20px 4px 0 6px}
 .margin-h{font-size:11px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;
-  color:var(--pencil-light);margin-bottom:14px}
-.learn{display:flex;align-items:flex-start;gap:9px;margin-bottom:13px;
+  color:var(--pencil-light);margin-bottom:12px}
+.learns{display:flex;flex-wrap:wrap;gap:4px 26px}
+.learn{display:flex;align-items:flex-start;gap:9px;
   font-family:var(--hand);font-size:26px;font-weight:600;line-height:1.15;
   transform:rotate(-1.5deg);transform-origin:left center}
-.learn svg{flex:none;width:15px;height:15px;margin-top:7px;fill:none;
-  stroke-width:1.8;stroke-linecap:round}
+.learn svg{fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.learn-g{flex:none;width:19px;height:19px;margin-top:5px}
 .learn-job{color:var(--blue)}
 .learn-job svg{stroke:var(--blue)}
 .learn-own{color:var(--pencil)}
 .learn-own svg{stroke:var(--pencil)}
 .learn-own .learn-t{border:1.4px solid var(--pencil);padding:0 8px 2px}
-.margin-foot{margin-top:18px;padding-top:12px;border-top:1px dotted var(--line);
-  font-family:var(--hand);font-size:21px;color:var(--pencil);line-height:1.2}
-
-/* ---------- gap stretches ---------- */
-.gap{padding:40px 0}
-.gap-year{font-size:11px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;
-  color:var(--pencil-light);font-variant-numeric:tabular-nums}
-.gap-line{font-family:var(--hand);font-size:26px;font-weight:600;color:var(--pencil);
-  margin-top:6px;transform:rotate(-.9deg);transform-origin:left center}
 
 /* ---------- boarding pass stubs ----------
-   These live in normal flow inside the margin column, so a stub can never
-   land on top of a learning. The flight arc is drawn TO wherever layout
-   put the stub, rather than the stub being placed at the arc. */
-.stub{position:relative;z-index:4;max-width:236px;margin-top:18px;
-  transform:rotate(-2deg);transform-origin:left center;pointer-events:none}
-.learn + .stub{margin-top:24px;padding-top:18px;border-top:1px dotted var(--line)}
+   Normal flow under the stop, so a stub can never land on a learning.
+   The flight arc is drawn TO wherever layout put the stub. */
+/* the relocations fly across the road and land in the empty half opposite
+   the stop - which is what gives each arc a real distance to travel */
+.stubs-col{grid-row:1;align-self:start;margin-top:104px;max-width:272px;width:100%}
+.side-l .stubs-col{grid-column:3;justify-self:start;padding-left:8px}
+.side-r .stubs-col{grid-column:1;justify-self:end;padding-right:8px}
+.stubs{display:flex;flex-direction:column;gap:18px}
+.stub{max-width:246px;transform:rotate(-2deg);transform-origin:left center;pointer-events:none}
 .stub-card{position:relative;background:var(--paper-slip);border:1.4px solid var(--line);
-  box-shadow:var(--slip-shadow);padding:11px 14px;display:flex;align-items:center}
+  box-shadow:var(--slip-shadow);padding:10px 14px;display:flex;align-items:center}
 .stub-card::before,.stub-card::after{content:"";position:absolute;left:62%;
   width:12px;height:6px;background:var(--paper);border:1.4px solid var(--line)}
 .stub-card::before{top:-1px;border-top:0;border-radius:0 0 12px 12px}
@@ -272,20 +233,20 @@ svg.route{position:absolute;top:0;left:0;z-index:2;pointer-events:none}
 .stub-code{font-size:13px;font-weight:700;letter-spacing:.14em;color:var(--ink);white-space:nowrap}
 .stub-yr{font-size:13px;font-weight:800;color:var(--blue);margin-left:auto;
   font-variant-numeric:tabular-nums;padding-left:12px}
-.stub-line{font-family:var(--hand);font-size:23px;font-weight:600;color:var(--blue);
-  margin-top:7px;line-height:1.1;transform:rotate(1.4deg);transform-origin:left center}
+.stub-line{font-family:var(--hand);font-size:22px;font-weight:600;color:var(--blue);
+  margin-top:6px;line-height:1.12;transform:rotate(1.4deg);transform-origin:left center}
 
 /* ---------- closing ---------- */
 .closing{position:relative;background:var(--paper-aged);border-top:1px solid var(--line);
-  padding:clamp(56px,9vh,96px) clamp(24px,5vw,80px) clamp(72px,11vh,120px) var(--strip-pad)}
+  padding:clamp(56px,9vh,96px) clamp(24px,5vw,80px) clamp(72px,11vh,120px);text-align:center}
 .closing-place{font-size:11px;font-weight:500;letter-spacing:.14em;
   text-transform:uppercase;color:var(--pencil-light)}
 .closing-line{font-family:var(--hand);font-size:clamp(2rem,4vw,3.1rem);font-weight:700;
-  color:var(--blue);line-height:1.1;margin-top:12px;max-width:20ch;
-  transform:rotate(-1deg);transform-origin:left center}
-.closing-note{margin-top:26px;font-size:14px;color:var(--pencil-light);
-  font-style:italic;max-width:44ch}
-.closing-contact{margin-top:34px;display:flex;flex-wrap:wrap;gap:10px 26px;font-size:15px}
+  color:var(--blue);line-height:1.1;margin:12px auto 0;max-width:22ch;transform:rotate(-1deg)}
+.closing-note{margin:24px auto 0;font-size:14px;color:var(--pencil-light);
+  font-style:italic;max-width:54ch}
+.closing-contact{margin-top:32px;display:flex;flex-wrap:wrap;justify-content:center;
+  gap:10px 26px;font-size:15px}
 .closing-contact a{color:var(--blue);text-decoration:none;border-bottom:1px solid transparent}
 .closing-contact a:hover{border-bottom-color:var(--blue)}
 .closing-contact a:focus-visible{outline:2px solid var(--blue);outline-offset:3px}
@@ -304,24 +265,17 @@ svg.route{position:absolute;top:0;left:0;z-index:2;pointer-events:none}
   font-variant-numeric:tabular-nums;line-height:1}
 .kit-list{list-style:none;overflow:hidden;flex:1;min-height:0}
 .kit-list li{font-family:var(--hand);font-size:19px;font-weight:600;line-height:1.28;
-  color:var(--blue);opacity:0;clip-path:inset(0 100% 0 0)}
+  color:var(--blue);opacity:0;clip-path:inset(0 100% 0 0);
+  display:flex;align-items:flex-start;gap:7px}
+.kit-list li svg{flex:none;width:15px;height:15px;margin-top:5px;fill:none;
+  stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;opacity:.75}
 .kit-list li.own{color:var(--pencil)}
-.kit-list li.in{opacity:.5;clip-path:inset(0);
-  transition:clip-path .38s ease,opacity .38s ease}
+.kit-list li.in{opacity:.5;clip-path:inset(0);transition:clip-path .38s ease,opacity .38s ease}
 .kit-list li.in.newest{opacity:1}
 .kit-odo{margin-top:10px;padding-top:9px;border-top:1px dotted var(--line);
   font-size:12px;font-weight:700;letter-spacing:.06em;color:var(--pencil-light);
   font-variant-numeric:tabular-nums;display:flex;justify-content:space-between}
 .kit-foot{font-family:var(--hand);font-size:16px;color:var(--pencil);margin-top:8px;line-height:1.15}
-
-/* ---------- theme toggle ---------- */
-.lamp{position:fixed;top:20px;right:24px;z-index:30;width:42px;height:42px;
-  background:var(--paper-slip);border:1px solid var(--line);cursor:pointer;
-  display:grid;place-items:center;box-shadow:var(--slip-shadow)}
-.lamp svg{width:22px;height:22px;fill:none;stroke:var(--blue);stroke-width:1.9;
-  stroke-linecap:round;stroke-linejoin:round}
-.lamp:hover{border-color:var(--blue)}
-.lamp:focus-visible{outline:2px solid var(--blue);outline-offset:3px}
 
 /* ---------- ink-in ---------- */
 .inks{opacity:0;transform:translateY(10px)}
@@ -338,45 +292,44 @@ svg.route{position:absolute;top:0;left:0;z-index:2;pointer-events:none}
 }
 
 /* ---------- responsive ---------- */
-@media (max-width:1180px){
-  :root{--rail:78px;--rule-x:96px;--strip-pad:126px;--gutter:0px}
-  .control-grid{grid-template-columns:minmax(0,1fr);gap:0}
-  .margin{margin-top:18px;padding:20px 24px;background:var(--paper-slip);
-    border:1px dashed var(--line)}
-  .stub{max-width:330px}
+@media (max-width:1240px){ :root{--road:190px;--half:450px} .slip-role{font-size:26px} }
+@media (max-width:980px){
+  /* the road returns to the left edge and every stop lines up beside it */
+  :root{--road:0px}
+  .control{display:block;padding:44px 0 44px 116px}
+  .stubs-col{margin-top:22px;max-width:660px;padding:0!important}
+  .anchor{left:58px;top:88px}
+  .half{max-width:660px}
   .kit{display:none}
+  .cover,.closing{text-align:left}
+  .cover-hook,.closing-line,.closing-note{margin-left:0;margin-right:0}
+  .closing-contact{justify-content:flex-start}
+  .cover-stamp{width:118px;height:118px;opacity:.42}
 }
-@media (max-width:760px){
+@media (max-width:680px){
   body{font-size:17px}
-  :root{--rail:44px;--rule-x:58px;--strip-pad:76px}
-  .slip{padding:24px 22px 38px}
-  .slip-role{font-size:25px}
-  .stamp{width:104px;height:104px;right:-14px;bottom:-18px}
-  .lamp{top:12px;right:12px}
+  .control{padding-left:64px}
+  .anchor{left:30px}
+  .slip{padding:22px 20px 36px}
+  .slip-role{font-size:23px}
+  .badge,.slip-logo{width:44px;height:44px}
+  .badge i{font-size:12px}
+  .stamp{width:100px;height:100px;right:-14px;bottom:-18px}
 }
 
 @media print{
   body{background:#fff;font-size:11px}
-  .kit,.lamp,svg.flights,svg.route{display:none}
-  :root{--strip-pad:0px;--gutter:220px}
-  .control,.gap{page-break-inside:avoid;padding:16px 0}
-  .slip{transform:none;box-shadow:none}
+  .kit,svg.flights,svg.route{display:none}
+  .control{display:block;padding:14px 0}
+  .slip{transform:none;box-shadow:none;page-break-inside:avoid}
   .inks{opacity:1;transform:none}
 }
 </style>
 </head>
 <body>
 
-<button class="lamp" id="lamp" type="button" aria-label="Switch light or dark">
-  <svg viewBox="0 0 24 24" aria-hidden="true">
-    <path d="M8 21h8M9.5 17.5C6.8 16.2 5 13.6 5 10.6 5 6.4 8.1 3 12 3s7 3.4 7 7.6c0 3-1.8 5.6-4.5 6.9z" />
-    <path d="M10 21v-3.5M14 21v-3.5" />
-  </svg>
-</button>
-
 <!-- ==================== COVER ==================== -->
 <header class="cover">
-  <div class="rule-v"></div>
   <svg class="cover-stamp" viewBox="0 0 132 132" aria-hidden="true">
     <defs>
       <path id="arcCover" d="M 20 66 A 46 46 0 0 1 112 66" />
@@ -408,16 +361,14 @@ svg.route{position:absolute;top:0;left:0;z-index:2;pointer-events:none}
 
 <!-- ==================== THE RIDE ==================== -->
 <div class="page" id="page">
-  <div class="rule-v"></div>
   <svg class="flights" id="flights" aria-hidden="true"></svg>
   <svg class="route" id="route" role="img"
-       aria-label="A hand-drawn route running down the page. Each career stage is a control point on it; four arcs branching off it are international relocations."></svg>
+       aria-label="A hand-drawn road winding down the middle of the page. Each career stage is a control point on it, with the stop itself on whichever side the road leans towards; four arcs branching off the road are international relocations."></svg>
   <div class="strip" id="strip"></div>
 </div>
 
 <!-- ==================== CLOSING ==================== -->
 <footer class="closing">
-  <div class="rule-v"></div>
   <p class="closing-place" id="clPlace"></p>
   <p class="closing-line" id="clLine"></p>
   <p class="closing-note" id="clNote"></p>
@@ -446,55 +397,61 @@ svg.route{position:absolute;top:0;left:0;z-index:2;pointer-events:none}
 'use strict';
 
 /* ============================================================
-   1. THE CONTENT.  Everything Pavan might want to edit is here.
+   1. THE CONTENT.  Everything worth editing lives here.
    ------------------------------------------------------------
    A learning is [name, selfTaught].  selfTaught:true renders in
    PENCIL and boxed - "nobody asked me to learn this".  Flip the
-   flag and nothing else needs touching.
+   flag and the styling, the kit-card colour and the legend all
+   follow.
+
+   mark: the monogram on the badge beside each stop.
+   logo: OPTIONAL path or data URI of a real logo file - if set it
+         replaces the monogram. Left null deliberately; see
+         docs/logos.md before adding any.
    ============================================================ */
 
 var COVER = {
   role:  'SAP BI \u00b7 HANA \u00b7 Bremen',
   title: 'Pavan Mankineni',
-  sub:   'seven stops, four flights, two blank stretches',
+  sub:   'seven stops, four flights, one long ride',
   hook:  'I have been building reporting systems since 2006. This is the route.',
   note:  'Read it top to bottom. Nothing is invented in between.'
 };
 
 var CONTROLS = [
-  { kind:'control', y0:2006, y1:2007, display:'2006 \u2014 2007',
+  { y0:2006, y1:2008, display:'2006 \u2014 2008',
     role:'Junior on the support desk',
-    sub:'Junior Consultant \u00b7 India',
+    employer:'Bayer AG', mark:'BAY', logo:null,
+    sub:'Bayer AG \u00b7 Junior Consultant \u00b7 India',
     doing:'Answering tickets, watching the loads, learning what a BW system actually does.',
-    acts:['Tickets, start to finish', 'Monitoring the nightly loads', 'Support, whatever came in'],
+    acts:['Tickets, start to finish', 'Monitoring the process chains',
+          'Performance tuning', 'Extending Business Content'],
     learns:[['BW', false], ['Web applications', false]],
-    aside:null, stampTop:'FIRST CONTROL', stampYear:'2006' },
+    aside:null, stampTop:'BAYER AG', stampYear:'2006' },
 
-  { kind:'gap', y0:2007, y1:2009, display:'2007 \u2014 2009',
-    line:'No entry in the book for these.' },
-
-  { kind:'control', y0:2009, y1:2013, display:'2009 \u2014 2013',
+  { y0:2009, y1:2013, display:'2009 \u2014 2013',
     role:'Onsite, and building the reports',
-    sub:'BW Developer \u00b7 Associate Project Manager',
+    employer:'Robert Bosch', mark:'RB', logo:null,
+    sub:'Robert Bosch \u00b7 BW Developer \u00b7 Associate Project Manager',
     doing:'Onsite coordinator by day, BW developer the rest of the time.',
-    acts:['Onsite coordinator', 'BW development', 'Vendor service level reports', 'Vendor backlog reporting'],
+    acts:['Onsite coordinator', 'BW development', 'Vendor service level reports',
+          'Vendor backlog reporting'],
     learns:[['BO tools', false], ['Xcelsius', false]],
     aside:'This one moved three times. See the arcs.',
     stampTop:'IN \u00b7 DE \u00b7 SG', stampYear:'2009' },
 
-  { kind:'gap', y0:2013, y1:2014, display:'2013 \u2014 2014',
-    line:'Blank page. I am not going to fill it in.' },
-
-  { kind:'control', y0:2014, y1:2016, display:'2014 \u2014 2016',
+  { y0:2014, y1:2016, display:'2014 \u2014 2016',
     role:'Bosch, then Royal Enfield',
-    sub:'BW Developer \u00b7 Inventory \u00b7 India',
+    employer:'Bosch \u2192 Royal Enfield', mark:'RE', logo:null,
+    sub:'Bosch \u2192 Royal Enfield \u00b7 Inventory \u00b7 India',
     doing:'Inventory reporting in BW, two clients back to back, HANA underneath.',
     acts:['Inventory reporting in BW', 'Bosch first, then Royal Enfield'],
     learns:[['HANA', false]],
     aside:null, stampTop:'BOSCH \u00b7 ENFIELD', stampYear:'2014' },
 
-  { kind:'control', y0:2017, y1:2022, display:'2017 \u2014 2022',
+  { y0:2017, y1:2022, display:'2017 \u2014 2022',
     role:'The 25-year-old application',
+    employer:'Fresenius', mark:'FRE', logo:null,
     sub:'Fresenius \u00b7 Global Sales Reporting \u00b7 Germany',
     doing:'Converting a 25-year-old ABAP sales application from ERP into BW.',
     acts:['Global Sales Reporting', 'The old ABAP, read end to end',
@@ -503,16 +460,18 @@ var CONTROLS = [
     aside:'Twenty-five years of someone else\u2019s logic, read line by line.',
     stampTop:'FRESENIUS', stampYear:'2017' },
 
-  { kind:'control', y0:2022, y1:2024, display:'2022 \u2014 2024',
+  { y0:2022, y1:2024, display:'2022 \u2014 2024',
     role:'My first public sector project',
+    employer:'Bundeswehr', mark:'BWI', logo:null,
     sub:'Bundeswehr \u00b7 BW/4HANA \u00b7 Planning',
     doing:'BW/4HANA and OData behind the dashboards, planning applications on top.',
     acts:['BW/4HANA build', 'OData for the front ends', 'Dashboards', 'Planning applications'],
     learns:[['Lumira', false], ['SDI', false]],
     aside:null, stampTop:'BUNDESWEHR', stampYear:'2022' },
 
-  { kind:'control', y0:2024, y1:2026, display:'2024 \u2014 today', lane:0,
+  { y0:2024, y1:2026, display:'2024 \u2014 today', lane:0,
     role:'Keeping a live system moving',
+    employer:'Mankiewicz', mark:'MK', logo:null,
     sub:'Mankiewicz \u00b7 BW on HANA \u00b7 SAC',
     doing:'BW on HANA, SAC dashboards, COPA, and a steady queue of changes.',
     acts:['BW on HANA', 'SAC dashboards', 'COPA', 'Change requests, week by week'],
@@ -520,8 +479,9 @@ var CONTROLS = [
     aside:'Snowflake and Python were never on the statement of work.',
     stampTop:'MANKIEWICZ', stampYear:'2024' },
 
-  { kind:'control', y0:2025, y1:2026, display:'2025 \u2014 today', lane:1,
+  { y0:2025, y1:2026, display:'2025 \u2014 today', lane:1,
     role:'Datasphere, and the new stack',
+    employer:'Basler', mark:'BSL', logo:null,
     sub:'Basler \u00b7 Datasphere \u00b7 CDS',
     doing:'Datasphere and CDS views, on the newest part of the stack.',
     acts:['Datasphere', 'CDS views', 'Modelling on the newer stack'],
@@ -531,16 +491,16 @@ var CONTROLS = [
 ];
 
 var FLIGHTS = [
-  { year:2010, code:'IN \u2192 DE', line:'First time I moved for a project.', rise:118 },
-  { year:2012, code:'DE \u2192 SG', line:'Singapore next. Same work, different heat.', rise:162 },
-  { year:2013, code:'SG \u2192 IN', line:'Back to India for a quieter year.', rise:206 },
-  { year:2016, code:'IN \u2192 DE', line:'Back to Germany. This time it stuck.', rise:150 }
+  { year:2010, code:'IN \u2192 DE', line:'First time I moved for a project.', rise:120 },
+  { year:2012, code:'DE \u2192 SG', line:'Singapore next. Same work, different heat.', rise:158 },
+  { year:2013, code:'SG \u2192 IN', line:'Back to India for a quieter year.', rise:196 },
+  { year:2016, code:'IN \u2192 DE', line:'Back to Germany. This time it stuck.', rise:146 }
 ];
 
 var CLOSING = {
   place: 'Bremen',
   line:  'Bremen. Two roads open, both still running.',
-  note:  'Six of the skills in the bag, nobody asked me to learn. The line just runs off the page \u2014 that is on purpose.'
+  note:  'Six of the skills in the bag, nobody asked me to learn. The road just runs off the page \u2014 that is on purpose.'
 };
 
 var KIT = { header:'In the bag', foot:'blue came with the job. pencil did not.' };
@@ -548,14 +508,14 @@ var KIT = { header:'In the bag', foot:'blue came with the job. pencil did not.' 
 var KM_PER_YEAR = 100, KM_ZERO = 2006;
 
 /* ============================================================
-   2. SMALL DRAWING HELPERS
+   2. DRAWING HELPERS
    ============================================================ */
 
 var SVGNS = 'http://www.w3.org/2000/svg';
 var r1 = function (n) { return Math.round(n * 10) / 10; };
 var clamp = function (v, a, b) { return v < a ? a : v > b ? b : v; };
 
-/* deterministic value noise - same wobble every load, no Math.random */
+/* deterministic value noise - the same wobble every load, no Math.random */
 function mkNoise(seed) {
   var r = new Float64Array(512), s = seed >>> 0, i;
   for (i = 0; i < 512; i++) { s = (Math.imul(s, 1664525) + 1013904223) >>> 0; r[i] = s / 4294967296 * 2 - 1; }
@@ -573,24 +533,20 @@ function el(tag, attrs, parent) {
   if (parent) parent.appendChild(e);
   return e;
 }
-
 function polyPath(pts) {
   if (!pts.length) return '';
   var d = 'M' + r1(pts[0].x) + ' ' + r1(pts[0].y), i;
   for (i = 1; i < pts.length; i++) d += 'L' + r1(pts[i].x) + ' ' + r1(pts[i].y);
   return d;
 }
-
 /* dashes as real geometry, so a mask can reveal them one at a time */
 function dashPath(pts, dash, gap) {
   var d = '', on = true, need = dash, started = false, i;
   for (i = 1; i < pts.length; i++) {
-    var ax = pts[i - 1].x, ay = pts[i - 1].y;
-    var bx = pts[i].x, by = pts[i].y;
+    var ax = pts[i - 1].x, ay = pts[i - 1].y, bx = pts[i].x, by = pts[i].y;
     var rem = Math.hypot(bx - ax, by - ay);
     while (rem > 1e-6) {
-      var take = Math.min(rem, need);
-      var t = take / rem;
+      var take = Math.min(rem, need), t = take / rem;
       var nx = ax + (bx - ax) * t, ny = ay + (by - ay) * t;
       if (on) {
         if (!started) { d += 'M' + r1(ax) + ' ' + r1(ay); started = true; }
@@ -602,7 +558,6 @@ function dashPath(pts, dash, gap) {
   }
   return d;
 }
-
 var cubicAt = function (p, t) {
   var m = 1 - t;
   return { x: m*m*m*p[0].x + 3*m*m*t*p[1].x + 3*m*t*t*p[2].x + t*t*t*p[3].x,
@@ -614,7 +569,7 @@ var cubicTan = function (p, t) {
            y: 3*m*m*(p[1].y-p[0].y) + 6*m*t*(p[2].y-p[1].y) + 3*t*t*(p[3].y-p[2].y) };
 };
 
-/* turn-by-turn pictograms, cycled deterministically down each slip */
+/* turn-by-turn pictograms, cycled down each slip */
 var PICTO = [
   'M13 22V8M13 8l-5 5M13 8l5 5',
   'M8 22v-7a5 5 0 0 1 5-5h5M18 10l-4-4M18 10l-4 4',
@@ -622,8 +577,33 @@ var PICTO = [
   'M13 22v-5M13 6.5a4 4 0 1 0 0 8 4 4 0 0 0 0-8zM17 10.5h4'
 ];
 
+/* Generic tool pictograms, not brand logos - a database is a database.
+   Anything unmapped falls back to a drawn tick. */
+var GLYPH_SHAPE = {
+  db:      'M4 7c0-1.7 3.6-3 8-3s8 1.3 8 3-3.6 3-8 3-8-1.3-8-3zM4 7v10c0 1.7 3.6 3 8 3s8-1.3 8-3V7',
+  chart:   'M4 20V5M4 20h16M8 20v-6M13 20v-9M18 20v-4',
+  browser: 'M3 6h18v13H3zM3 10h18M6 8h.01M9 8h.01',
+  code:    'M9 8l-4 4 4 4M15 8l4 4-4 4',
+  nodes:   'M6 5.6a2 2 0 1 0 0 4 2 2 0 0 0 0-4zM18 5.6a2 2 0 1 0 0 4 2 2 0 0 0 0-4zM12 14.4a2 2 0 1 0 0 4 2 2 0 0 0 0-4zM8 9.4l3 4.6M16 9.4l-3 4.6',
+  flow:    'M4 8h10M11 5l3 3-3 3M20 16H10M13 13l-3 3 3 3',
+  snow:    'M12 3v18M4.2 7.5l15.6 9M19.8 7.5l-15.6 9M12 7.4L9.6 5.2M12 7.4l2.4-2.2M12 16.6l-2.4 2.2M12 16.6l2.4 2.2',
+  blocks:  'M5 8l7-4 7 4-7 4zM5 12l7 4 7-4M5 16l7 4 7-4',
+  python:  'M9 5h4a3 3 0 0 1 3 3v3H9a3 3 0 0 0-3 3v1M15 19h-4a3 3 0 0 1-3-3v-3h7a3 3 0 0 0 3-3V9',
+  plug:    'M9 3v5M15 3v5M6 8h12v3a6 6 0 0 1-12 0zM12 17v4',
+  spark:   'M12 3.5l1.8 5.2 5.2 1.8-5.2 1.8-1.8 5.2-1.8-5.2L5 10.5l5.2-1.8zM18.5 15.6l.7 1.9 1.9.7-1.9.7-.7 1.9-.7-1.9-1.9-.7 1.9-.7z',
+  tick:    'M4 12.5l5 5 11-12'
+};
+var GLYPH_FOR = {
+  'BW':'db', 'HANA':'db', 'SQL':'db', 'HANA SQL':'db', 'BDC':'db',
+  'BO tools':'chart', 'Xcelsius':'chart', 'Lumira':'chart',
+  'Web applications':'browser', 'ABAP':'code', 'Graphical views':'nodes',
+  'SDI':'flow', 'Snowflake':'snow', 'Databricks':'blocks', 'Python':'python',
+  'MCP servers':'plug', 'AI tools':'spark'
+};
+function glyphPath(n) { return GLYPH_SHAPE[GLYPH_FOR[n] || 'tick'] || GLYPH_SHAPE.tick; }
+
 /* ============================================================
-   3. RENDER THE CONTENT
+   3. RENDER
    ============================================================ */
 
 var TILT = [-0.5, 0.6, -0.35, 0.45, -0.6, 0.3, -0.4];
@@ -647,16 +627,11 @@ var esc = function (s) {
   return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 };
 
-var html = '', ci = 0, flightHost = {};
+var html = '', flightHost = {};
 CONTROLS.forEach(function (c, i) {
-  if (c.kind === 'gap') {
-    html += '<section class="gap inks" data-y0="' + c.y0 + '" data-y1="' + c.y1 + '">' +
-              '<p class="gap-year">' + esc(c.display) + '</p>' +
-              '<p class="gap-line">' + esc(c.line) + '</p>' +
-            '</section>';
-    return;
-  }
-  var tilt = TILT[ci % TILT.length];
+  var side = (i % 2 === 0) ? 'l' : 'r';
+  c._side = side === 'l' ? -1 : 1;
+
   var instr = c.acts.map(function (a, k) {
     return '<div class="instr-row">' +
              '<svg viewBox="0 0 26 26" aria-hidden="true"><path d="' + PICTO[k % PICTO.length] + '"/></svg>' +
@@ -664,44 +639,54 @@ CONTROLS.forEach(function (c, i) {
   }).join('');
 
   var learns = c.learns.map(function (L) {
-    var own = L[1];
-    return '<div class="learn ' + (own ? 'learn-own' : 'learn-job') + '">' +
-             '<svg viewBox="0 0 15 15" aria-hidden="true"><path d="M2 8l4 4 7-9"/></svg>' +
+    return '<div class="learn ' + (L[1] ? 'learn-own' : 'learn-job') + '">' +
+             '<svg class="learn-g" viewBox="0 0 24 24" aria-hidden="true"><path d="' +
+               glyphPath(L[0]) + '"/></svg>' +
              '<span class="learn-t">' + esc(L[0]) + '</span></div>';
   }).join('');
 
-  /* relocations that happened during this stage ride along in its margin */
+  /* relocations during this stage ride along under it */
   var mine = FLIGHTS.filter(function (f) {
     return !flightHost[f.year] && f.year >= c.y0 && f.year <= c.y1;
   });
   mine.forEach(function (f) { flightHost[f.year] = true; });
-  var stubsHtml = mine.map(function (f) {
-    return '<div class="stub inks" data-fyear="' + f.year + '">' +
+  var stubs = mine.length ? '<div class="stubs-col inks"><div class="stubs">' + mine.map(function (f) {
+    return '<div class="stub" data-fyear="' + f.year + '">' +
              '<div class="stub-card"><span class="stub-perf"></span>' +
                '<span class="stub-code">' + esc(f.code) + '</span>' +
                '<span class="stub-yr">' + f.year + '</span></div>' +
              '<p class="stub-line">' + esc(f.line) + '</p>' +
            '</div>';
-  }).join('');
+  }).join('') + '</div></div>' : '';
 
-  html += '<section class="control" data-ctl data-idx="' + ci + '"' +
+  html += '<section class="control side-' + side + '" data-ctl data-idx="' + i + '"' +
             ' data-y0="' + c.y0 + '" data-y1="' + c.y1 + '"' +
             (c.lane !== undefined ? ' data-lane="' + c.lane + '"' : '') + '>' +
             '<span class="anchor"></span>' +
-            '<div class="control-grid">' +
-              '<div class="slip inks" style="--tilt:' + tilt + 'deg">' +
+            '<div class="half">' +
+              '<div class="slip inks" style="--tilt:' + TILT[i % TILT.length] + 'deg">' +
                 '<span class="tape tape-a"></span><span class="tape tape-b"></span>' +
-                '<p class="slip-year">' + esc(c.display) + '</p>' +
-                '<h2 class="slip-role">' + esc(c.role) + '</h2>' +
-                '<p class="slip-sub">' + esc(c.sub) + '</p>' +
+                '<div class="slip-head">' +
+                  (c.logo
+                    ? '<img class="slip-logo" src="' + esc(c.logo) + '" alt="' + esc(c.employer) + '" />'
+                    : '<span class="badge" aria-hidden="true">' +
+                        '<svg viewBox="0 0 56 56"><path d="M3.5 4.5 L52 3 L53 51.5 L4 53 Z"/>' +
+                        '<path class="badge-in" d="M8 9 L47.5 8 L48.5 47 L8.5 48 Z"/></svg>' +
+                        '<i>' + esc(c.mark) + '</i></span>') +
+                  '<div>' +
+                    '<p class="slip-year">' + esc(c.display) + '</p>' +
+                    '<h2 class="slip-role">' + esc(c.role) + '</h2>' +
+                    '<p class="slip-sub">' + esc(c.sub) + '</p>' +
+                  '</div>' +
+                '</div>' +
                 '<p class="slip-doing">' + esc(c.doing) + '</p>' +
                 '<div class="instr">' + instr + '</div>' +
                 (c.aside ? '<p class="slip-aside">' + esc(c.aside) + '</p>' : '') +
                 '<svg class="stamp" viewBox="0 0 132 132" aria-hidden="true">' +
-                  '<defs><path id="arc' + ci + '" d="M 22 68 A 44 44 0 0 1 110 68"/></defs>' +
+                  '<defs><path id="arc' + i + '" d="M 22 68 A 44 44 0 0 1 110 68"/></defs>' +
                   '<circle cx="66" cy="66" r="52" fill="none" stroke="var(--stamp)" stroke-width="2.2"/>' +
                   '<circle cx="66" cy="66" r="43" fill="none" stroke="var(--stamp)" stroke-width="1.1"/>' +
-                  '<text fill="var(--stamp)"><textPath href="#arc' + ci + '" startOffset="50%" text-anchor="middle">' +
+                  '<text fill="var(--stamp)"><textPath href="#arc' + i + '" startOffset="50%" text-anchor="middle">' +
                     esc(c.stampTop) + '</textPath></text>' +
                   '<text x="66" y="60" text-anchor="middle" fill="var(--stamp)" font-size="19" font-weight="800">' +
                     esc(c.stampYear) + '</text>' +
@@ -710,15 +695,15 @@ CONTROLS.forEach(function (c, i) {
                 '</svg>' +
               '</div>' +
               '<div class="margin inks">' +
-                '<p class="margin-h">What I picked up here</p>' + learns + stubsHtml +
+                '<p class="margin-h">What I picked up here</p>' +
+                '<div class="learns">' + learns + '</div>' +
               '</div>' +
-            '</div>' +
+            '</div>' + stubs +
           '</section>';
-  ci++;
 });
 strip.innerHTML = html;
 
-/* ---- kit card fills as each control inks in ---- */
+/* ---- kit card fills as each stop inks in ---- */
 var kitList = document.getElementById('kitList');
 var kitN = document.getElementById('kitN');
 var odo = document.getElementById('odo');
@@ -727,7 +712,9 @@ var kitCount = 0;
 function addToKit(c) {
   c.learns.forEach(function (L) {
     var li = document.createElement('li');
-    li.textContent = L[0];
+    li.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="' +
+                   glyphPath(L[0]) + '"/></svg><span></span>';
+    li.querySelector('span').textContent = L[0];
     if (L[1]) li.className = 'own';
     kitList.appendChild(li);
     requestAnimationFrame(function () { li.classList.add('in'); });
@@ -742,42 +729,52 @@ function addToKit(c) {
 }
 
 /* ============================================================
-   4. THE ROUTE ENGINE
+   4. THE ROAD
+   The road winds down the middle. Its lateral offset is driven by
+   knots - one per stop, leaning towards whichever side that stop
+   sits on - so the curve is not decorative: the road bends
+   because there is somewhere to visit.
    ============================================================ */
 
-var RAIL_CX = 62, HALF = 11, STEP = 7;
+var HALF_W = 11, STEP = 7;
 var reduceMQ = window.matchMedia('(prefers-reduced-motion: reduce)');
+var CX = 0, AMP = 70, KNOTS = [], pageTop = 0, pageH = 1, pageW = 1;
+var YEARMAP = [], FRONT = [], MASK = null, building = false;
 
-function railCx() {
-  var v = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--rail'));
-  return (isNaN(v) ? 132 : v) * 0.47;
+function offAt(y) {
+  if (!KNOTS.length) return 0;
+  if (y <= KNOTS[0].y) return KNOTS[0].off;
+  for (var i = 0; i < KNOTS.length - 1; i++) {
+    var a = KNOTS[i], b = KNOTS[i + 1];
+    if (y >= a.y && y <= b.y) {
+      var t = (b.y - a.y) ? (y - a.y) / (b.y - a.y) : 0;
+      return a.off + (b.off - a.off) * (1 - Math.cos(t * Math.PI)) / 2;
+    }
+  }
+  return KNOTS[KNOTS.length - 1].off;
 }
-var CX = RAIL_CX;
-
-function roadXAt(y) { return CX + N_DRIFT(y / 430) * 6; }
+function roadXAt(y) { return CX + offAt(y) + N_DRIFT(y / 430) * 5; }
 
 function kerbPts(y0, y1, off, na, nb) {
   var out = [], y;
-  for (y = y0; y < y1; y += STEP) {
+  for (y = y0; y < y1; y += STEP)
     out.push({ x: roadXAt(y) + off + na(y / 95) * 1.2 + nb(y / 26) * 0.45, y: y });
-  }
   out.push({ x: roadXAt(y1) + off + na(y1 / 95) * 1.2 + nb(y1 / 26) * 0.45, y: y1 });
   return out;
 }
+/* after the fork the two lanes peel away from the trunk toward their own stop */
 function laneXAt(y, fy, target) {
-  var u = clamp((y - fy) / 150, 0, 1), s = u * u * (3 - 2 * u);
-  return roadXAt(y) + (target - 0) * s;
+  var u = clamp((y - fy) / 190, 0, 1), s = u * u * (3 - 2 * u);
+  var base = offAt(fy);
+  return CX + base + (target - base) * s + N_DRIFT(y / 430) * 5;
 }
 function lanePts(y0, y1, fy, target, off, na, nb) {
   var out = [], y;
-  for (y = y0; y < y1; y += STEP) {
+  for (y = y0; y < y1; y += STEP)
     out.push({ x: laneXAt(y, fy, target) + off + na(y / 95) * 1.2 + nb(y / 26) * 0.45, y: y });
-  }
   out.push({ x: laneXAt(y1, fy, target) + off + na(y1 / 95) * 1.2 + nb(y1 / 26) * 0.45, y: y1 });
   return out;
 }
-
-var pageTop = 0, pageH = 1, pageW = 1, YEARMAP = [], FRONT = [], building = false;
 
 function measure() {
   var pr = page.getBoundingClientRect();
@@ -786,18 +783,19 @@ function measure() {
 
   var blocks = [].map.call(strip.querySelectorAll('[data-y0]'), function (e) {
     var r = e.getBoundingClientRect();
-    return { el: e, top: r.top + window.scrollY - pageTop, h: r.height,
-             y0: +e.dataset.y0, y1: +e.dataset.y1, gap: e.classList.contains('gap') };
+    return { top: r.top + window.scrollY - pageTop, h: r.height,
+             y0: +e.dataset.y0, y1: +e.dataset.y1 };
   });
   var ctls = [].map.call(strip.querySelectorAll('[data-ctl]'), function (e) {
     var a = e.querySelector('.anchor').getBoundingClientRect();
-    var g = e.querySelector('.control-grid').getBoundingClientRect();
-    var m = e.querySelector('.margin').getBoundingClientRect();
+    var h = e.querySelector('.half').getBoundingClientRect();
+    var left = e.classList.contains('side-l');
     return { el: e, idx: +e.dataset.idx,
              lane: e.dataset.lane === undefined ? null : +e.dataset.lane,
+             side: left ? -1 : 1,
              y: a.top + window.scrollY - pageTop,
-             colX: g.left - pr.left,
-             gutX: m.left - pr.left };
+             ax: a.left - pr.left,
+             near: (left ? h.right : h.left) - pr.left };
   });
   return { blocks: blocks, ctls: ctls };
 }
@@ -811,8 +809,7 @@ function buildYearMap(blocks) {
 }
 function yearToY(yr) {
   if (!YEARMAP.length) return 0;
-  var i;
-  for (i = 0; i < YEARMAP.length - 1; i++) {
+  for (var i = 0; i < YEARMAP.length - 1; i++) {
     var a = YEARMAP[i], b = YEARMAP[i + 1];
     if (yr >= a.year && yr <= b.year && b.year > a.year)
       return a.y + (b.y - a.y) * (yr - a.year) / (b.year - a.year);
@@ -822,8 +819,7 @@ function yearToY(yr) {
 function yToYear(y) {
   if (!YEARMAP.length) return KM_ZERO;
   if (y <= YEARMAP[0].y) return YEARMAP[0].year;
-  var i;
-  for (i = 0; i < YEARMAP.length - 1; i++) {
+  for (var i = 0; i < YEARMAP.length - 1; i++) {
     var a = YEARMAP[i], b = YEARMAP[i + 1];
     if (y >= a.y && y <= b.y && b.y > a.y)
       return a.year + (b.year - a.year) * (y - a.y) / (b.y - a.y);
@@ -833,19 +829,33 @@ function yToYear(y) {
 
 function build() {
   building = true;
-  CX = railCx();
   var m = measure();
+  if (!m.ctls.length) { building = false; return; }
   buildYearMap(m.blocks);
+
+  CX = m.ctls[0].ax;
+  var roadW = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--road')) || 0;
+  AMP = clamp(roadW / 2 - 34, 10, 92);
 
   while (routeSvg.firstChild) routeSvg.removeChild(routeSvg.firstChild);
   while (flightSvg.firstChild) flightSvg.removeChild(flightSvg.firstChild);
 
-  routeSvg.setAttribute('width', pageW);
-  routeSvg.setAttribute('height', pageH);
-  routeSvg.setAttribute('viewBox', '0 0 ' + pageW + ' ' + pageH);
-  flightSvg.setAttribute('width', pageW);
-  flightSvg.setAttribute('height', pageH);
-  flightSvg.setAttribute('viewBox', '0 0 ' + pageW + ' ' + pageH);
+  [routeSvg, flightSvg].forEach(function (s) {
+    s.setAttribute('width', pageW);
+    s.setAttribute('height', pageH);
+    s.setAttribute('viewBox', '0 0 ' + pageW + ' ' + pageH);
+  });
+
+  var laned = m.ctls.filter(function (c) { return c.lane !== null; });
+  var trunk = m.ctls.filter(function (c) { return c.lane === null; });
+  var startY = m.ctls[0].y - 74;
+  var endY = pageH - 18;
+  var forkY = laned.length ? laned[0].y - 96 : endY;
+
+  /* the knots that make the road wind */
+  KNOTS = [{ y: startY, off: 0 }];
+  trunk.forEach(function (c) { KNOTS.push({ y: c.y, off: c.side * AMP }); });
+  KNOTS.push({ y: forkY, off: 0 });
 
   /* ---- reveal mask: a band that follows the reading eye down the page ---- */
   var defs = el('defs', {}, routeSvg);
@@ -858,105 +868,89 @@ function build() {
   var mFade  = el('rect', { x: 0, y: 0, width: pageW, height: 54, fill: 'url(#fadeG)' }, mask);
   var G = el('g', { mask: 'url(#revealM)' }, routeSvg);
 
-  var startY = m.ctls.length ? m.ctls[0].y - 66 : 0;
-  var endY = pageH - 24;
-  var laned = m.ctls.filter(function (c) { return c.lane !== null; });
-  var forkY = laned.length ? laned[0].y - 52 : endY;
+  /* ---- the trunk ---- */
+  el('path', { class: 'kerb', d: polyPath(kerbPts(startY, forkY, -HALF_W, N_SLOW, N_FAST)) }, G);
+  el('path', { class: 'kerb', d: polyPath(kerbPts(startY, forkY,  HALF_W, N_SLOW, N_FAST)) }, G);
+  el('path', { class: 'kerb kerb-2', d: polyPath(kerbPts(startY, forkY, -HALF_W, N_FAST, N_SLOW)) }, G);
+  el('path', { class: 'kerb kerb-2', d: polyPath(kerbPts(startY, forkY,  HALF_W, N_FAST, N_SLOW)) }, G);
+  el('path', { class: 'centre', d: dashPath(kerbPts(startY, forkY, 0, N_SLOW, N_FAST), 13, 16) }, G);
 
-  var gaps = m.blocks.filter(function (b) { return b.gap; })
-                     .map(function (b) { return { a: b.top + 26, b: b.top + b.h - 26 }; });
-
-  /* ---- trunk, split around the blank stretches ---- */
-  var cuts = [startY];
-  gaps.forEach(function (g) {
-    if (g.a > startY && g.b < forkY) cuts.push(g.a, g.b);
-  });
-  cuts.push(forkY);
-  cuts.sort(function (a, b) { return a - b; });
-
-  for (var s = 0; s < cuts.length - 1; s++) {
-    var a = cuts[s], b = cuts[s + 1];
-    if (b - a < 2) continue;
-    var isGap = gaps.some(function (g) { return a >= g.a - 1 && b <= g.b + 1; });
-    if (isGap) {
-      el('path', { class: 'gapkerb', d: dashPath(kerbPts(a, b, -HALF, N_SLOW, N_FAST), 2, 9) }, G);
-      el('path', { class: 'gapkerb', d: dashPath(kerbPts(a, b,  HALF, N_SLOW, N_FAST), 2, 9) }, G);
-    } else {
-      el('path', { class: 'kerb', d: polyPath(kerbPts(a, b, -HALF, N_SLOW, N_FAST)) }, G);
-      el('path', { class: 'kerb', d: polyPath(kerbPts(a, b,  HALF, N_SLOW, N_FAST)) }, G);
-      el('path', { class: 'kerb kerb-2', d: polyPath(kerbPts(a, b, -HALF, N_FAST, N_SLOW)) }, G);
-      el('path', { class: 'kerb kerb-2', d: polyPath(kerbPts(a, b,  HALF, N_FAST, N_SLOW)) }, G);
-      el('path', { class: 'centre', d: dashPath(kerbPts(a, b, 0, N_SLOW, N_FAST), 13, 16) }, G);
-    }
-  }
-
-  /* ---- the fork: two roads, both still running ---- */
-  var LANE = [-27, 27];
+  /* ---- the fork: two roads, one to each of the current stops ---- */
+  var LANEOFF = {};
+  laned.forEach(function (c) { LANEOFF[c.lane] = c.side * AMP; });
   if (laned.length) {
-    LANE.forEach(function (t, li) {
-      el('path', { class: 'kerb', d: polyPath(lanePts(forkY, endY, forkY, t, -HALF, N_SLOW, N_FAST)) }, G);
-      el('path', { class: 'kerb', d: polyPath(lanePts(forkY, endY, forkY, t,  HALF, N_SLOW, N_FAST)) }, G);
+    laned.forEach(function (c) {
+      var t = LANEOFF[c.lane];
+      el('path', { class: 'kerb', d: polyPath(lanePts(forkY, endY, forkY, t, -HALF_W, N_SLOW, N_FAST)) }, G);
+      el('path', { class: 'kerb', d: polyPath(lanePts(forkY, endY, forkY, t,  HALF_W, N_SLOW, N_FAST)) }, G);
       el('path', { class: 'centre', d: dashPath(lanePts(forkY, endY, forkY, t, 0, N_SLOW, N_FAST), 13, 16) }, G);
     });
-    var by = forkY - 16;
-    el('path', { class: 'brace',
-      d: 'M' + r1(roadXAt(by) - 34) + ' ' + r1(by) + ' q34 -13 34 -13 q0 13 34 13' }, G);
-    el('text', { class: 'brace-t', x: r1(roadXAt(by) + 44), y: r1(by - 8) }, G)
+    var bx = roadXAt(forkY - 14);
+    el('text', { class: 'brace-t', x: r1(bx), y: r1(forkY - 22) }, G)
       .appendChild(document.createTextNode('both, at once'));
   }
 
-  /* ---- control markers, distance figures and leader lines ---- */
-  FRONT = [];
+  /* ---- control markers, distance figures, leader lines ---- */
   m.ctls.forEach(function (c, i) {
-    var cx = c.lane !== null ? laneXAt(c.y, forkY, LANE[c.lane]) : roadXAt(c.y);
+    var cx = c.lane !== null ? laneXAt(c.y, forkY, LANEOFF[c.lane]) : roadXAt(c.y);
     var g = el('g', {}, G);
-    el('path', { class: 'leader', d: 'M' + r1(cx + 14) + ' ' + r1(c.y) +
-                 ' Q' + r1((c.colX + cx) / 2) + ' ' + r1(c.y - 7) + ' ' + r1(c.colX - 10) + ' ' + r1(c.y) }, g);
+    var edge = cx + c.side * 14;
+    var target = c.near - c.side * 9;
+    el('path', { class: 'leader', d: 'M' + r1(edge) + ' ' + r1(c.y) +
+                 ' Q' + r1((edge + target) / 2) + ' ' + r1(c.y - 8) + ' ' + r1(target) + ' ' + r1(c.y) }, g);
     el('circle', { class: 'ctl-ring', cx: r1(cx), cy: r1(c.y), r: 13 }, g);
     el('circle', { class: 'ctl-dot', cx: r1(cx), cy: r1(c.y), r: 4.4 }, g);
-    var yr = +c.el.dataset.y0;
-    var km = (yr - KM_ZERO) * KM_PER_YEAR;
-    var tx = el('text', { class: 'km', x: r1(cx), y: r1(c.y - 26), 'text-anchor': 'middle' }, g);
-    tx.appendChild(document.createTextNode('KM ' + km.toLocaleString('en-GB')));
+
+    var km = (+c.el.dataset.y0 - KM_ZERO) * KM_PER_YEAR;
+    el('text', { class: 'km', x: r1(cx), y: r1(c.y - 26) }, g)
+      .appendChild(document.createTextNode('KM ' + km.toLocaleString('en-GB')));
     if (i > 0) {
       var prev = (+m.ctls[i - 1].el.dataset.y0 - KM_ZERO) * KM_PER_YEAR;
-      var td = el('text', { class: 'km-d', x: r1(cx), y: r1(c.y + 33), 'text-anchor': 'middle' }, g);
-      td.appendChild(document.createTextNode('+' + (km - prev) + ' km'));
+      if (km > prev) {
+        el('text', { class: 'km-d', x: r1(cx), y: r1(c.y + 33) }, g)
+          .appendChild(document.createTextNode('+' + (km - prev) + ' km'));
+      }
     }
   });
 
-  /* ---- the four flights ----
-     Each arc is drawn from the road to wherever layout put its stub, so the
-     drawing follows the text rather than the text dodging the drawing. */
+  /* ---- the four flights: drawn TO wherever layout put each stub ---- */
   var fdefs = el('defs', {}, flightSvg);
   var pr2 = page.getBoundingClientRect();
   FRONT = [];
   FLIGHTS.forEach(function (f, i) {
     var stub = page.querySelector('.stub[data-fyear="' + f.year + '"]');
     if (!stub) return;
+    var host = stub.closest('[data-ctl]');
+    var dir = host && host.classList.contains('side-l') ? 1 : -1;
     var sr = stub.getBoundingClientRect();
     var card = stub.querySelector('.stub-card').getBoundingClientRect();
 
     var dy = yearToY(f.year);
-    var dx = roadXAt(dy) + 14;
-    var ax = sr.left - pr2.left - 12;                  /* land just left of the stub */
+    var dx = roadXAt(dy) + dir * 14;
+    var ax = (dir < 0 ? sr.right : sr.left) - pr2.left + dir * 12;
     var ay = card.top - pr2.top + card.height / 2;
-    if (ax - dx < 120) return;                          /* no room: skip rather than scribble */
+    if (Math.abs(ax - dx) < 90) return;      /* no room: skip rather than scribble */
 
-    var run = ax - dx;
-    var top = Math.min(dy, ay) - f.rise;                /* bow above both ends */
+    /* Bow the arc perpendicular to the chord and always upward. Departures
+       spread down the stage while the stubs stack at its top, so anchoring the
+       bow to whichever end is higher produces loops - this does not. */
+    var vx = ax - dx, vy = ay - dy;
+    var len = Math.hypot(vx, vy) || 1;
+    var px = -vy / len, py = vx / len;
+    if (py > 0) { px = -px; py = -py; }
+    var bow = f.rise;
     var P = [
-      { x: dx,               y: dy },
-      { x: dx + run * 0.24,  y: top + f.rise * 0.10 },
-      { x: dx + run * 0.70,  y: top + f.rise * 0.34 },
-      { x: ax,               y: ay }
+      { x: dx,                                y: dy },
+      { x: dx + vx * 0.25 + px * bow * 0.95,  y: dy + vy * 0.25 + py * bow * 0.95 },
+      { x: dx + vx * 0.75 + px * bow * 0.95,  y: dy + vy * 0.75 + py * bow * 0.95 },
+      { x: ax,                                y: ay }
     ];
     var pts = [], t;
     for (t = 0; t <= 96; t++) pts.push(cubicAt(P, t / 96));
 
     var mk = el('mask', { id: 'flM' + i, maskUnits: 'userSpaceOnUse',
                           x: 0, y: 0, width: pageW, height: pageH }, fdefs);
-    var mr = el('rect', { x: r1(dx - 8), y: 0, width: 0, height: pageH, fill: '#fff' }, mk);
+    var mr = el('rect', { x: r1(dx), y: 0, width: 0, height: pageH, fill: '#fff' }, mk);
     var fg = el('g', { mask: 'url(#flM' + i + ')' }, flightSvg);
     el('path', { class: 'fl-trail', d: polyPath(pts) }, fg);
 
@@ -965,7 +959,8 @@ function build() {
     el('path', { class: 'plane', d: 'M11 0 L-6 5 L-3 0.8 L-9 1.4 L-11 -0.4 L-3 -0.9 L-6 -5 Z',
                  transform: 'translate(' + r1(tip.x) + ' ' + r1(tip.y) + ') rotate(' + r1(ang) + ')' }, fg);
 
-    FRONT.push({ mr: mr, dy: Math.min(dy, ay), ext: run + 30, rise: f.rise });
+    FRONT.push({ mr: mr, dx: dx, dir: dir, span: Math.abs(vx) + 40,
+                 dy: Math.min(dy, ay), win: Math.max(140, Math.abs(vy) + f.rise) });
   });
 
   MASK = { solid: mSolid, fade: mFade };
@@ -974,14 +969,13 @@ function build() {
   requestAnimationFrame(function () { building = false; });
 }
 
-/* ---- scroll: one write per frame, no easing, never fights the wheel ---- */
-var MASK = null, lastFront = -1, queued = false;
+/* ---- scroll: one pass per frame, no easing, never fights the wheel ---- */
+var lastFront = -1, queued = false;
 
 function paint() {
   queued = false;
   if (!MASK) return;
-  var eye = window.scrollY + window.innerHeight * 0.62;
-  var front = clamp(eye - pageTop, 0, pageH);
+  var front = clamp(window.scrollY + window.innerHeight * 0.62 - pageTop, 0, pageH);
   if (Math.abs(front - lastFront) < 0.5) return;
   lastFront = front;
 
@@ -989,12 +983,12 @@ function paint() {
   MASK.fade.setAttribute('y', r1(front));
 
   FRONT.forEach(function (s) {
-    var p = clamp((front - s.dy) / (s.rise * 1.5), 0, 1);
-    s.mr.setAttribute('width', r1(p * (s.ext + 40)));
+    var w = clamp((front - s.dy) / s.win, 0, 1) * s.span;
+    s.mr.setAttribute('width', r1(w));
+    s.mr.setAttribute('x', r1(s.dir < 0 ? s.dx - w : s.dx));
   });
 
-  var yr = yToYear(front);
-  odo.textContent = 'KM ' + Math.round((yr - KM_ZERO) * KM_PER_YEAR).toLocaleString('en-GB');
+  odo.textContent = 'KM ' + Math.round((yToYear(front) - KM_ZERO) * KM_PER_YEAR).toLocaleString('en-GB');
 }
 function onScroll() { if (!queued) { queued = true; requestAnimationFrame(paint); } }
 
@@ -1002,10 +996,12 @@ function fullyDrawn() {
   if (!MASK) return;
   MASK.solid.setAttribute('height', pageH);
   MASK.fade.setAttribute('y', pageH);
-  FRONT.forEach(function (s) { s.mr.setAttribute('width', s.ext + 40); });
+  FRONT.forEach(function (s) {
+    s.mr.setAttribute('width', s.span);
+    s.mr.setAttribute('x', r1(s.dir < 0 ? s.dx - s.span : s.dx));
+  });
   odo.textContent = 'KM 2,000';
 }
-
 function attachScroll() {
   window.removeEventListener('scroll', onScroll);
   if (reduceMQ.matches) { fullyDrawn(); return; }
@@ -1015,68 +1011,42 @@ function attachScroll() {
 
 /* ---- entries ink in once, and never un-ink ---- */
 var seen = new WeakSet();
+function inkNow(n) {
+  n.classList.add('is-inked');
+  var sec = n.closest('[data-ctl]');
+  if (sec && n.classList.contains('slip') && !seen.has(sec)) {
+    seen.add(sec);
+    if (CONTROLS[+sec.dataset.idx]) addToKit(CONTROLS[+sec.dataset.idx]);
+  }
+}
 var io = new IntersectionObserver(function (entries) {
   entries.forEach(function (e) {
     if (!e.isIntersecting) return;
-    e.target.classList.add('is-inked');
+    inkNow(e.target);
     io.unobserve(e.target);
-    var sec = e.target.closest('[data-ctl]');
-    if (sec && e.target.classList.contains('slip') && !seen.has(sec)) {
-      seen.add(sec);
-      var c = CONTROLS.filter(function (x) { return x.kind === 'control'; })[+sec.dataset.idx];
-      if (c) addToKit(c);
-    }
   });
-}, { rootMargin: '0px 0px -32% 0px', threshold: 0.02 });
+}, { rootMargin: '0px 0px -30% 0px', threshold: 0.02 });
 
-/* Anything at or above the fold is inked immediately, with no animation.
-   IntersectionObserver only fires on elements that actually intersect, so a
-   reload at a scrolled position - or a jump to an anchor - would otherwise
-   leave everything above the viewport permanently invisible. That is a real
-   hazard mid-presentation, not a theoretical one. */
+/* Anything at or above the fold inks immediately. IntersectionObserver never
+   fires for elements scrolled past without ever being visible, so a reload at
+   a scrolled position would otherwise leave everything above permanently
+   blank - a real hazard mid-presentation. */
 function observeAll() {
   document.querySelectorAll('.inks:not(.is-inked)').forEach(function (n) {
-    if (n.getBoundingClientRect().top < window.innerHeight) {
-      n.classList.add('is-inked');
-      var sec = n.closest('[data-ctl]');
-      if (sec && n.classList.contains('slip') && !seen.has(sec)) {
-        seen.add(sec);
-        var c = CONTROLS.filter(function (x) { return x.kind === 'control'; })[+sec.dataset.idx];
-        if (c) addToKit(c);
-      }
-    } else {
-      io.observe(n);
-    }
+    if (n.getBoundingClientRect().top < window.innerHeight) inkNow(n);
+    else io.observe(n);
   });
 }
 
 /* ---- rebuild triggers ---- */
 var bt = 0;
 function schedule() { clearTimeout(bt); bt = setTimeout(function () { build(); observeAll(); }, 70); }
-
 var ro = new ResizeObserver(function () { if (!building) schedule(); });
-strip.querySelectorAll('[data-y0]').forEach(function (n) { ro.observe(n); });
+strip.querySelectorAll('[data-ctl]').forEach(function (n) { ro.observe(n); });
 ro.observe(page);
 window.addEventListener('resize', schedule);
 reduceMQ.addEventListener('change', attachScroll);
 
-/* ---- theme ---- */
-var lamp = document.getElementById('lamp');
-try {
-  var saved = localStorage.getItem('brevet-theme');
-  if (saved) document.documentElement.setAttribute('data-theme', saved);
-} catch (e) {}
-lamp.addEventListener('click', function () {
-  var cur = document.documentElement.getAttribute('data-theme');
-  if (!cur) {
-    cur = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-  }
-  var next = cur === 'dark' ? 'light' : 'dark';
-  document.documentElement.setAttribute('data-theme', next);
-  try { localStorage.setItem('brevet-theme', next); } catch (e) {}
-});
-
-/* ---- go ---- */
 function start() { build(); observeAll(); attachScroll(); }
 if (document.fonts && document.fonts.ready) {
   document.fonts.ready.then(start);

@@ -34,6 +34,7 @@ Narration notes are in [docs/talk-track.md](docs/talk-track.md).
 | `docs/talk-track.md` | The 5-minute narration, timed per control |
 | `docs/qa-prep.md` | Anticipated client questions with answers |
 | `docs/check-before-monday.md` | **Read this first.** What is verified vs. what I inferred. |
+| `docs/logos.md` | How to swap the monogram badges for real logo files, and why they are not there by default |
 | `archive/` | The earlier case-study version, kept for reference |
 
 ## Editing content
@@ -59,8 +60,7 @@ Edit the template, never `index.html` - the build overwrites it.
 Creamy squared paper (`#faf6ec`) with a rust margin rule, brand blue `#2c5bd6` for the road and
 all handwriting, and a third ink - stamp red `#b4442f` - used for control stamps only. Caveat
 carries anything a person would actually scrawl in a margin; Inter carries everything factual.
-Light is the design's home; dark is a warm charcoal notebook under a desk lamp.
+Single-theme by choice: the brief asked for creamy paper and blue ink, so the page keeps its own light world instead of inverting in a dark-mode viewer.
 
-The route is generated at runtime from measured DOM positions, so markers stay on the road
-through any reflow. No external libraries - the hand-drawn wobble is deterministic value noise
+The road runs down the middle and winds left and right, with one knot per stop leaning toward whichever side that stop sits on - so the curve is structural, not decorative. It is generated at runtime from measured DOM positions, so markers stay on the road through any reflow. No external libraries - the hand-drawn wobble is deterministic value noise
 applied to the geometry, not a filter.
