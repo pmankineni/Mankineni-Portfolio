@@ -95,18 +95,14 @@ body{
   color:var(--pencil-light);margin-top:4px;text-align:center}
 
 /* ---------- the tiles: what the ride adds up to ---------- */
-.tiles{display:grid;grid-template-columns:repeat(6,1fr);gap:clamp(10px,1.4vw,20px);
-  margin-top:clamp(26px,4vh,44px)}
-.tile{text-align:center}
-.tile-ico{display:grid;place-items:center;width:100%;aspect-ratio:1;max-width:82px;
-  margin:0 auto 10px;border-radius:24px;box-shadow:0 6px 16px -8px rgba(22,32,58,.5),
-  inset 0 1px 0 rgba(255,255,255,.5)}
-.tile-ico svg{width:46%;height:46%;fill:none;stroke:#fff;stroke-width:1.9;
-  stroke-linecap:round;stroke-linejoin:round}
-.tile b{display:block;font-size:clamp(1.3rem,2.2vw,1.75rem);font-weight:800;
-  letter-spacing:-.03em;color:var(--ink);line-height:1;font-variant-numeric:tabular-nums}
-.tile span{display:block;font-size:11px;font-weight:500;letter-spacing:.09em;
-  text-transform:uppercase;color:var(--pencil-light);margin-top:6px;line-height:1.35}
+.tiles{display:grid;grid-template-columns:repeat(5,1fr);gap:clamp(10px,1.3vw,18px);
+  margin-top:clamp(24px,3.6vh,40px)}
+.tile{background:var(--paper-slip);border:1px solid var(--line);border-radius:20px;
+  padding:20px 14px 17px;text-align:center;box-shadow:var(--slip-shadow)}
+.tile b{display:block;font-size:clamp(1.5rem,2.7vw,2.15rem);font-weight:800;
+  letter-spacing:-.03em;color:var(--blue);line-height:1;font-variant-numeric:tabular-nums}
+.tile span{display:block;font-size:10.5px;font-weight:600;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--pencil-light);margin-top:9px;line-height:1.35}
 .cover-stamp{
   position:absolute;right:22px;top:14px;width:132px;height:132px;
   transform:rotate(-9deg);opacity:.42;
@@ -209,11 +205,11 @@ svg.route{position:absolute;top:0;left:0;z-index:2;pointer-events:none}
   color:var(--ink);margin-top:6px;text-wrap:balance}
 .slip-sub{margin-top:7px;font-size:11px;font-weight:500;letter-spacing:.13em;
   text-transform:uppercase;color:var(--pencil-light)}
-.slip-doing{margin-top:13px;font-size:16.5px;line-height:1.5;color:var(--ink-body)}
-/* the activities, as one run of text rather than a table of rows - a stop
-   should not need a whole screen of its own */
-.did{margin-top:12px;padding-top:12px;border-top:1px dotted var(--line);
-  font-size:15.5px;line-height:1.62;color:var(--ink-body)}
+/* The activities carry the stop on their own - a separate summary line above
+   them only said the same thing twice. One run of text, not a table of rows:
+   a stop should not need a whole screen of its own. */
+.did{margin-top:15px;padding-top:13px;border-top:1px dotted var(--line);
+  font-size:16px;line-height:1.62;color:var(--ink-body)}
 .did b{font-weight:600;color:var(--ink)}
 .did-h{font-size:10.5px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;
   color:var(--pencil-light);margin-bottom:5px}
@@ -329,7 +325,7 @@ svg.route{position:absolute;top:0;left:0;z-index:2;pointer-events:none}
 
 /* ---------- responsive ---------- */
 @media (max-width:1240px){ :root{--road:180px;--half:440px} .slip-role{font-size:25px}
-  .tiles{grid-template-columns:repeat(3,1fr);gap:14px} }
+  .tiles{grid-template-columns:repeat(3,1fr);gap:12px} }
 @media (max-width:980px){
   /* the road returns to the left edge and every stop lines up beside it */
   :root{--road:0px}
@@ -466,13 +462,16 @@ var COVER = {
 };
 
 /* the six tiles under the name - what eighteen years adds up to */
+/* Business lines counted across every client on the CV: pharma & healthcare
+   (Bayer, Fresenius), automotive (Bosch, Royal Enfield, Magna), public sector
+   & defence (Bundeswehr/BWI), chemicals & coatings (Mankiewicz), industrial
+   machinery (KSB), machine vision & imaging (Basler). */
 var TILES = [
-  { n:'18+', label:'Years in SAP',        tint:'#0a63c9', ico:'M12 3v9l6 3M12 21a9 9 0 1 1 0-18 9 9 0 0 1 0 18z' },
-  { n:'9',   label:'Enterprise clients',  tint:'#0f8a7d', ico:'M4 21V7l7-4 7 4v14M4 21h14M9 21v-5h4v5M8 10h.01M12 10h.01M8 13.5h.01M12 13.5h.01' },
-  { n:'3',   label:'Countries worked in', tint:'#c07a12', ico:'M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM3.5 9h17M3.5 15h17M12 3c2.6 3 2.6 15 0 18M12 3c-2.6 3-2.6 15 0 18' },
-  { n:'17',  label:'Tools in the bag',    tint:'#6a4bc4', ico:'M3 9h18v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2zM8 9V6a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v3M3 13h18' },
-  { n:'4',   label:'Certifications',      tint:'#1f7a3d', ico:'M12 3.5l2.4 4.9 5.4.8-3.9 3.8.9 5.4-4.8-2.5-4.8 2.5.9-5.4L4.2 9.2l5.4-.8zM8 19.5V22l4-1.6 4 1.6v-2.5' },
-  { n:'2',   label:'Live engagements',    tint:'#c2503c', ico:'M3 12h4l2.5-6 4 12L16 12h5' }
+  { n:'18+', label:'Years in SAP' },
+  { n:'9',   label:'Enterprise clients' },
+  { n:'6',   label:'Business lines' },
+  { n:'17',  label:'Tools in the bag' },
+  { n:'4',   label:'Certifications' }
 ];
 
 var CONTROLS = [
@@ -480,8 +479,7 @@ var CONTROLS = [
     role:'Junior on the support desk',
     employer:'Bayer AG', mark:'BAY', logo:null,
     sub:'Bayer AG \u00b7 Junior Consultant \u00b7 India',
-    doing:'Answering tickets, watching the loads, learning what a BW system actually does.',
-    acts:['Tickets, start to finish', 'Monitoring the process chains',
+    acts:['Tickets, start to finish', 'Monitoring the process chains and nightly loads',
           'Performance tuning', 'Extending Business Content'],
     learns:[['BW', false], ['Web applications', false]],
     aside:null, stampTop:'BAYER AG' },
@@ -490,7 +488,6 @@ var CONTROLS = [
     role:'Onsite, and building the reports',
     employer:'Robert Bosch', mark:'RB', logo:null,
     sub:'Robert Bosch \u00b7 BW Developer \u00b7 Associate Project Manager',
-    doing:'Onsite coordinator by day, BW developer the rest of the time.',
     acts:['Onsite coordinator', 'BW development', 'Vendor service level reports',
           'Vendor backlog reporting'],
     learns:[['BO tools', false], ['Xcelsius', false]],
@@ -501,8 +498,7 @@ var CONTROLS = [
     role:'Bosch, then Royal Enfield',
     employer:'Bosch \u2192 Royal Enfield', mark:'RE', logo:null,
     sub:'Bosch \u2192 Royal Enfield \u00b7 Inventory \u00b7 India',
-    doing:'Inventory reporting in BW, two clients back to back, HANA underneath.',
-    acts:['Inventory reporting in BW', 'Bosch first, then Royal Enfield'],
+    acts:['Inventory reporting in BW', 'Bosch first, then Royal Enfield', 'HANA underneath'],
     learns:[['HANA', false]],
     aside:null, stampTop:'BOSCH \u00b7 ROYAL ENFIELD' },
 
@@ -510,9 +506,8 @@ var CONTROLS = [
     role:'The 25-year-old application',
     employer:'Fresenius', mark:'FRE', logo:null,
     sub:'Fresenius \u00b7 Global Sales Reporting \u00b7 Germany',
-    doing:'Converting a 25-year-old ABAP sales application from ERP into BW.',
-    acts:['Global Sales Reporting', 'The old ABAP, read end to end',
-          'ERP to BW, field by field', 'Five years on one thing'],
+    acts:['Global Sales Reporting', 'A 25-year-old ABAP sales application, ERP to BW',
+          'The old ABAP read end to end, field by field', 'Five years on one thing'],
     learns:[['ABAP', false], ['SQL', false], ['HANA SQL', false], ['Graphical views', false]],
     aside:'Twenty-five years of someone else\u2019s logic, read line by line.',
     stampTop:'FRESENIUS AG' },
@@ -521,8 +516,7 @@ var CONTROLS = [
     role:'My first public sector project',
     employer:'Bundeswehr', mark:'BWI', logo:null,
     sub:'Bundeswehr \u00b7 BW/4HANA \u00b7 Planning',
-    doing:'BW/4HANA and OData behind the dashboards, planning applications on top.',
-    acts:['BW/4HANA build', 'OData for the front ends', 'Dashboards', 'Planning applications'],
+    acts:['BW/4HANA build', 'OData behind the front ends', 'Dashboards', 'Planning applications'],
     learns:[['Lumira', false], ['SDI', false]],
     aside:null, stampTop:'BUNDESWEHR \u00b7 BWI' },
 
@@ -530,7 +524,6 @@ var CONTROLS = [
     role:'Keeping a live system moving',
     employer:'Mankiewicz', mark:'MK', logo:null,
     sub:'Mankiewicz \u00b7 BW on HANA \u00b7 SAC',
-    doing:'BW on HANA, SAC dashboards, COPA, and a steady queue of changes.',
     acts:['BW on HANA', 'SAC dashboards', 'COPA', 'Change requests, week by week'],
     learns:[['Snowflake', true], ['Databricks', true], ['Python', true]],
     aside:'Snowflake and Python were never on the statement of work.',
@@ -540,17 +533,16 @@ var CONTROLS = [
     role:'Datasphere, and the new stack',
     employer:'Basler', mark:'BSL', logo:null,
     sub:'Basler \u00b7 Datasphere \u00b7 CDS',
-    doing:'Datasphere and CDS views, on the newest part of the stack.',
-    acts:['Datasphere', 'CDS views', 'Modelling on the newer stack'],
+    acts:['Datasphere', 'CDS views', 'Modelling on the newest part of the stack'],
     learns:[['BDC', true], ['MCP servers', true], ['AI tools', true]],
     aside:'The MCP servers I wrote on evenings.',
     stampTop:'BASLER AG' }
 ];
 
 var FLIGHTS = [
-  { year:2010, code:'IN \u2192 DE', line:'First time I moved for a project.', rise:120 },
-  { year:2012, code:'DE \u2192 SG', line:'Singapore next. Same work, different heat.', rise:158 },
-  { year:2013, code:'SG \u2192 IN', line:'Back to India for a quieter year.', rise:196 },
+  { year:2010, code:'IN \u2192 DE', line:'My first onsite assignment', rise:120 },
+  { year:2012, code:'DE \u2192 SG', line:'Customer trainings and dashboard presentations', rise:158 },
+  { year:2013, code:'SG \u2192 IN', line:'End of my first successful deputation', rise:196 },
   { year:2016, code:'IN \u2192 DE', line:'Back to Germany. This time it stuck.', rise:146 }
 ];
 
@@ -687,9 +679,7 @@ document.getElementById('firmBox').innerHTML = COVER.firmLogo
   : '<span class="firm-t">' + COVER.firm + '</span>' +
     '<span class="firm-s">' + COVER.firmRole + '</span>';
 document.getElementById('tiles').innerHTML = TILES.map(function (t) {
-  return '<div class="tile"><span class="tile-ico" style="background:' + t.tint + '">' +
-           '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="' + t.ico + '"/></svg></span>' +
-         '<b>' + t.n + '</b><span>' + t.label + '</span></div>';
+  return '<div class="tile"><b>' + t.n + '</b><span>' + t.label + '</span></div>';
 }).join('');
 document.getElementById('clPlace').textContent = CLOSING.place;
 document.getElementById('clLine').textContent  = CLOSING.line;
@@ -750,7 +740,6 @@ CONTROLS.forEach(function (c, i) {
                     '<p class="slip-sub">' + esc(c.sub) + '</p>' +
                   '</div>' +
                 '</div>' +
-                '<p class="slip-doing">' + esc(c.doing) + '</p>' +
                 '<div class="did">' + instr + '</div>' +
                 (c.aside ? '<p class="slip-aside">' + esc(c.aside) + '</p>' : '') +
                 '<svg class="stamp" viewBox="0 0 132 132" aria-hidden="true">' +
