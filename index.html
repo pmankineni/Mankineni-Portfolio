@@ -90,27 +90,25 @@ body{
   overflow:hidden;
 }
 .cover-inner{width:100%;position:relative;z-index:2}
-/* The identity bar rides along the whole scroll. It shrinks once you are
-   past the top so it costs as little vertical room as possible while still
-   carrying the photo, the name and the firm. */
+/* The identity bar rides the whole scroll at a CONSTANT height. It used to
+   shrink once you scrolled past the top, which made the document ~109px
+   shorter; scroll anchoring then pulled scrollY back under the threshold,
+   which un-shrank it, which lengthened the document again. That loop has no
+   fixed point and the header flickered forever. Nothing here may change the
+   bar's height on scroll. */
 .topbar{
   position:sticky;top:0;z-index:40;background:var(--paper-aged);
-  transition:box-shadow .18s ease;
+  box-shadow:0 1px 0 var(--line);
 }
 .topbar-inner{
   display:grid;grid-template-columns:auto minmax(0,1fr) auto;
-  gap:clamp(18px,2.5vw,40px);align-items:center;text-align:left;width:100%;
-  padding:clamp(22px,3.4vh,38px) clamp(22px,3vw,44px);
-  transition:padding .2s ease;
+  gap:clamp(16px,2.2vw,34px);align-items:center;text-align:left;width:100%;
+  padding:13px clamp(22px,3vw,44px);
 }
-.topbar.is-stuck{box-shadow:0 1px 0 var(--line), 0 10px 22px -18px rgba(22,32,58,.55)}
-.topbar.is-stuck .topbar-inner{padding-top:9px;padding-bottom:9px}
-.topbar.is-stuck .portrait{width:54px;height:54px;border-width:2px}
-.topbar.is-stuck h1{font-size:clamp(1.25rem,2vw,1.65rem)}
-.topbar.is-stuck .cover-role{font-size:10px;margin-bottom:1px}
-.topbar.is-stuck .firm img{max-width:118px;max-height:42px}
-.portrait,.topbar h1,.firm img{transition:width .2s ease,height .2s ease,
-  font-size .2s ease,max-width .2s ease,max-height .2s ease}
+.topbar .portrait{width:66px;height:66px;border-width:2px}
+.topbar h1{font-size:clamp(1.35rem,2.1vw,1.85rem)}
+.topbar .cover-role{margin-bottom:2px;font-size:10px}
+.topbar .firm img{max-width:132px;max-height:48px}
 .portrait{width:128px;height:128px;border-radius:50%;object-fit:cover;
   border:3px solid var(--paper-slip);box-shadow:var(--slip-shadow)}
 .firm{flex:none;display:grid;place-items:center;min-width:132px;padding:14px 18px;
@@ -304,7 +302,6 @@ svg.route{position:absolute;top:0;left:0;z-index:2;pointer-events:none}
   transition:opacity .42s cubic-bezier(.2,.7,.2,1),transform .42s cubic-bezier(.2,.7,.2,1)}
 
 @media (prefers-reduced-motion:reduce){
-  .topbar,.topbar-inner,.portrait,.topbar h1,.firm img{transition:none}
   .inks,.inks.is-inked{opacity:1;transform:none;transition:none}
   .kit-list li{opacity:.55;clip-path:inset(0);transition:none}
   .kit-list li.newest{opacity:1}
@@ -322,19 +319,18 @@ svg.route{position:absolute;top:0;left:0;z-index:2;pointer-events:none}
   .half{max-width:660px}
   .kit{display:none}
   .cover,.closing{text-align:left}
-  .portrait{width:84px;height:84px}
-  .topbar.is-stuck .portrait{width:48px;height:48px}
+  .topbar .portrait{width:58px;height:58px}
   .closing-line,.closing-note{margin-left:0;margin-right:0}
   .closing-contact{justify-content:flex-start}
 }
 @media (max-width:680px){
   body{font-size:17px}
   .tiles{grid-template-columns:repeat(2,1fr)}
-  .topbar-inner{gap:12px;padding-left:16px;padding-right:16px}
-  .portrait{width:60px;height:60px}
-  .topbar.is-stuck .portrait{width:42px;height:42px}
+  .topbar-inner{gap:12px;padding:10px 16px}
+  .topbar .portrait{width:46px;height:46px}
   .topbar .cover-role{display:none}
-  .firm img{max-width:96px;max-height:36px}
+  .topbar h1{font-size:1.25rem}
+  .topbar .firm img{max-width:96px;max-height:34px}
   .control{padding-left:64px}
   .anchor{left:30px}
   .slip{padding:22px 20px 24px}
@@ -1035,21 +1031,6 @@ function observeAll() {
     else io.observe(n);
   });
 }
-
-/* ---- the identity bar goes compact once you are off the top ---- */
-(function () {
-  var bar = document.getElementById('topbar'), stuck = false;
-  /* Run straight off the scroll event rather than deferring to rAF: this is
-     one comparison, and it only writes a class when the state actually
-     flips - not once per scroll event. Deferring it meant the bar could
-     still be at full height a frame or two into the scroll. */
-  function settle() {
-    var s = window.scrollY > 40;
-    if (s !== stuck) { stuck = s; bar.classList.toggle('is-stuck', s); }
-  }
-  window.addEventListener('scroll', settle, { passive: true });
-  settle();
-}());
 
 /* ---- rebuild triggers ---- */
 var bt = 0;
