@@ -88,7 +88,7 @@ body{
   color:var(--pencil-light);margin-top:4px;text-align:center}
 
 /* ---------- the tiles: what the ride adds up to ---------- */
-.tiles{display:grid;grid-template-columns:repeat(5,1fr);gap:clamp(10px,1.3vw,18px);
+.tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(10px,1.3vw,18px);
   margin-top:clamp(24px,3.6vh,40px)}
 .tile{background:var(--paper-slip);border:1px solid var(--line);border-radius:20px;
   padding:20px 14px 17px;text-align:center;box-shadow:var(--slip-shadow)}
@@ -271,7 +271,7 @@ svg.route{position:absolute;top:0;left:0;z-index:2;pointer-events:none}
 
 /* ---------- responsive ---------- */
 @media (max-width:1240px){ :root{--road:180px;--half:440px} .slip-role{font-size:25px}
-  .tiles{grid-template-columns:repeat(3,1fr);gap:12px} }
+  .tiles{grid-template-columns:repeat(4,1fr);gap:12px} }
 @media (max-width:980px){
   /* the road returns to the left edge and every stop lines up beside it */
   :root{--road:0px}
@@ -383,14 +383,9 @@ var COVER = {
 };
 
 /* the six tiles under the name - what eighteen years adds up to */
-/* Business lines counted across every client on the CV: pharma & healthcare
-   (Bayer, Fresenius), automotive (Bosch, Royal Enfield, Magna), public sector
-   & defence (Bundeswehr/BWI), chemicals & coatings (Mankiewicz), industrial
-   machinery (KSB), machine vision & imaging (Basler). */
 var TILES = [
   { n:'18+', label:'Years in SAP' },
   { n:'9',   label:'Enterprise clients' },
-  { n:'6',   label:'Business lines' },
   { n:'17',  label:'Tools in the bag' },
   { n:'7',   label:'Certifications/Badges' }
 ];
