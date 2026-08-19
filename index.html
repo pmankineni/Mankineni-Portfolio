@@ -176,12 +176,6 @@ svg.route{position:absolute;top:0;left:0;z-index:2;pointer-events:none}
 .route .ctl-ring{fill:var(--paper);stroke:var(--blue);stroke-width:2.4}
 .route .ctl-dot{fill:var(--blue)}
 .route .leader{fill:none;stroke:var(--blue);stroke-width:1.3;opacity:.38;stroke-dasharray:3 4}
-.route .brace{fill:none;stroke:var(--blue);stroke-width:1.5;opacity:.45}
-/* paint-order knocks a paper-coloured halo out of the road behind the words,
-   so the kerb does not run through them */
-.route .brace-t{font-family:var(--hand);font-size:23px;font-weight:600;fill:var(--blue);
-  stroke:var(--paper);stroke-width:5;paint-order:stroke fill;stroke-linejoin:round;
-  opacity:.95;text-anchor:middle}
 
 .flights .fl-trail{fill:none;stroke:var(--blue);stroke-width:2;opacity:.72;
   stroke-dasharray:7 8;stroke-linecap:round}
@@ -272,11 +266,32 @@ svg.route{position:absolute;top:0;left:0;z-index:2;pointer-events:none}
 .stub-line{font-family:var(--hand);font-size:22px;font-weight:600;color:var(--blue);
   margin-top:6px;line-height:1.12;transform:rotate(1.4deg);transform-origin:left center}
 
+/* ---------- the workshop: off the road, on purpose ----------
+   Deliberately NOT a .control. It carries no anchor, no leader line and no
+   knot, so the road never bends towards it and never splits for it. That is
+   the entire point: internal R&D is capability, not a commitment, and a
+   reader counting roads should be counting client engagements only. Pencil
+   throughout, matching the self-taught legend. */
+.workshop{width:min(660px,calc(100% - 48px));
+  margin:clamp(8px,2vh,24px) auto clamp(40px,6vh,64px);
+  padding:26px 30px 28px;background:var(--paper-slip);
+  border:1.4px dashed var(--line);border-radius:20px;transform:rotate(-.4deg)}
+.wk-eyebrow{font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--pencil-light)}
+.wk-role{font-family:var(--hand);font-size:31px;font-weight:700;color:var(--pencil);
+  line-height:1.05;margin-top:6px}
+.wk-sub{margin-top:4px;font-size:14px;color:var(--pencil-light)}
+.wk-acts{margin-top:14px;padding-top:12px;border-top:1px dotted var(--line);
+  display:flex;flex-wrap:wrap;gap:6px 22px;font-size:15px;color:var(--pencil)}
+.wk-acts span{position:relative;padding-left:15px}
+.wk-acts span::before{content:'';position:absolute;left:0;top:8px;width:7px;height:7px;
+  border:1.4px solid var(--pencil);border-radius:50%}
+
 /* ---------- closing ---------- */
 .closing{position:relative;background:var(--paper-aged);border-top:1px solid var(--line);
   padding:clamp(44px,7vh,76px) clamp(24px,5vw,80px) clamp(52px,8vh,88px);text-align:center}
 .closing-line{font-family:var(--hand);font-size:clamp(2rem,4vw,3.1rem);font-weight:700;
-  color:var(--blue);line-height:1.1;margin:0 auto;max-width:24ch;transform:rotate(-1deg)}
+  color:var(--blue);line-height:1.1;margin:0 auto;max-width:32ch;transform:rotate(-1deg)}
 .closing-note{margin:24px auto 0;font-size:14px;color:var(--pencil-light);
   font-style:italic;max-width:54ch}
 .closing-contact{margin-top:32px;display:flex;flex-wrap:wrap;justify-content:center;
@@ -401,6 +416,15 @@ svg.route{position:absolute;top:0;left:0;z-index:2;pointer-events:none}
   <div class="strip" id="strip"></div>
 </div>
 
+<!-- ============ WORKSHOP - off the road, on purpose ============ -->
+<section class="workshop inks" id="workshop"
+         aria-label="Internal research and development at ARSA Infotech">
+  <p class="wk-eyebrow" id="wkEyebrow"></p>
+  <h2 class="wk-role" id="wkRole"></h2>
+  <p class="wk-sub" id="wkSub"></p>
+  <div class="wk-acts" id="wkActs"></div>
+</section>
+
 <!-- ==================== CLOSING ==================== -->
 <footer class="closing">
   <p class="closing-line" id="clLine"></p>
@@ -498,31 +522,36 @@ var CONTROLS = [
     learns:[['Lumira', false], ['SDI', false]],
     aside:null },
 
-  { y0:2024, y1:2026, display:'2024 \u2014 today', lane:0,
+  { y0:2024, y1:2026, display:'2024 \u2014 today',
     role:'Mankiewicz',
     sub:'BW on HANA \u00b7 SAC',
     acts:['BW on HANA', 'SAC dashboards', 'COPA', 'Change requests, week by week'],
     learns:[['Snowflake', true], ['Databricks', true], ['Python', true]],
     aside:null },
 
-  { y0:2025, y1:2026, display:'2025 \u2014 today', lane:1,
+  { y0:2025, y1:2026, display:'2025 \u2014 today',
     role:'Basler',
     sub:'Datasphere \u00b7 CDS',
     acts:['Datasphere', 'CDS views', 'Modelling on the newest part of the stack'],
     learns:[['BDC', false]],
-    aside:null },
-
-  /* lanePos:0 puts this road down the middle of the fork. Without it the
-     index-parity side would hand it +1, the same lateral target as
-     Mankiewicz, and the two roads would draw on top of each other. */
-  { y0:2025, y1:2026, display:'2025 \u2014 today', lane:2, lanePos:0,
-    role:'ARSA Infotech',
-    sub:'ARSA Intelligence \u00b7 MCP servers \u00b7 AI agents',
-    acts:['MCP servers over the SAP estate', 'Agents for lineage and migration planning',
-          'Running on BTP', 'Internal, alongside the client work'],
-    learns:[['MCP servers', true], ['AI tools', true]],
     aside:null }
 ];
+
+/* ARSA Intelligence is NOT a stop on the road, deliberately. It is the firm's
+   own internal R&D rather than a client engagement, so drawing it as a third
+   parallel lane overstated the load: the geometry said "three clients at
+   once" before a reader reached a single word. Its two learnings still reach
+   the kit card (see inkNow), so the bag stays at 17 with 5 self-taught and
+   the cover thesis - twelve core, five beside it - holds untouched. */
+var WORKSHOP = {
+  eyebrow: 'Alongside the client work',
+  role:    'ARSA Intelligence',
+  sub:     'ARSA Infotech \u00b7 internal R&D',
+  acts:    ['MCP servers over the SAP estate',
+            'Agents for lineage and migration planning',
+            'Running on BTP'],
+  learns:  [['MCP servers', true], ['AI tools', true]]
+};
 
 var FLIGHTS = [
   { year:2010, code:'IN \u2192 DE', line:'My first onsite assignment', rise:120 },
@@ -532,7 +561,7 @@ var FLIGHTS = [
 ];
 
 var CLOSING = {
-  line:  'Bremen. Three roads open, all are running.',
+  line:  'Bremen. The road is still running, and there is room on it.',
   note:  'Blue is the SAP core. Pencil is the stack beside it. ' +
          'The road just runs off the page; that is on purpose.'
 };
@@ -669,6 +698,17 @@ document.getElementById('tiles').innerHTML = TILES.map(function (t) {
 }).join('');
 document.getElementById('clLine').textContent  = CLOSING.line;
 document.getElementById('clNote').textContent  = CLOSING.note;
+document.getElementById('wkEyebrow').textContent = WORKSHOP.eyebrow;
+document.getElementById('wkRole').textContent    = WORKSHOP.role;
+document.getElementById('wkSub').textContent     = WORKSHOP.sub;
+(function () {
+  var box = document.getElementById('wkActs');
+  WORKSHOP.acts.forEach(function (a) {
+    var s = document.createElement('span');
+    s.textContent = a;          /* textContent, so no escaping question arises */
+    box.appendChild(s);
+  });
+})();
 document.getElementById('kitT').textContent    = KIT.header;
 document.getElementById('kitFoot').textContent = KIT.foot;
 
@@ -706,9 +746,7 @@ CONTROLS.forEach(function (c, i) {
   }).join('') + '</div></div>' : '';
 
   html += '<section class="control side-' + side + '" data-ctl data-idx="' + i + '"' +
-            ' data-y0="' + c.y0 + '" data-y1="' + c.y1 + '"' +
-            (c.lane !== undefined ? ' data-lane="' + c.lane + '"' : '') +
-            (c.lanePos !== undefined ? ' data-lane-pos="' + c.lanePos + '"' : '') + '>' +
+            ' data-y0="' + c.y0 + '" data-y1="' + c.y1 + '">' +
             '<span class="anchor"></span>' +
             '<div class="half">' +
               '<div class="slip inks" style="--tilt:' + TILT[i % TILT.length] + 'deg">' +
@@ -785,20 +823,6 @@ function kerbPts(y0, y1, off, na, nb) {
   out.push({ x: roadXAt(y1) + off + na(y1 / 95) * 1.2 + nb(y1 / 26) * 0.45, y: y1 });
   return out;
 }
-/* after the fork the two lanes peel away from the trunk toward their own stop */
-function laneXAt(y, fy, target) {
-  var u = clamp((y - fy) / 190, 0, 1), s = u * u * (3 - 2 * u);
-  var base = offAt(fy);
-  return CX + base + (target - base) * s + N_DRIFT(y / 430) * 5;
-}
-function lanePts(y0, y1, fy, target, off, na, nb) {
-  var out = [], y;
-  for (y = y0; y < y1; y += STEP)
-    out.push({ x: laneXAt(y, fy, target) + off + na(y / 95) * 1.2 + nb(y / 26) * 0.45, y: y });
-  out.push({ x: laneXAt(y1, fy, target) + off + na(y1 / 95) * 1.2 + nb(y1 / 26) * 0.45, y: y1 });
-  return out;
-}
-
 function measure() {
   var pr = page.getBoundingClientRect();
   pageTop = pr.top + window.scrollY;
@@ -814,8 +838,6 @@ function measure() {
     var h = e.querySelector('.half').getBoundingClientRect();
     var left = e.classList.contains('side-l');
     return { el: e, idx: +e.dataset.idx,
-             lane: e.dataset.lane === undefined ? null : +e.dataset.lane,
-             lanePos: e.dataset.lanePos === undefined ? null : +e.dataset.lanePos,
              side: left ? -1 : 1,
              y: a.top + window.scrollY - pageTop,
              ax: a.left - pr.left,
@@ -860,25 +882,18 @@ function build() {
     s.setAttribute('viewBox', '0 0 ' + pageW + ' ' + pageH);
   });
 
-  var laned = m.ctls.filter(function (c) { return c.lane !== null; });
-  var trunk = m.ctls.filter(function (c) { return c.lane === null; });
   var startY = m.ctls[0].y - 74;
   var endY = pageH - 18;
 
-  /* Each lane leaves the trunk at its OWN stop rather than all of them
-     branching at the first one - otherwise a road that starts in 2025 is
-     already drawn back in 2024. The trunk therefore has to survive as far
-     as the last branch, with lanes peeling off it one at a time. */
-  var BRANCH = 96;
-  laned.forEach(function (c) { c.fy = c.y - BRANCH; });
-  var forkYs = laned.map(function (c) { return c.fy; });
-  var firstFork = laned.length ? Math.min.apply(null, forkYs) : endY;
-  var lastFork  = laned.length ? Math.max.apply(null, forkYs) : endY;
-
-  /* the knots that make the road wind - it stops winding once it starts splitting */
+  /* One road, all the way down. Every stop is a knot leaning the road towards
+     whichever side that stop sits on, and a final knot at the foot brings it
+     back to centre so it leaves the page down the middle instead of sliding
+     off a corner. No branches: the road never splits, at any width - which
+     also retires the sub-980px braid, where --road collapses to 0 and three
+     lanes used to overlap into one unreadable knot. */
   KNOTS = [{ y: startY, off: 0 }];
-  trunk.forEach(function (c) { KNOTS.push({ y: c.y, off: c.side * AMP }); });
-  KNOTS.push({ y: firstFork, off: 0 });
+  m.ctls.forEach(function (c) { KNOTS.push({ y: c.y, off: c.side * AMP }); });
+  KNOTS.push({ y: endY, off: 0 });
 
   /* ---- reveal mask: a band that follows the reading eye down the page ---- */
   var defs = el('defs', {}, routeSvg);
@@ -891,37 +906,16 @@ function build() {
   var mFade  = el('rect', { x: 0, y: 0, width: pageW, height: 54, fill: 'url(#fadeG)' }, mask);
   var G = el('g', { mask: 'url(#revealM)' }, routeSvg);
 
-  /* ---- the trunk ---- */
-  el('path', { class: 'kerb', d: polyPath(kerbPts(startY, lastFork, -HALF_W, N_SLOW, N_FAST)) }, G);
-  el('path', { class: 'kerb', d: polyPath(kerbPts(startY, lastFork,  HALF_W, N_SLOW, N_FAST)) }, G);
-  el('path', { class: 'kerb kerb-2', d: polyPath(kerbPts(startY, lastFork, -HALF_W, N_FAST, N_SLOW)) }, G);
-  el('path', { class: 'kerb kerb-2', d: polyPath(kerbPts(startY, lastFork,  HALF_W, N_FAST, N_SLOW)) }, G);
-  el('path', { class: 'centre', d: dashPath(kerbPts(startY, lastFork, 0, N_SLOW, N_FAST), 13, 16) }, G);
-
-  /* ---- the fork: two roads, one to each of the current stops ---- */
-  var LANEOFF = {};
-  laned.forEach(function (c) {
-    var pos = c.lanePos !== null ? c.lanePos : c.side;   /* side is only ever -1/+1 */
-    LANEOFF[c.lane] = pos * AMP;
-  });
-  if (laned.length) {
-    laned.forEach(function (c) {
-      var t = LANEOFF[c.lane];
-      el('path', { class: 'kerb', d: polyPath(lanePts(c.fy, endY, c.fy, t, -HALF_W, N_SLOW, N_FAST)) }, G);
-      el('path', { class: 'kerb', d: polyPath(lanePts(c.fy, endY, c.fy, t,  HALF_W, N_SLOW, N_FAST)) }, G);
-      el('path', { class: 'centre', d: dashPath(lanePts(c.fy, endY, c.fy, t, 0, N_SLOW, N_FAST), 13, 16) }, G);
-    });
-    /* anchored where the THIRD road appears, not the first split - at
-       firstFork only two roads exist and the label would be asserting three
-       over a two-road picture */
-    var bx = roadXAt(lastFork - 14);
-    el('text', { class: 'brace-t', x: r1(bx), y: r1(lastFork - 20) }, G)
-      .appendChild(document.createTextNode('three, at once'));
-  }
+  /* ---- the road ---- */
+  el('path', { class: 'kerb', d: polyPath(kerbPts(startY, endY, -HALF_W, N_SLOW, N_FAST)) }, G);
+  el('path', { class: 'kerb', d: polyPath(kerbPts(startY, endY,  HALF_W, N_SLOW, N_FAST)) }, G);
+  el('path', { class: 'kerb kerb-2', d: polyPath(kerbPts(startY, endY, -HALF_W, N_FAST, N_SLOW)) }, G);
+  el('path', { class: 'kerb kerb-2', d: polyPath(kerbPts(startY, endY,  HALF_W, N_FAST, N_SLOW)) }, G);
+  el('path', { class: 'centre', d: dashPath(kerbPts(startY, endY, 0, N_SLOW, N_FAST), 13, 16) }, G);
 
   /* ---- control markers, distance figures, leader lines ---- */
   m.ctls.forEach(function (c) {
-    var cx = c.lane !== null ? laneXAt(c.y, c.fy, LANEOFF[c.lane]) : roadXAt(c.y);
+    var cx = roadXAt(c.y);
     var g = el('g', {}, G);
     var edge = cx + c.side * 14;
     var target = c.near - c.side * 9;
@@ -1035,6 +1029,10 @@ function inkNow(n) {
     seen.add(sec);
     if (CONTROLS[+sec.dataset.idx]) addToKit(CONTROLS[+sec.dataset.idx]);
   }
+  /* the workshop sits off the road and so has no [data-ctl] host, but its two
+     learnings are real and still belong in the bag - this is what keeps the
+     count at 17 and the cover thesis true */
+  if (n.id === 'workshop' && !seen.has(n)) { seen.add(n); addToKit(WORKSHOP); }
 }
 var io = new IntersectionObserver(function (entries) {
   entries.forEach(function (e) {
