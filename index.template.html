@@ -252,20 +252,25 @@ svg.route{position:absolute;top:0;left:0;z-index:2;pointer-events:none}
 .stub-line{font-family:var(--hand);font-size:22px;font-weight:600;color:var(--blue);
   margin-top:6px;line-height:1.12;transform:rotate(1.4deg);transform-origin:left center}
 
-/* ---------- the workshop: off the road, on purpose ----------
-   Deliberately NOT a .control. It carries no anchor, no leader line and no
-   knot, so the road never bends towards it and never splits for it. That is
-   the entire point: internal R&D is capability, not a commitment, and a
-   reader counting roads should be counting client engagements only. Pencil
-   throughout, matching the self-taught legend. */
-.workshop{width:min(660px,calc(100% - 48px));
-  margin:clamp(8px,2vh,24px) auto clamp(40px,6vh,64px);
-  padding:26px 30px 28px;background:var(--paper-slip);
+/* ---------- the workshop: beside the road, not on it ----------
+   Deliberately NOT a .control: no anchor, no leader line and no knot, so the
+   road never bends towards it and never splits for it. It sits in the SAME
+   right-hand grid column as a right-side stop, so it lines up with the slips
+   above it while the road runs straight past - which is the whole point.
+
+   It lives INSIDE .page, and that placement is load-bearing: the road is
+   drawn to the height of .page, so a card in here EXTENDS the road instead of
+   ending it. Moved out to a sibling of .page and the road stops short at the
+   last stop again. The padding-bottom is what leaves road visibly running on
+   below the card. Pencil throughout, matching the self-taught legend. */
+.workshop{position:relative;z-index:3;
+  padding:0 clamp(16px,3vw,48px) clamp(96px,13vh,150px);
+  display:grid;grid-template-columns:minmax(0,1fr) var(--road) minmax(0,1fr)}
+.wk-card{grid-column:3;justify-self:start;max-width:var(--half);width:100%;
+  padding:24px 28px 26px;background:var(--paper-slip);
   border:1.4px dashed var(--line);border-radius:20px;transform:rotate(-.4deg)}
-.wk-eyebrow{font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;
-  color:var(--pencil-light)}
 .wk-role{font-family:var(--hand);font-size:31px;font-weight:700;color:var(--pencil);
-  line-height:1.05;margin-top:6px}
+  line-height:1.05}
 .wk-sub{margin-top:4px;font-size:14px;color:var(--pencil-light)}
 .wk-acts{margin-top:14px;padding-top:12px;border-top:1px dotted var(--line);
   display:flex;flex-wrap:wrap;gap:6px 22px;font-size:15px;color:var(--pencil)}
@@ -331,6 +336,8 @@ svg.route{position:absolute;top:0;left:0;z-index:2;pointer-events:none}
   /* the road returns to the left edge and every stop lines up beside it */
   :root{--road:0px}
   .control{display:block;padding:44px 0 44px 116px}
+  .workshop{display:block;padding:0 0 clamp(70px,10vh,110px) 116px}
+  .wk-card{max-width:660px}
   .stubs-col{margin-top:22px;max-width:660px;padding:0!important}
   .anchor{left:58px;top:88px}
   .half{max-width:660px}
@@ -354,6 +361,7 @@ svg.route{position:absolute;top:0;left:0;z-index:2;pointer-events:none}
   .topbar.is-stuck h1{font-size:1.2rem}
   .topbar .firm img{max-width:104px;max-height:38px}
   .control{padding-left:64px}
+  .workshop{padding-left:64px}
   .anchor{left:30px}
   .slip{padding:22px 20px 24px}
   .slip-role{font-size:23px}
@@ -398,16 +406,19 @@ svg.route{position:absolute;top:0;left:0;z-index:2;pointer-events:none}
   <svg class="route" id="route" role="img"
        aria-label="A hand-drawn road winding down the middle of the page. Each career stage is a control point on it, with the stop itself on whichever side the road leans towards; four arcs branching off the road are international relocations."></svg>
   <div class="strip" id="strip"></div>
-</div>
 
-<!-- ============ WORKSHOP - off the road, on purpose ============ -->
-<section class="workshop inks" id="workshop"
-         aria-label="Internal research and development at ARSA Infotech">
-  <p class="wk-eyebrow" id="wkEyebrow"></p>
-  <h2 class="wk-role" id="wkRole"></h2>
-  <p class="wk-sub" id="wkSub"></p>
-  <div class="wk-acts" id="wkActs"></div>
-</section>
+  <!-- ====== WORKSHOP - beside the road, not on it ======
+       Inside .page deliberately: the road is drawn to the height of .page, so
+       keeping the card in here is what lets the road carry on past it rather
+       than stopping at the last stop. Still no anchor and no knot. -->
+  <section class="workshop" aria-label="Research and development at ARSA Infotech">
+    <div class="wk-card inks" id="workshop">
+      <h2 class="wk-role" id="wkRole"></h2>
+      <p class="wk-sub" id="wkSub"></p>
+      <div class="wk-acts" id="wkActs"></div>
+    </div>
+  </section>
+</div>
 
 <!-- ==================== CLOSING ==================== -->
 <footer class="closing">
@@ -528,7 +539,10 @@ var CONTROLS = [
    the kit card (see inkNow), so the bag stays at 17 with 5 self-taught and
    the cover thesis - twelve core, five beside it - holds untouched. */
 var WORKSHOP = {
-  eyebrow: 'Alongside the client work',
+  /* No eyebrow. It read "Alongside the client work", which framed this as
+     something done in spare hours around a client engagement - the opposite
+     of the intended reading. It is the firm's R&D; the sub-line says so and
+     that is enough. */
   role:    'ARSA Intelligence',
   sub:     'ARSA Infotech \u00b7 internal R&D',
   acts:    ['MCP servers over the SAP estate',
@@ -682,7 +696,6 @@ document.getElementById('tiles').innerHTML = TILES.map(function (t) {
 }).join('');
 document.getElementById('clLine').textContent  = CLOSING.line;
 document.getElementById('clNote').textContent  = CLOSING.note;
-document.getElementById('wkEyebrow').textContent = WORKSHOP.eyebrow;
 document.getElementById('wkRole').textContent    = WORKSHOP.role;
 document.getElementById('wkSub').textContent     = WORKSHOP.sub;
 (function () {
